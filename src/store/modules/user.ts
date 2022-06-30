@@ -3,13 +3,33 @@ import { login, userInfo } from '@/api/login'
 import { setStorage } from '@/utils/storage'
 import { ILoginForm } from '@/pages/login'
 
+interface IUserInfo {
+  account: string
+  avatar: string
+  createdAt: string
+  email: string
+  id: number | string
+  name: string
+  phone: string
+  remark: string
+}
+
 export interface ICounterState {
-  userInfo: object
+  userInfo: IUserInfo
   token: string
 }
 
 const initialState: ICounterState = {
-  userInfo: {},
+  userInfo: {
+    account: '',
+    avatar: '',
+    createdAt: '',
+    email: '',
+    id: '',
+    name: '',
+    phone: '',
+    remark: '',
+  },
   token: ''
 }
 

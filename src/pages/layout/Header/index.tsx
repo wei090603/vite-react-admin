@@ -3,7 +3,6 @@ import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons'
 import { Layout, Breadcrumb } from 'antd'
 
 import { useAppDispatch, useAppSelector } from '@/hooks'
-import { getUserInfo } from '@/store/modules/user'
 import { setCollapsed } from '@/store/modules/app'
 
 import './index.less'
@@ -13,10 +12,7 @@ const { Header } = Layout
 const HeaderMain: FC = () => {
   const dispatch = useAppDispatch()
   const { collapsed } = useAppSelector((state) => state.app)
-
-  useEffect(() => {
-    dispatch(getUserInfo())
-  }, [dispatch])
+  const { userInfo } = useAppSelector((state) => state.user)
 
   return (
     <Header className="header-main">
@@ -39,7 +35,7 @@ const HeaderMain: FC = () => {
           <Breadcrumb.Item>An Application</Breadcrumb.Item>
         </Breadcrumb>
       </div>
-      <div className="right-box">33333</div>
+      <div className="right-box">{userInfo.name}</div>
     </Header>
   )
 }

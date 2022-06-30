@@ -46,8 +46,8 @@ const columns: ColumnsType<DataType> = [
     key: 'action',
     render: (_, record) => (
       <Space size="middle">
-        <Button type="primary">Invite</Button>
-        <Button type="primary">Delete</Button>
+        <Button type="primary">编辑</Button>
+        <Button type="primary" danger>删除</Button>
       </Space>
     ),
   },
@@ -72,7 +72,7 @@ const Navigation: FC = () => {
   }
 
   return (
-    <Table columns={columns} dataSource={list} />
+    <Table columns={columns} dataSource={list} rowKey={'id'} />
   )
 };
 
