@@ -1,91 +1,79 @@
+import { FC, useEffect, useState } from 'react';
 import { Space, Table, Tag, Button } from 'antd';
 import type { ColumnsType } from 'antd/lib/table';
-import React from 'react';
+import { navgationList } from '@/api/navgation';
 
 import './index.less';
 
-
 interface DataType {
   key: string;
-  name: string;
-  age: number;
-  address: string;
-  tags: string[];
+  title: string;
+  sort: number;
+  link: string;
+  createdAt: string
+  updatedAt: string
 }
 
 const columns: ColumnsType<DataType> = [
   {
-    title: 'Name',
-    dataIndex: 'name',
-    key: 'name',
-    render: text => <span>{text}</span>,
+    title: '导航名',
+    dataIndex: 'title',
+    key: 'title',
+    render: title => <span>{title}</span>,
   },
   {
-    title: 'Age',
-    dataIndex: 'age',
-    key: 'age',
+    title: '链接',
+    dataIndex: 'link',
+    key: 'link',
   },
   {
-    title: 'Address',
-    dataIndex: 'address',
-    key: 'address',
+    title: '排序',
+    dataIndex: 'sort',
+    key: 'sort',
   },
   {
-    title: 'Tags',
-    key: 'tags',
-    dataIndex: 'tags',
-    render: (_, { tags }) => (
-      <>
-        {tags.map(tag => {
-          let color = tag.length > 5 ? 'geekblue' : 'green';
-          if (tag === 'loser') {
-            color = 'volcano';
-          }
-          return (
-            <Tag color={color} key={tag}>
-              {tag.toUpperCase()}
-            </Tag>
-          );
-        })}
-      </>
-    ),
+    title: '创建日期',
+    dataIndex: 'createdAt',
+    key: 'createdAt',
   },
   {
-    title: 'Action',
+    title: '更新日期',
+    dataIndex: 'updatedAt',
+    key: 'updatedAt',
+  },
+  {
+    title: '操作',
     key: 'action',
     render: (_, record) => (
       <Space size="middle">
-        <Button type="primary">Invite {record.name}</Button>
+        <Button type="primary">Invite</Button>
         <Button type="primary">Delete</Button>
       </Space>
     ),
   },
 ];
 
-const data: DataType[] = [
-  {
-    key: '1',
-    name: 'John Brown',
-    age: 32,
-    address: 'New York No. 1 Lake Park',
-    tags: ['nice', 'developer'],
-  },
-  {
-    key: '2',
-    name: 'Jim Green',
-    age: 42,
-    address: 'London No. 1 Lake Park',
-    tags: ['loser'],
-  },
-  {
-    key: '3',
-    name: 'Joe Black',
-    age: 32,
-    address: 'Sidney No. 1 Lake Park',
-    tags: ['cool', 'teacher'],
-  },
-];
 
-const Navigation: React.FC = () => <Table columns={columns} dataSource={data} />;
+const Navigation: FC = () => {
+  const [list, setList] = useState([])
+
+  const [params, setParams] = useState({
+    page: 1
+  })
+
+  useEffect(() => {
+    getNavgation()
+  }, [])
+
+
+  const getNavgation = async () => {
+    const data = await navgationList({})
+    setList(data)
+  }
+
+  return (
+    <Table columns={columns} dataSource={list} />
+  )
+};
 
 export default Navigation;
