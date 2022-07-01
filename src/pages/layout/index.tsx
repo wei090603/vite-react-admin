@@ -7,7 +7,6 @@ import Tabs from './Tabs'
 import { useAppDispatch } from '@/hooks'
 import { getUserInfo } from '@/store/modules/user'
 
-
 import './index.less'
 
 const { Content } = Layout
