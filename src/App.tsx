@@ -1,18 +1,23 @@
-import { FC } from 'react'
+import { FC, Suspense, lazy } from 'react'
 import {
   unstable_HistoryRouter as HistoryRouter,
   Route,
   Routes
 } from 'react-router-dom'
-import Login from '@/pages/login'
-import LayoutApp from '@/pages/layout'
-import Dashboard from '@/pages/dashboard'
-import Article from '@/pages/article'
-import NotFound from '@/pages/notFound'
-import Navigation from '@/pages/navigation'
-import Permission from '@/pages/permission'
+
+// import Login from '@/pages/login'
+// import LayoutAppz  from '@/pages/layout'
+// const Dashboard = lazy(() => import('@/pages/dashboard'))
+// const Article = lazy(() => import('@/pages/article'))
+// const Navigation = lazy(() => import('@/pages/navigation'))
+// const Permission = lazy(() => import('@/pages/permission'))
+// const Category = lazy(() => import('@/pages/category'))
+// const Tag = lazy(() => import('@/pages/tag'))
+
+// const NotFound = lazy(() => import('@/pages/notFound'))
 import history from './utils/history'
-import { Auth } from './components/Auth'
+import AuthRouter from '@/router/config/authRouter'
+import Router from '@/router'
 
 import 'antd/dist/antd.less'
 import './App.less'
@@ -20,23 +25,9 @@ import './App.less'
 const App: FC = () => {
   return (
     <HistoryRouter history={history}>
-      <Routes>
-        <Route
-          path="/"
-          element={
-            <Auth>
-              <LayoutApp />
-            </Auth>
-          }
-        >
-          <Route index element={<Dashboard />}></Route>
-          <Route path="article" element={<Article />}></Route>
-          <Route path="navigation" element={<Navigation />}></Route>
-          <Route path="permission" element={<Permission />}></Route>
-          <Route path="*" element={<NotFound />}></Route>
-        </Route>
-        <Route path="/login" element={<Login />}></Route>
-      </Routes>
+      <AuthRouter>
+        <Router />
+      </AuthRouter>
     </HistoryRouter>
   )
 }

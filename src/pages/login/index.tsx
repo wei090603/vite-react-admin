@@ -19,7 +19,7 @@ const Login: FC = () => {
   async function onFinish(values: ILoginForm) {
     await dispatch(fetchLogin(values))
     // 跳转首页
-    navigate('/', { replace: true })
+    navigate('/dashboard', { replace: true })
   }
 
   return (

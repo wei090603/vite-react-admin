@@ -1,3 +1,4 @@
+import React from 'react'
 import {
   AppstoreOutlined,
   ContainerOutlined,
@@ -6,9 +7,9 @@ import {
   PieChartOutlined
 } from '@ant-design/icons'
 import { Layout, Menu } from 'antd'
-import React from 'react'
 import type { MenuProps } from 'antd'
 import { useAppSelector } from '@/hooks'
+import Logo from '../Logo'
 import { useLocation, useNavigate } from 'react-router-dom'
 
 const { Sider } = Layout
@@ -36,10 +37,10 @@ const items: MenuItem[] = [
   getItem('导航管理', '/navigation', <DesktopOutlined />),
   getItem('权限管理', '/permission', <ContainerOutlined />),
 
-  getItem('文章管理', 'article', <MailOutlined />, [
-    getItem('分类列表', '5'),
-    getItem('标签列表', '6'),
-    getItem('文章列表', '7')
+  getItem('文章管理', 'articleManage', <MailOutlined />, [
+    getItem('分类列表', 'category'),
+    getItem('标签列表', 'tag'),
+    getItem('文章列表', 'article')
   ]),
 
   getItem('系统管理', 'sub2', <AppstoreOutlined />, [
@@ -58,6 +59,8 @@ const LeftSider: React.FC = () => {
   const { collapsed } = useAppSelector((state) => state.app)
   const { pathname } = useLocation()
 
+  console.log(pathname, 'vpathname');
+
   const onClick: MenuProps['onClick'] = (e) => {
     console.log('click ', e)
     navigate(e.key)
@@ -65,12 +68,12 @@ const LeftSider: React.FC = () => {
 
   return (
     <Sider width={240} trigger={null} collapsible collapsed={collapsed}>
-      <div className="logo" />
+      <Logo />
       <Menu
         theme="dark"
         mode="inline"
         defaultSelectedKeys={[pathname]}
-        defaultOpenKeys={['sub1']}
+        defaultOpenKeys={[]}
         items={items}
         onClick={onClick}
       />
