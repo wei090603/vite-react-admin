@@ -1,11 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit'
 
 export interface IAppState {
-  collapsed: boolean
+  isCollapse: boolean
 }
 
 const initialState: IAppState = {
-  collapsed: false
+  isCollapse: false
 }
 
 const namespaces = 'app'
@@ -15,7 +15,7 @@ const appSlice = createSlice({
   initialState,
   reducers: {
     setCollapsed(state) {
-      state.collapsed = !state.collapsed
+      state.isCollapse = !state.isCollapse
     }
   }
 })

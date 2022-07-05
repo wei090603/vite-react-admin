@@ -13,8 +13,6 @@ Object.keys(metaRouters).forEach(item => {
 	});
 });
 
-{/* <Route index element={<Dashboard />}></Route> */}
-
 export const rootRouter: RouteObject[] = [
 	{
 		path: "/",

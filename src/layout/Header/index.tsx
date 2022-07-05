@@ -11,14 +11,14 @@ const { Header } = Layout
 
 const HeaderMain: FC = () => {
   const dispatch = useAppDispatch()
-  const { collapsed } = useAppSelector((state) => state.app)
+  const { isCollapse } = useAppSelector((state) => state.app)
   const { userInfo } = useAppSelector((state) => state.user)
 
   return (
     <Header className="header-main">
       <div className="left-box">
         {React.createElement(
-          collapsed ? MenuUnfoldOutlined : MenuFoldOutlined,
+          isCollapse ? MenuUnfoldOutlined : MenuFoldOutlined,
           {
             className: 'trigger',
             onClick: () => dispatch(setCollapsed())

@@ -1,14 +1,12 @@
 import React from "react";
 import lazyLoad from "@/router/config/lazyLoad";
-// import { LayoutIndex } from "@/router/constant";
+import { Layout } from "@/router/constant";
 import { RouteObject } from "@/router/interface";
-
-import LayoutApp  from '@/layout'
 
 // dashboard 模块
 const dashboardRouter: Array<RouteObject> = [
 	{
-		element: <LayoutApp />,
+		element: Layout,
 		meta: {
 			title: "Dashboard"
 		},
@@ -18,8 +16,8 @@ const dashboardRouter: Array<RouteObject> = [
 				element: lazyLoad(React.lazy(() => import('@/pages/dashboard'))),
 				meta: {
 					requiresAuth: true,
-					title: "数据可视化",
-					key: "dataVisualize"
+					title: "首页",
+					key: "dashboard"
 				}
 			},
 		]

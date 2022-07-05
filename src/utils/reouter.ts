@@ -1,4 +1,4 @@
-import { RouteObject } from "@/routers/interface";
+import { RouteObject } from "@/router/interface";
 
 /**
  * @description 递归查询对应的路由
