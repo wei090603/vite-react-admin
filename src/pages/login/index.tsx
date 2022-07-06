@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom'
 import './index.less'
 import { fetchLogin } from '@/store/modules/user'
 import { useAppDispatch } from '@/hooks'
+import { HOME_URL } from '@/config/config'
 
 export interface ILoginForm {
   account: string
@@ -19,7 +20,7 @@ const Login: FC = () => {
   async function onFinish(values: ILoginForm) {
     await dispatch(fetchLogin(values))
     // 跳转首页
-    navigate('/dashboard', { replace: true })
+    navigate(HOME_URL, { replace: true })
   }
 
   return (

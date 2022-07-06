@@ -1,43 +1,32 @@
-import React, { FC, Fragment, useEffect } from 'react'
-import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons'
-import { Layout, Breadcrumb } from 'antd'
+import { Layout } from "antd";
+import AvatarIcon from "./components/AvatarIcon";
+import CollapseIcon from "./components/CollapseIcon";
+import BreadcrumbNav from "./components/BreadcrumbNav";
+// import Theme from "./components/Theme";
+import Fullscreen from "./components/Fullscreen";
+import { useAppSelector } from "@/hooks";
 
-import { useAppDispatch, useAppSelector } from '@/hooks'
-import { setCollapsed } from '@/store/modules/app'
+import "./index.less";
 
-import './index.less'
+const { Header } = Layout;
 
-const { Header } = Layout
-
-const HeaderMain: FC = () => {
-  const dispatch = useAppDispatch()
-  const { isCollapse } = useAppSelector((state) => state.app)
+const LayoutHeader = () => {
   const { userInfo } = useAppSelector((state) => state.user)
 
-  return (
-    <Header className="header-main">
-      <div className="left-box">
-        {React.createElement(
-          isCollapse ? MenuUnfoldOutlined : MenuFoldOutlined,
-          {
-            className: 'trigger',
-            onClick: () => dispatch(setCollapsed())
-          }
-        )}
-        <Breadcrumb>
-          <Breadcrumb.Item>Home</Breadcrumb.Item>
-          <Breadcrumb.Item>
-            <a href="/">Application Center</a>
-          </Breadcrumb.Item>
-          <Breadcrumb.Item>
-            <a href="/">Application List</a>
-          </Breadcrumb.Item>
-          <Breadcrumb.Item>An Application</Breadcrumb.Item>
-        </Breadcrumb>
-      </div>
-      <div className="right-box">{userInfo.name}</div>
-    </Header>
-  )
-}
+	return (
+		<Header>
+			<div className="header-lf">
+				<CollapseIcon />
+				<BreadcrumbNav />
+			</div>
+			<div className="header-ri">
+				{/* <Theme /> */}
+				<Fullscreen />
+        <span className="username">{userInfo.name}</span>
+				<AvatarIcon />
+			</div>
+		</Header>
+	);
+};
 
-export default HeaderMain
+export default LayoutHeader;

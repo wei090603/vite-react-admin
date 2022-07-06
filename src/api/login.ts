@@ -1,23 +1,20 @@
-import request from '@/utils/request'
+import { Login, User } from "@/api/interface/index";
 
-// 登录
-export const login = (data: object) =>
-  request({
-    url: '/auth/login',
-    method: 'post',
-    data
-  })
+import http from "@/service";
 
-// 返回当前用户登录信息
-export const userInfo = () =>
-  request({
-    url: '/auth',
-    method: 'get'
-  })
+/**
+ * @name 登录模块
+ */
+// * 用户登录接口
+export const login = (params: Login.ReqLoginForm) => {
+	// return http.post<Login.ResLogin>(PORT1 + `/login`, params, { headers: { noLoading: true } });
+	return http.post<Login.ResLogin>('' + `/auth/login`, params);
+};
 
-// 退出登录
-export const loginOut = () =>
-  request({
-    url: '/auth/loginOut',
-    method: 'get'
-  })
+export const userInfo = () => {
+	return http.get<User.ResUserInfo>('' + `/auth`);
+};
+
+export const loginOut = () => {
+	return http.get<void>('' + `/auth/loginOut`);
+};

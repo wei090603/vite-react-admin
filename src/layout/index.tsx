@@ -8,6 +8,7 @@ import { useAppDispatch } from '@/hooks'
 import { getUserInfo } from '@/store/modules/user'
 
 import './index.less'
+import LayoutFooter from './Footer'
 
 const { Content } = Layout
 
@@ -27,6 +28,7 @@ const LayoutApp: React.FC = () => {
         <Content className="content">
           <Outlet />
         </Content>
+        <LayoutFooter />
       </Layout>
     </Layout>
   )

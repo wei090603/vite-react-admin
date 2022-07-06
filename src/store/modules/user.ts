@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { login, userInfo } from '@/api/login'
-import { setStorage } from '@/utils/storage'
+import { login, loginOut, userInfo } from '@/api/login'
+import { removeStorage, setStorage } from '@/utils/storage'
 import { ILoginForm } from '@/pages/login'
 
 interface IUserInfo {
@@ -44,7 +44,7 @@ const userSlice = createSlice({
     },
     setUserInfo(state, { payload}) {
       state.userInfo = payload
-    }
+    },
   }
 })
 
@@ -60,5 +60,11 @@ export const getUserInfo = () => async (dispatch: any) => {
   const data = await userInfo()
   dispatch(setUserInfo(data))
 }
+
+export const fetchLoginOut = () => async (dispatch: any) => {
+  await loginOut()
+  removeStorage('token')
+}
+
 
 export default userSlice.reducer

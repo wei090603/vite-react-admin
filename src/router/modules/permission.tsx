@@ -6,7 +6,8 @@ import { RouteObject } from "@/router/interface";
 // permission 模块
 const permissionRouter: Array<RouteObject> = [
 	{
-		element: Layout,
+    element: Layout,
+    path: "/permission",
 		meta: {
       title: "权限管理",
       key: 'permission'

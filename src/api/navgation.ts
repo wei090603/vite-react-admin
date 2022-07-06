@@ -1,9 +1,7 @@
-import request from '@/utils/request'
+import http from '@/service'
+import { Navgation } from './interface';
 
-// 登录
-export const navgationList = (params: object) =>
-  request({
-    url: '/menu',
-    method: 'get',
-    params
-  })
+export const navgationList = () => {
+  return http.get<Navgation.ResMenuList>('' + `/menu`);
+};
+  

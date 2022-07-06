@@ -8,6 +8,8 @@ import { searchRoute } from '@/utils/reouter';
 import { routerArray, rootRouter } from '@/router'
 import { RouteObject } from '@/router/interface';
 import Logo from '../Logo'
+import { findAllBreadcrumb, getOpenKeys } from '@/utils';
+import { setBreadcrumbList } from '@/store/modules/app';
 
 const { Sider } = Layout
 
@@ -21,19 +23,15 @@ const LayoutMenu = () => {
   
 	// 刷新页面菜单保持高亮
   useEffect(() => {
-    console.log(pathname, 'pathname');
 		setSelectedKeys([pathname]);
-    // isCollapse ? null : setOpenKeys([pathname]);
-    setOpenKeys(['/permission'])
-    console.log(openKeys);
+    isCollapse ? null : setOpenKeys(getOpenKeys(pathname));
 	}, [pathname, isCollapse]);
 
 	// 设置当前展开的 subMenu
   const onOpenChange = (openKeys: string[]) => {
-    console.log(openKeys, 'openKeys')
 		if (openKeys.length === 0 || openKeys.length === 1) return setOpenKeys(openKeys);
 		const latestOpenKey = openKeys[openKeys.length - 1];
-		if (latestOpenKey.includes(openKeys[0])) return setOpenKeys(openKeys);
+    if (latestOpenKey.includes(openKeys[0])) return setOpenKeys(openKeys);
 		setOpenKeys([latestOpenKey]);
 	};
 
@@ -66,7 +64,7 @@ const LayoutMenu = () => {
     menuList.forEach((item: RouteObject) => {
 			// 下面判断代码解释 *** !item?.children?.length   ==>   (!item.children || item.children.length === 0)
 			if (!item?.children?.length) return newArr.push(getItem(item.meta?.title, item.path, addIcon('ContainerOutlined')));
-			newArr.push(getItem(item.meta?.title, item.meta?.key, addIcon('ContainerOutlined'), deepLoopFloat(item.children)));
+			newArr.push(getItem(item.meta?.title, item.path, addIcon('ContainerOutlined'), deepLoopFloat(item.children)));
 		});
 		return newArr;
 	};
@@ -83,20 +81,24 @@ const LayoutMenu = () => {
         if (item.children?.length! > 1) return item
         return item.children
       }).flat() || []
-			setMenuList(deepLoopFloat(routeData as  RouteObject[]));
+      setMenuList(deepLoopFloat(routeData as RouteObject[]));
 			// // 存储处理过后的所有面包屑导航栏到 redux 中
-			// props.setBreadcrumbList(findAllBreadcrumb(data));
+			dispatch(setBreadcrumbList(findAllBreadcrumb(routeData as Menu.MenuOptions[])));
 			// // 把路由菜单处理成一维数组，存储到 redux 中，做菜单权限判断
 			// const dynamicRouter = handleRouter(data);
 			// props.setAuthRouter(dynamicRouter);
-			// props.setMenuList(data);
 		} finally {
 			setLoading(false);
 		}
   };
   
+  const [status, setStatus] = useState(false)
 	useEffect(() => {
-		getMenuData();
+    getMenuData();
+    
+    setTimeout(() => {
+      setStatus(true)
+    }, 5000)
 	}, []);
 
 	// 点击当前菜单跳转页面
@@ -105,13 +107,13 @@ const LayoutMenu = () => {
 		const route = searchRoute(key, rootRouter);
 		if (route.isLink) window.open(route.isLink, "_blank");
 		navigate(key);
-	};
-
+  };
+  
 
   return (
-		<Sider width={240}>
-			<Spin spinning={loading} tip="Loading...">
-				<Logo></Logo>
+		<Sider width={240} trigger={null} collapsible collapsed={isCollapse}>
+      <Spin spinning={loading} tip="Loading...">
+				{!isCollapse ? <Logo /> : null}
 				<Menu
 					theme="dark"
 					mode="inline"
