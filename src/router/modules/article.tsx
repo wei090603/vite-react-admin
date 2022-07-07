@@ -39,7 +39,25 @@ const articleRouter: Array<RouteObject> = [
 					title: "分类列表",
 					key: "category"
 				}
-			},
+      },
+      {
+        path: '/article/add',
+        element: lazyLoad(React.lazy(() => import("@/pages/article/articleDetail"))),
+        meta: {
+          title: '新增文章',
+          requiresAuth: true,
+          key: "articleAdd"
+        },
+      },
+      {
+        path: '/article/edit',
+        element: lazyLoad(React.lazy(() => import("@/pages/article/articleDetail"))),
+        meta: {
+          title: '编辑文章',
+          requiresAuth: true,
+          key: "articleEdit"
+        },
+      },
 		]
 	}
 ];

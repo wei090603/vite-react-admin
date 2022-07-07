@@ -10,7 +10,16 @@ const dashboardRouter: Array<RouteObject> = [
 		meta: {
 			title: "Dashboard"
 		},
-		children: [
+    children: [
+      {
+				path: "/",
+				element: lazyLoad(React.lazy(() => import('@/pages/dashboard'))),
+				meta: {
+					requiresAuth: true,
+					title: "首页",
+					key: "dashboard"
+				}
+			},
 			{
 				path: "/dashboard",
 				element: lazyLoad(React.lazy(() => import('@/pages/dashboard'))),

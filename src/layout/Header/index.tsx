@@ -17,7 +17,7 @@ const LayoutHeader = () => {
 		<Header>
 			<div className="header-lf">
 				<CollapseIcon />
-				<BreadcrumbNav />
+				{/* <BreadcrumbNav /> */}
 			</div>
 			<div className="header-ri">
 				{/* <Theme /> */}

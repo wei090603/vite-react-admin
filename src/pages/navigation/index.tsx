@@ -67,8 +67,8 @@ const Navigation: FC = () => {
 
 
   const getNavgation = async () => {
-    const data = await navgationList({})
-    setList(data)
+    // const data = await navgationList({})
+    // setList(data)
   }
 
   return (
