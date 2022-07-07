@@ -15,7 +15,7 @@ const permissionRouter: Array<RouteObject> = [
 		children: [
 			{
 				path: "/permission/resource",
-				element: lazyLoad(React.lazy(() => import("@/pages/permission"))),
+				element: lazyLoad(React.lazy(() => import("@/pages/permission/resource"))),
 				meta: {
 					requiresAuth: true,
 					title: "资源列表",
@@ -24,7 +24,7 @@ const permissionRouter: Array<RouteObject> = [
 			},
 			{
 				path: "/permission/role",
-				element: lazyLoad(React.lazy(() => import("@/pages/role"))),
+				element: lazyLoad(React.lazy(() => import("@/pages/permission/role"))),
 				meta: {
 					requiresAuth: true,
 					title: "角色列表",
@@ -33,7 +33,7 @@ const permissionRouter: Array<RouteObject> = [
       },
       {
 				path: "/permission/manager",
-				element: lazyLoad(React.lazy(() => import("@/pages/manager"))),
+				element: lazyLoad(React.lazy(() => import("@/pages/permission/manager"))),
 				meta: {
 					requiresAuth: true,
 					title: "管理员列表",

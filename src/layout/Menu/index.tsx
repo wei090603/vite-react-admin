@@ -7,9 +7,10 @@ import { useAppDispatch, useAppSelector } from '@/hooks'
 import { searchRoute } from '@/utils/reouter';
 import { routerArray, rootRouter } from '@/router'
 import { RouteObject } from '@/router/interface';
-import Logo from '../Logo'
+import Logo from './components/Logo'
 import { findAllBreadcrumb, getOpenKeys } from '@/utils';
 import { setBreadcrumbList } from '@/store/modules/app';
+import './index.less'
 
 const { Sider } = Layout
 
@@ -75,8 +76,6 @@ const LayoutMenu = () => {
 	const getMenuData = async () => {
 		setLoading(true);
     try {
-			// const { data } = await getMenuList();
-			// if (!data) return;
       const routeData = routerArray.map(item => {
         if (item.children?.length! > 1) return item
         return item.children
@@ -108,23 +107,24 @@ const LayoutMenu = () => {
 		if (route.isLink) window.open(route.isLink, "_blank");
 		navigate(key);
   };
-  
 
   return (
-		<Sider width={240} trigger={null} collapsible collapsed={isCollapse}>
-      <Spin spinning={loading} tip="Loading...">
-				{!isCollapse ? <Logo /> : null}
-				<Menu
-					theme="dark"
-					mode="inline"
-					triggerSubMenuAction="click"
-					openKeys={openKeys}
-					selectedKeys={selectedKeys}
-					items={menuList}
-					onClick={clickMenu}
-					onOpenChange={onOpenChange}
-				></Menu>
-			</Spin>
+    <Sider width={240} trigger={null} collapsible collapsed={isCollapse}>
+      <div className='menu'>
+        <Spin spinning={loading} tip="Loading...">
+            {!isCollapse ? <Logo /> : null}
+            <Menu
+              theme="dark"
+              mode="inline"
+              triggerSubMenuAction="click"
+              openKeys={openKeys}
+              selectedKeys={selectedKeys}
+              items={menuList}
+              onClick={clickMenu}
+              onOpenChange={onOpenChange}
+              ></Menu>
+          </Spin>
+        </div>
 		</Sider>
 	);
 }

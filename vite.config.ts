@@ -14,13 +14,14 @@ export default defineConfig({
   css: {
     preprocessorOptions: {
       less: {
-        // 支持内联 JavaScript
         javascriptEnabled: true,
+        additionalData: `@import "@/styles/var.less";`,
+        // 支持内联 JavaScript
         // 重写 less 变量，定制样式
-        modifyVars: {
-          '@primary-color': '#409eff',
-        },
-      },
+        // modifyVars: {
+        //   '@primary-color': '#409eff',
+        // },
+      }
     }
   }
 })

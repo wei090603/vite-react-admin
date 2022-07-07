@@ -61,7 +61,7 @@ export const getUserInfo = () => async (dispatch: any) => {
   dispatch(setUserInfo(data))
 }
 
-export const fetchLoginOut = () => async (dispatch: any) => {
+export const fetchLoginOut = () => async () => {
   await loginOut()
   removeStorage('token')
 }
