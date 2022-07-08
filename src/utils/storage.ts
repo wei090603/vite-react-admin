@@ -5,8 +5,8 @@
  * @param key
  * @returns {*}
  */
-function getProjectKey(key: string, prefix: string = '') {
-  return `${prefix}_${key}`
+function getProjectKey(key: string, prefix: string = "") {
+  return `${prefix}_${key}`;
 }
 
 /**
@@ -15,16 +15,16 @@ function getProjectKey(key: string, prefix: string = '') {
  * @param common 是否为全局共享的 key,如果为 true 则不会加上工程的前缀
  * @returns {*}
  */
-export function getStorage(key: string, common = false, prefix: string = '') {
-  const realKey = common ? key : getProjectKey(key, prefix)
-  let value: string | null | undefined = localStorage.getItem(realKey)
-  if (value === 'null') {
-    value = null
+export function getStorage(key: string, common = false, prefix: string = "") {
+  const realKey = common ? key : getProjectKey(key, prefix);
+  let value: string | null | undefined = localStorage.getItem(realKey);
+  if (value === "null") {
+    value = null;
   }
-  if (value === 'undefined') {
-    value = undefined
+  if (value === "undefined") {
+    value = undefined;
   }
-  return value
+  return value;
 }
 
 /**
@@ -34,8 +34,8 @@ export function getStorage(key: string, common = false, prefix: string = '') {
  * @returns {*}
  */
 export function removeStorage(key: string, common = false) {
-  const realKey = common ? key : getProjectKey(key)
-  return localStorage.removeItem(realKey)
+  const realKey = common ? key : getProjectKey(key);
+  return localStorage.removeItem(realKey);
 }
 
 /**
@@ -47,13 +47,13 @@ export function removeStorage(key: string, common = false) {
  */
 export function setStorage(key: string, value: string, common = false): void {
   if (value === undefined) {
-    return removeStorage(key, common)
+    return removeStorage(key, common);
   }
-  const realKey = common ? key : getProjectKey(key)
-  return localStorage.setItem(realKey, value)
+  const realKey = common ? key : getProjectKey(key);
+  return localStorage.setItem(realKey, value);
 }
 
-const cache: any = {}
+const cache: any = {};
 
 /**
  * 存储数据在内存里
@@ -61,15 +61,15 @@ const cache: any = {}
  * @param {*} value
  */
 export const setCache = (key: string, value: string) => {
-  cache[key] = value
-}
+  cache[key] = value;
+};
 
 /**
  * 从内存里读取数据
  * @param {*} key
  * @param {*} value
  */
-export const getCache = (key: string) => cache[key]
+export const getCache = (key: string) => cache[key];
 
 /**
  * @Description: 获取 cache 对象，仅用于调试，不要再代码中使用
@@ -78,4 +78,4 @@ export const getCache = (key: string) => cache[key]
  * @param {*}
  * @return {*}
  */
-export const getCacheObj = () => cache
+export const getCacheObj = () => cache;

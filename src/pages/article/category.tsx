@@ -1,4 +1,4 @@
-import { FC } from 'react'
+import { FC } from "react";
 // import { useSearchParams } from 'react-router-dom'
 
 const Category: FC = () => {
@@ -8,7 +8,7 @@ const Category: FC = () => {
     <>
       <div>Category</div>
     </>
-  )
-}
+  );
+};
 
-export default Category
+export default Category;

@@ -1,4 +1,4 @@
-import { FC } from 'react'
+import { FC } from "react";
 // import { useSearchParams } from 'react-router-dom'
 
 const Notice: FC = () => {
@@ -8,7 +8,7 @@ const Notice: FC = () => {
     <>
       <div>Notice</div>
     </>
-  )
-}
+  );
+};
 
-export default Notice
+export default Notice;

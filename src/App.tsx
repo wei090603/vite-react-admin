@@ -1,9 +1,5 @@
-import { FC, Suspense, lazy } from 'react'
-import {
-  unstable_HistoryRouter as HistoryRouter,
-  Route,
-  Routes
-} from 'react-router-dom'
+import { FC } from "react";
+import { unstable_HistoryRouter as HistoryRouter } from "react-router-dom";
 
 // import Login from '@/pages/login'
 // import LayoutAppz  from '@/pages/layout'
@@ -15,12 +11,12 @@ import {
 // const Tag = lazy(() => import('@/pages/tag'))
 
 // const NotFound = lazy(() => import('@/pages/notFound'))
-import history from './utils/history'
-import AuthRouter from '@/router/config/authRouter'
-import Router from '@/router'
+import history from "./utils/history";
+import AuthRouter from "@/router/config/authRouter";
+import Router from "@/router";
 
-import 'antd/dist/antd.less'
-import './App.less'
+import "antd/dist/antd.less";
+import "./App.less";
 
 const App: FC = () => {
   return (
@@ -29,7 +25,7 @@ const App: FC = () => {
         <Router />
       </AuthRouter>
     </HistoryRouter>
-  )
-}
+  );
+};
 
-export default App
+export default App;

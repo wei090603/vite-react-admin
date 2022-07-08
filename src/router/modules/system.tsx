@@ -4,13 +4,13 @@ import { Layout } from "@/router/constant";
 import { RouteObject } from "@/router/interface";
 
 // article 模块
-const articleRouter: Array<RouteObject> = [
+const systemRouter: Array<RouteObject> = [
   {
     element: Layout,
     path: "/system",
     meta: {
       title: "系统管理",
-      key: 'system'
+      key: "system"
     },
     children: [
       {
@@ -21,7 +21,9 @@ const articleRouter: Array<RouteObject> = [
           title: "通知公告",
           key: "notice"
         }
-      },
+      }
     ]
   }
-]
+];
+
+export default systemRouter;

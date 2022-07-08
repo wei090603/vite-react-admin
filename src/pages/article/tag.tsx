@@ -1,4 +1,4 @@
-import { FC } from 'react'
+import { FC } from "react";
 // import { useSearchParams } from 'react-router-dom'
 
 const Tag: FC = () => {
@@ -8,7 +8,7 @@ const Tag: FC = () => {
     <>
       <div>Tag</div>
     </>
-  )
-}
+  );
+};
 
-export default Tag
+export default Tag;

@@ -1,12 +1,79 @@
-import { FC } from 'react'
-import { useParams, useSearchParams } from 'react-router-dom'
+// import { useParams, useSearchParams } from 'react-router-dom'
+
+// const ArticleDetail: FC = () => {
+
+//   // const params = useParams()
+//   const [params] = useSearchParams()
+//   const id = params.get('id')
+//   return <>{id}</>
+// }
+
+// export default ArticleDetail
+
+import { FC, useEffect, useState } from "react";
+import { Button, Form, Input, Select, Space, message } from "antd";
+import "./index.less";
+import { ICategory, ITag } from "@/api/interface";
+import { getCategoryAll, getTagAll } from "@/api/article";
+
+const { Option } = Select;
 
 const ArticleDetail: FC = () => {
+  const [categoryList, setCategoryList] = useState<ICategory.ResCategory[]>([]);
+  const [tagList, setTagList] = useState<ITag.ResTag[]>([]);
+  const [form] = Form.useForm();
 
-  // const params = useParams()
-  const [params] = useSearchParams()
-  const id = params.get('id')
-  return <>{id}</>
-}
+  useEffect(() => {
+    _getCategoryAll();
+    _getTagAll();
+  }, []);
 
-export default ArticleDetail
+  const _getCategoryAll = async () => {
+    const data = await getCategoryAll();
+    setCategoryList(data);
+  };
+
+  const _getTagAll = async () => {
+    const data = await getTagAll();
+    setTagList(data);
+  };
+
+  const onFinish = (values: any) => {
+    message.success("提交的数据为 : " + JSON.stringify(values));
+    console.log(JSON.stringify(values));
+  };
+
+  const onReset = () => {
+    form.resetFields();
+  };
+
+  return (
+    <Form form={form} name="control-hooks" onFinish={onFinish} labelCol={{ span: 1 }}>
+      <Form.Item name="title" label="标题" rules={[{ required: true, message: "请填写标题" }]}>
+        <Input placeholder="前填写文章标题" />
+      </Form.Item>
+
+      <Form.Item name="category" label="分类" rules={[{ required: true, message: "请选择分类" }]}>
+        <Select placeholder="分类" allowClear>
+          {categoryList.map(item => (
+            <Option value={item.id} key={item.id}>
+              {item.title}
+            </Option>
+          ))}
+        </Select>
+      </Form.Item>
+      <Form.Item wrapperCol={{ offset: 1 }}>
+        <Space>
+          <Button type="primary" htmlType="submit">
+            提交
+          </Button>
+          <Button htmlType="button" onClick={onReset}>
+            重置
+          </Button>
+        </Space>
+      </Form.Item>
+    </Form>
+  );
+};
+
+export default ArticleDetail;

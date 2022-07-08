@@ -5,32 +5,32 @@ import { RouteObject } from "@/router/interface";
 
 // dashboard 模块
 const dashboardRouter: Array<RouteObject> = [
-	{
-		element: Layout,
-		meta: {
-			title: "Dashboard"
-		},
+  {
+    element: Layout,
+    meta: {
+      title: "Dashboard"
+    },
     children: [
       {
-				path: "/",
-				element: lazyLoad(React.lazy(() => import('@/pages/dashboard'))),
-				meta: {
-					requiresAuth: true,
-					title: "首页",
-					key: "dashboard"
-				}
-			},
-			{
-				path: "/dashboard",
-				element: lazyLoad(React.lazy(() => import('@/pages/dashboard'))),
-				meta: {
-					requiresAuth: true,
-					title: "首页",
-					key: "dashboard"
-				}
-			},
-		]
-	}
+        path: "/",
+        element: lazyLoad(React.lazy(() => import("@/pages/dashboard"))),
+        meta: {
+          requiresAuth: true,
+          title: "首页",
+          key: "dashboard"
+        }
+      },
+      {
+        path: "/dashboard",
+        element: lazyLoad(React.lazy(() => import("@/pages/dashboard"))),
+        meta: {
+          requiresAuth: true,
+          title: "首页",
+          key: "dashboard"
+        }
+      }
+    ]
+  }
 ];
 
 export default dashboardRouter;

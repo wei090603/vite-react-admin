@@ -10,7 +10,7 @@ const errorRouter: Array<RouteObject> = [
     path: "/platform",
     meta: {
       title: "系统路由",
-      key: 'platform'
+      key: "platform"
     },
     children: [
       {

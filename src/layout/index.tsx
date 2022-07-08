@@ -1,23 +1,23 @@
-import React, { useEffect } from 'react'
-import { Layout } from 'antd'
-import LeftSider from './Menu'
-import { Outlet } from 'react-router-dom'
-import HeaderMain from './Header'
-import Tabs from './Tabs'
-import { useAppDispatch } from '@/hooks'
-import { getUserInfo } from '@/store/modules/user'
+import React, { useEffect } from "react";
+import { Layout } from "antd";
+import LeftSider from "./Menu";
+import { Outlet } from "react-router-dom";
+import HeaderMain from "./Header";
+import Tabs from "./Tabs";
+import { useAppDispatch } from "@/hooks";
+import { getUserInfo } from "@/store/modules/user";
 
-import './index.less'
-import LayoutFooter from './Footer'
+import "./index.less";
+import LayoutFooter from "./Footer";
 
-const { Content } = Layout
+const { Content } = Layout;
 
 const LayoutApp: React.FC = () => {
-  const dispatch = useAppDispatch()
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
-    dispatch(getUserInfo())
-  }, [dispatch])
+    dispatch(getUserInfo());
+  }, [dispatch]);
 
   return (
     <Layout className="app">
@@ -31,7 +31,7 @@ const LayoutApp: React.FC = () => {
         <LayoutFooter />
       </Layout>
     </Layout>
-  )
-}
+  );
+};
 
-export default LayoutApp
+export default LayoutApp;

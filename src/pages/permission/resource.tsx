@@ -1,9 +1,9 @@
-import { FC } from 'react'
+import { FC } from "react";
 
 const Permission: FC = () => (
   <>
     <p>Permission</p>
   </>
-)
+);
 
-export default Permission
+export default Permission;
