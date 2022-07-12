@@ -1,25 +1,25 @@
 import { defineConfig, loadEnv, ConfigEnv, UserConfig } from "vite";
-import react from '@vitejs/plugin-react'
+import react from "@vitejs/plugin-react";
 import { visualizer } from "rollup-plugin-visualizer";
 import { createHtmlPlugin } from "vite-plugin-html";
 import viteCompression from "vite-plugin-compression";
 import eslintPlugin from "vite-plugin-eslint";
-import * as path from 'path'
+import * as path from "path";
 
 // https://vitejs.dev/config/
 export default defineConfig((mode: ConfigEnv): UserConfig => {
   return {
-    base: '/',
+    base: "/",
     resolve: {
       alias: {
-        '@': path.resolve(__dirname, '.', 'src'),
-      },
+        "@": path.resolve(__dirname, ".", "src")
+      }
     },
     css: {
       preprocessorOptions: {
         less: {
           javascriptEnabled: true,
-          additionalData: `@import "@/styles/var.less";`,
+          additionalData: `@import "@/styles/var.less";`
           // 支持内联 JavaScript
           // 重写 less 变量，定制样式
           // modifyVars: {
@@ -34,7 +34,7 @@ export default defineConfig((mode: ConfigEnv): UserConfig => {
       createHtmlPlugin({
         inject: {
           data: {
-            title: 'test'
+            title: "test"
           }
         }
       }),
@@ -57,16 +57,16 @@ export default defineConfig((mode: ConfigEnv): UserConfig => {
     // build configure
     build: {
       sourcemap: false,
-      minify: 'terser',
-      outDir: 'dist',
-      assetsDir: 'assets',
+      minify: "terser",
+      outDir: "dist",
+      assetsDir: "assets",
       cssCodeSplit: true,
       chunkSizeWarningLimit: 1500,
       terserOptions: {
         compress: {
           drop_console: true,
-          drop_debugger: true,
-        },
+          drop_debugger: true
+        }
       },
       rollupOptions: {
         output: {
@@ -78,20 +78,20 @@ export default defineConfig((mode: ConfigEnv): UserConfig => {
       }
     },
     server: {
-      port: 3000,
+      port: 8081,
       cors: true,
       open: false,
       fs: {
         strict: false,
-        allow: [],
+        allow: []
       },
       proxy: {
-        '/api': {
-          target: 'http://127.0.0.1:3000', //代理接口
+        "/api": {
+          target: "http://127.0.0.1:3010", //代理接口
           changeOrigin: true,
-          rewrite: (path) => path.replace(/^\/api/, ''),
-        },
-      },
-    },
-  }
-})
+          rewrite: path => path.replace(/^\/api/, "")
+        }
+      }
+    }
+  };
+});

@@ -68,7 +68,7 @@ const AvatarIcon: FC = () => {
   return (
     <>
       <Dropdown overlay={menu} placement="bottom" arrow trigger={["click"]}>
-        <Avatar size="large" src={userInfo.avatar} />
+        <Avatar size="large" src={userInfo?.avatar} />
       </Dropdown>
       <InfoModal innerRef={infoRef}></InfoModal>
       <PasswordModal innerRef={passRef}></PasswordModal>

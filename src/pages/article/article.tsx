@@ -102,7 +102,7 @@ const Article: FC = () => {
     selectedRowKeys,
     onChange: onSelectChange
   };
-  const hasSelected = selectedRowKeys.length > 0;
+  // const hasSelected = selectedRowKeys.length > 0;
 
   const handleAdd = () => {
     navigate("/article/add");

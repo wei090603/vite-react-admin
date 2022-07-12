@@ -12,12 +12,12 @@
 
 import { FC, useEffect, useState } from "react";
 import { Button, Form, Input, Select, Space, message } from "antd";
-import "./index.less";
 import { ICategory, ITag } from "@/api/interface";
 import { getCategoryAll, getTagAll } from "@/api/article";
+import Editor from "@/components/Editor";
+import "./index.less";
 
 const { Option } = Select;
-
 const ArticleDetail: FC = () => {
   const [categoryList, setCategoryList] = useState<ICategory.ResCategory[]>([]);
   const [tagList, setTagList] = useState<ITag.ResTag[]>([]);
@@ -61,6 +61,18 @@ const ArticleDetail: FC = () => {
             </Option>
           ))}
         </Select>
+      </Form.Item>
+      <Form.Item name="tag" label="标签" rules={[{ required: true, message: "请选择标签" }]}>
+        <Select placeholder="标签" allowClear>
+          {tagList.map(item => (
+            <Option value={item.id} key={item.id}>
+              {item.name}
+            </Option>
+          ))}
+        </Select>
+      </Form.Item>
+      <Form.Item name="content" label="内容" rules={[{ required: true, message: "请填写内容" }]}>
+        <Editor />
       </Form.Item>
       <Form.Item wrapperCol={{ offset: 1 }}>
         <Space>

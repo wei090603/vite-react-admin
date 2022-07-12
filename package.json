@@ -13,6 +13,8 @@
     "@types/nprogress": "^0.2.0",
     "@typescript-eslint/eslint-plugin": "^5.30.0",
     "@typescript-eslint/parser": "^5.30.0",
+    "@wangeditor/editor": "^5.1.5",
+    "@wangeditor/editor-for-react": "^1.0.4",
     "antd": "^4.21.4",
     "axios": "^0.27.2",
     "echarts": "^5.3.3",

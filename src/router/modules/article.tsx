@@ -50,7 +50,7 @@ const articleRouter: Array<RouteObject> = [
         }
       },
       {
-        path: "/article/edit",
+        path: "/article/edit/:id",
         element: lazyLoad(React.lazy(() => import("@/pages/article/articleDetail"))),
         meta: {
           title: "编辑文章",

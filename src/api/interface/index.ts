@@ -110,7 +110,7 @@ export namespace ICategory {
 export namespace ITag {
   export interface ResTag {
     id: number;
-    title: string;
+    name: string;
   }
 }
 

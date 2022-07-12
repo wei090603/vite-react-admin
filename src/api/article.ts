@@ -7,11 +7,11 @@ export const getArticle = (params: IArticle.ReqGetArticleParams) => {
 };
 
 export const getCategoryAll = () => {
-  return http.get<ICategory.ResCategory[]>("" + `/category/list`);
+  return http.get<ICategory.ResCategory[]>("" + `/category/all`);
 };
 
 export const getTagAll = () => {
-  return http.get<ITag.ResTag[]>("" + `/tag`);
+  return http.get<ITag.ResTag[]>("" + `/tag/all`);
 };
 
 // // * 批量添加用户
