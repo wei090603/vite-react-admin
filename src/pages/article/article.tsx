@@ -58,8 +58,8 @@ const Article: FC = () => {
     },
     {
       title: "更新时间",
-      dataIndex: "updateAt",
-      key: "updateAt",
+      dataIndex: "updatedAt",
+      key: "updatedAt",
       render: (_, { updatedAt }) => <span>{updatedAt}</span>
     },
     {

@@ -14,6 +14,22 @@ export const getTagAll = () => {
   return http.get<ITag.ResTag[]>("" + `/tag/all`);
 };
 
+export const getCategoryList = (params: ICategory.ReqGetCategoryParams) => {
+  return http.get<ResPage<ICategory.ResCategoryList>>("" + `/category`, params);
+};
+
+export const createCategory = (params: ICategory.ReqCreateCategoryParams) => {
+  return http.post("" + `/category`, params);
+};
+
+export const getTagList = (params: ITag.ReqGetTagParams) => {
+  return http.get<ResPage<ITag.ResTagList>>("" + `/tag`, params);
+};
+
+export const createTag = (params: ITag.ReqCreateTagParams) => {
+  return http.post("" + `/tag`, params);
+};
+
 // // * 批量添加用户
 // export const BatchAddUser = (params: any) => {
 // 	return http.post(PORT1 + `/user/import`, params, { headers: { "Content-Type": "multipart/form-data" } });

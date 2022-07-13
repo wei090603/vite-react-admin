@@ -4,14 +4,16 @@ import React, { useState, useEffect } from "react";
 import { Editor, Toolbar } from "@wangeditor/editor-for-react";
 import { IDomEditor, IEditorConfig } from "@wangeditor/editor";
 
+type InsertFnType = (url: string, alt: string, href: string) => void;
+
 function MyEditor() {
   const [editor, setEditor] = useState<IDomEditor | null>(null); // 存储 editor 实例
-  const [html, setHtml] = useState("<p>hello</p>"); // 编辑器内容
+  const [html, setHtml] = useState(""); // 编辑器内容
 
   // 模拟 ajax 请求，异步设置 html
   useEffect(() => {
     setTimeout(() => {
-      setHtml("<p>hello&nbsp;world</p>");
+      setHtml("");
     }, 1500);
   }, []);
 
@@ -48,7 +50,28 @@ function MyEditor() {
         withCredentials: false,
 
         // 超时时间，默认为 10 秒
-        timeout: 5 * 1000 // 5 秒
+        timeout: 5 * 1000, // 5 秒
+        // 单个文件上传成功之后
+        onSuccess(file: File, res: any) {
+          console.log(`${file.name} 上传成功`, res);
+        },
+        // 单个文件上传失败
+        onFailed(file: File, res: any) {
+          console.log(`${file.name} 上传失败`, res);
+        },
+        // 上传错误，或者触发 timeout 超时
+        onError(file: File, err: any, res: any) {
+          console.log(`${file.name} 上传出错`, err, res);
+        },
+        // 自定义插入图片
+        customInsert(res: any, insertFn: InsertFnType) {
+          // res 即服务端的返回结果
+          const url = import.meta.env.VITE_FILE_URL + res.data.filename;
+          const alt = "";
+          const href = "";
+          // 从 res 中找到 url alt href ，然后插图图片
+          insertFn(url, alt, href);
+        }
       }
     }
   };
@@ -75,7 +98,6 @@ function MyEditor() {
           style={{ height: "500px", overflowY: "hidden" }}
         />
       </div>
-      <div style={{ marginTop: "15px" }}>{html}</div>
     </>
   );
 }

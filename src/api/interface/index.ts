@@ -105,6 +105,17 @@ export namespace ICategory {
     id: number;
     title: string;
   }
+  export interface ResCategoryList extends ResCategory {
+    createdAt: string;
+    updatedAt: string;
+  }
+  export type ReqGetCategoryParams = ReqPage;
+
+  export type ReqCreateCategoryParams = {
+    grade: number;
+    parentId: number;
+    title: string;
+  };
 }
 
 export namespace ITag {
@@ -112,6 +123,17 @@ export namespace ITag {
     id: number;
     name: string;
   }
+  export interface ResTagList {
+    id: number;
+    name: string;
+    createdAt: string;
+    updatedAt: string;
+  }
+  export type ReqGetTagParams = ReqPage;
+
+  export type ReqCreateTagParams = {
+    name: string;
+  };
 }
 
 export namespace IManager {
