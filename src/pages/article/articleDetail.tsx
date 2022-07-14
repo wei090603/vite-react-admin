@@ -1,16 +1,5 @@
-// import { useParams, useSearchParams } from 'react-router-dom'
-
-// const ArticleDetail: FC = () => {
-
-//   // const params = useParams()
-//   const [params] = useSearchParams()
-//   const id = params.get('id')
-//   return <>{id}</>
-// }
-
-// export default ArticleDetail
-
 import { FC, useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import { Button, Form, Input, Select, Space, message } from "antd";
 import { ICategory, ITag } from "@/api/interface";
 import { getCategoryAll, getTagAll } from "@/api/article";
@@ -19,6 +8,11 @@ import "./index.less";
 
 const { Option } = Select;
 const ArticleDetail: FC = () => {
+  const params = useParams();
+  // const [params] = useSearchParams();
+  // const id = params.get("id");
+  console.log(params.id, "id");
+
   const [categoryList, setCategoryList] = useState<ICategory.ResCategory[]>([]);
   const [tagList, setTagList] = useState<ITag.ResTag[]>([]);
   const [form] = Form.useForm();
@@ -54,7 +48,7 @@ const ArticleDetail: FC = () => {
       </Form.Item>
 
       <Form.Item name="category" label="分类" rules={[{ required: true, message: "请选择分类" }]}>
-        <Select placeholder="分类" allowClear>
+        <Select placeholder="请选择分类" allowClear>
           {categoryList.map(item => (
             <Option value={item.id} key={item.id}>
               {item.title}
@@ -63,12 +57,19 @@ const ArticleDetail: FC = () => {
         </Select>
       </Form.Item>
       <Form.Item name="tag" label="标签" rules={[{ required: true, message: "请选择标签" }]}>
-        <Select placeholder="标签" allowClear>
+        <Select placeholder="请选择标签" mode="multiple" allowClear>
           {tagList.map(item => (
             <Option value={item.id} key={item.id}>
               {item.name}
             </Option>
           ))}
+        </Select>
+      </Form.Item>
+      <Form.Item name="status" label="状态" rules={[{ required: true, message: "请选择帖子状态" }]}>
+        <Select placeholder="请选择帖子状态">
+          <Option value="1">打开回复</Option>
+          <Option value="2">关闭回复</Option>
+          <Option value="3">仅自己可见</Option>
         </Select>
       </Form.Item>
       <Form.Item name="content" label="内容" rules={[{ required: true, message: "请填写内容" }]}>

@@ -6,7 +6,7 @@ import type { ColumnsType } from "antd/lib/table";
 import OperateBtn from "@/components/operateBtn";
 import { useNavigate } from "react-router-dom";
 
-const Article: FC = () => {
+const User: FC = () => {
   const navigate = useNavigate();
 
   const columns: ColumnsType<IArticle.ResArticleList> = [
@@ -113,7 +113,8 @@ const Article: FC = () => {
   };
 
   const handleEdit = (id: number) => {
-    navigate(`/article/edit/${id}`);
+    // navigate(`/article/edit/${id}`)
+    navigate(`/article/edit?id=${id}`);
   };
 
   // 改变页码的回调 page代表页码数 pageSize代表每页条数
@@ -131,9 +132,8 @@ const Article: FC = () => {
         rowKey={"id"}
         pagination={{ total, onChange: page => handlePageChange(page) }}
       />
-      <Button onClick={() => handleEdit(1)}>111111111</Button>
     </>
   );
 };
 
-export default Article;
+export default User;

@@ -10,13 +10,6 @@ function MyEditor() {
   const [editor, setEditor] = useState<IDomEditor | null>(null); // 存储 editor 实例
   const [html, setHtml] = useState(""); // 编辑器内容
 
-  // 模拟 ajax 请求，异步设置 html
-  useEffect(() => {
-    setTimeout(() => {
-      setHtml("");
-    }, 1500);
-  }, []);
-
   const toolbarConfig = {};
   const editorConfig: Partial<IEditorConfig> = {
     placeholder: "请输入内容...",
