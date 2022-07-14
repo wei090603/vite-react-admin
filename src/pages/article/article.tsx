@@ -113,7 +113,8 @@ const Article: FC = () => {
   };
 
   const handleEdit = (id: number) => {
-    navigate(`/article/edit/${id}`);
+    // navigate(`/article/edit/${id}`);
+    navigate(`/article/edit?id=${id}`);
   };
 
   // 改变页码的回调 page代表页码数 pageSize代表每页条数

@@ -1,5 +1,5 @@
 import { FC, useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useSearchParams, useLocation } from "react-router-dom";
 import { Button, Form, Input, Select, Space, message } from "antd";
 import { ICategory, ITag } from "@/api/interface";
 import { getCategoryAll, getTagAll } from "@/api/article";
@@ -8,10 +8,15 @@ import "./index.less";
 
 const { Option } = Select;
 const ArticleDetail: FC = () => {
-  const params = useParams();
-  // const [params] = useSearchParams();
-  // const id = params.get("id");
-  console.log(params.id, "id");
+  // const params = useParams();
+  const location = useLocation();
+  const [params] = useSearchParams();
+  const id = params.get("id");
+  console.log(id, "id");
+  console.log(location, "location");
+
+  // isAdd: route.name === 'noticeAdd', // 新增
+  // isEdit: route.name === 'noticeEdit', // 编辑
 
   const [categoryList, setCategoryList] = useState<ICategory.ResCategory[]>([]);
   const [tagList, setTagList] = useState<ITag.ResTag[]>([]);

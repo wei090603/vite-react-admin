@@ -31,7 +31,6 @@ const LayoutTabs = () => {
 
   // add tabs
   const addTabs = () => {
-    console.log(pathname, "pathname");
     const route = searchRoute(pathname, routerArray);
     console.log(route, "route");
     let currentTabsList: Menu.MenuOptions[] = JSON.parse(JSON.stringify(tabsList));
