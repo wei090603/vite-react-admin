@@ -10,7 +10,8 @@ const articleRouter: Array<RouteObject> = [
     path: "/article",
     meta: {
       title: "文章管理",
-      key: "article"
+      key: "article",
+      sort: 5
     },
     children: [
       {
@@ -46,7 +47,9 @@ const articleRouter: Array<RouteObject> = [
         meta: {
           title: "新增文章",
           requiresAuth: true,
-          key: "articleAdd"
+          key: "articleAdd",
+          hidden: true,
+          activeMenu: "/article/articleList"
         }
       },
       {
@@ -55,7 +58,9 @@ const articleRouter: Array<RouteObject> = [
         meta: {
           title: "编辑文章",
           requiresAuth: true,
-          key: "articleEdit"
+          key: "articleEdit",
+          hidden: true,
+          activeMenu: "/article/articleList"
         }
       }
     ]

@@ -5,7 +5,7 @@ import type { MenuProps } from "antd";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "@/hooks";
 import { searchRoute } from "@/utils/reouter";
-import { routerArray, rootRouter } from "@/router";
+import { rootRouter } from "@/router";
 import { RouteObject } from "@/router/interface";
 import Logo from "./components/Logo";
 import { findAllBreadcrumb, getOpenKeys } from "@/utils";
@@ -24,7 +24,9 @@ const LayoutMenu = () => {
 
   // 刷新页面菜单保持高亮
   useEffect(() => {
-    setSelectedKeys([pathname]);
+    const route = searchRoute(pathname);
+    if (!route.meta?.hidden) setSelectedKeys([pathname]);
+    else setSelectedKeys([route.meta?.activeMenu as string]);
     isCollapse ? null : setOpenKeys(getOpenKeys(pathname));
   }, [pathname, isCollapse]);
 
@@ -63,9 +65,11 @@ const LayoutMenu = () => {
   // 处理后台返回菜单 key 值为 antd 菜单需要的 key 值
   const deepLoopFloat = (menuList: RouteObject[], newArr: MenuItem[] = []) => {
     menuList.forEach((item: RouteObject) => {
-      // 下面判断代码解释 *** !item?.children?.length   ==>   (!item.children || item.children.length === 0)
-      if (!item?.children?.length) return newArr.push(getItem(item.meta?.title, item.path, addIcon("ContainerOutlined")));
-      newArr.push(getItem(item.meta?.title, item.path, addIcon("ContainerOutlined"), deepLoopFloat(item.children)));
+      if (!item.meta?.hidden) {
+        // 下面判断代码解释 *** !item?.children?.length   ==>   (!item.children || item.children.length === 0)
+        if (!item?.children?.length) return newArr.push(getItem(item.meta?.title, item.path, addIcon("ContainerOutlined")));
+        newArr.push(getItem(item.meta?.title, item.path, addIcon("ContainerOutlined"), deepLoopFloat(item.children)));
+      }
     });
     return newArr;
   };
@@ -75,9 +79,11 @@ const LayoutMenu = () => {
   const [loading, setLoading] = useState(false);
   const getMenuData = async () => {
     setLoading(true);
+
     try {
+      const routeList = rootRouter.sort((a, b) => (a.meta?.sort as number) - (b.meta?.sort as number));
       const routeData =
-        routerArray
+        routeList
           .map(item => {
             if (item.children!.length > 1) return item;
             return item.children;

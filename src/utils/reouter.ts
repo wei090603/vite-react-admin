@@ -1,3 +1,4 @@
+import { rootRouter } from "@/router";
 import { RouteObject } from "@/router/interface";
 
 /**
@@ -6,7 +7,7 @@ import { RouteObject } from "@/router/interface";
  * @param {Array} routes 路由列表
  * @returns array
  */
-export const searchRoute = (path: string, routes: RouteObject[] = []): RouteObject => {
+export const searchRoute = (path: string, routes: RouteObject[] = rootRouter): RouteObject => {
   let result: RouteObject = {};
   for (let item of routes) {
     if (item.path === path) return item;

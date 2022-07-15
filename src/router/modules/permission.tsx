@@ -10,7 +10,8 @@ const permissionRouter: Array<RouteObject> = [
     path: "/permission",
     meta: {
       title: "权限管理",
-      key: "permission"
+      key: "permission",
+      sort: 7
     },
     children: [
       {

@@ -3,7 +3,6 @@ import { HomeFilled } from "@ant-design/icons";
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { HOME_URL } from "@/config/config";
-import { routerArray } from "@/router";
 import MoreButton from "./components/MoreButton";
 import { searchRoute } from "@/utils/reouter";
 
@@ -31,14 +30,12 @@ const LayoutTabs = () => {
 
   // add tabs
   const addTabs = () => {
-    const route = searchRoute(pathname, routerArray);
-    console.log(route, "route");
-    let currentTabsList: Menu.MenuOptions[] = JSON.parse(JSON.stringify(tabsList));
-    if (tabsList.every((item: any) => item.path !== route.path)) {
-      currentTabsList.push({ title: route.meta!.title, path: route.path! });
+    const route = searchRoute(pathname);
+    const currentRoute = route.meta?.activeMenu ? searchRoute(route.meta.activeMenu) : route;
+    if (tabsList.every((item: any) => item.path !== currentRoute.path)) {
+      dispatch(setTabsList({ title: currentRoute.meta!.title, path: currentRoute.path! }));
     }
-    dispatch(setTabsList(currentTabsList));
-    setActiveValue(pathname);
+    setActiveValue(route.path as string);
   };
 
   // delete tabs
@@ -52,7 +49,7 @@ const LayoutTabs = () => {
         navigate(nextTab.path);
       });
     }
-    message.success("你删除了Tabs标签 😆😆😆");
+    message.success("你删除了Tabs标签");
     dispatch(setTabsList(tabsList.filter((item: Menu.MenuOptions) => item.path !== tabPath)));
   };
 

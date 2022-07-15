@@ -1,54 +1,24 @@
 import { FC, useEffect, useState } from "react";
-import { getArticle } from "@/api/article";
-import { IArticle } from "@/api/interface";
-import { Table, Tag, Button, Space } from "antd";
+import { IUser } from "@/api/interface";
+import { Table, Button, Space } from "antd";
 import type { ColumnsType } from "antd/lib/table";
 import OperateBtn from "@/components/operateBtn";
 import { useNavigate } from "react-router-dom";
+import { getUserList } from "@/api/user";
 
 const User: FC = () => {
   const navigate = useNavigate();
 
-  const columns: ColumnsType<IArticle.ResArticleList> = [
+  const columns: ColumnsType<IUser.ResUserList> = [
     {
-      title: "标题",
-      dataIndex: "title",
-      key: "title",
-      render: title => <span>{title}</span>
+      title: "账号",
+      dataIndex: "account",
+      key: "account"
     },
     {
-      title: "分类",
-      dataIndex: "category",
-      key: "category",
-      render: category => <Tag color="green">{category?.title}</Tag>
-    },
-    {
-      title: "标签",
-      key: "tag",
-      dataIndex: "tag",
-      render: (_, { tag }) => (
-        <>
-          {tag.map(item => {
-            return (
-              <Tag color="green" key={item.id}>
-                {item.name}
-              </Tag>
-            );
-          })}
-        </>
-      )
-    },
-    {
-      title: "状态",
-      dataIndex: "status",
-      key: "status",
-      render: status => <span>{status}</span>
-    },
-    {
-      title: "作者",
-      dataIndex: "author",
-      key: "author",
-      render: (_, { author }) => <span>{author.nickName}</span>
+      title: "邮箱",
+      dataIndex: "email",
+      key: "email"
     },
     {
       title: "创建时间",
@@ -80,15 +50,15 @@ const User: FC = () => {
     }
   ];
 
-  const [articleList, setArticleList] = useState<IArticle.ResArticleList[]>([]);
+  const [userList, setUserList] = useState<IUser.ResUserList[]>([]);
   const [total, setTotal] = useState<number>(0);
   useEffect(() => {
-    _getArticle();
+    getUser();
   }, []);
 
-  const _getArticle = async (page: number = 1, limit: number = 10) => {
-    const { list, total } = await getArticle({ page, limit });
-    setArticleList(list);
+  const getUser = async (page: number = 1, limit: number = 10) => {
+    const { list, total } = await getUserList({ page, limit });
+    setUserList(list);
     setTotal(total);
   };
 
@@ -119,7 +89,7 @@ const User: FC = () => {
 
   // 改变页码的回调 page代表页码数 pageSize代表每页条数
   const handlePageChange = (page: number) => {
-    _getArticle(page);
+    getUser(page);
   };
 
   return (
@@ -128,7 +98,7 @@ const User: FC = () => {
       <Table
         rowSelection={rowSelection}
         columns={columns}
-        dataSource={articleList}
+        dataSource={userList}
         rowKey={"id"}
         pagination={{ total, onChange: page => handlePageChange(page) }}
       />

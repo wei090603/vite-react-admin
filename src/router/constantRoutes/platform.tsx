@@ -2,15 +2,30 @@ import React from "react";
 import lazyLoad from "@/router/config/lazyLoad";
 import { RouteObject } from "@/router/interface";
 import { Layout } from "@/router/constant";
+import Login from "@/pages/login";
 
 // 错误页面模块
-const errorRouter: Array<RouteObject> = [
+const platformRouter: Array<RouteObject> = [
+  {
+    path: "/login",
+    element: <Login />,
+    meta: {
+      requiresAuth: false,
+      title: "登录页",
+      key: "login",
+      hidden: true,
+      sort: 100
+    },
+    children: []
+  },
   {
     element: Layout,
     path: "/platform",
     meta: {
       title: "系统路由",
-      key: "platform"
+      key: "platform",
+      sort: 100,
+      hidden: true
     },
     children: [
       {
@@ -44,4 +59,4 @@ const errorRouter: Array<RouteObject> = [
   }
 ];
 
-export default errorRouter;
+export default platformRouter;

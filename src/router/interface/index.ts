@@ -3,6 +3,9 @@ export interface MetaProps {
   requiresAuth?: boolean;
   title: string;
   key?: string;
+  hidden?: boolean;
+  activeMenu?: string;
+  sort?: number;
 }
 
 export interface RouteObject {

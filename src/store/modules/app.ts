@@ -31,7 +31,7 @@ const appSlice = createSlice({
       state.breadcrumbList = data.payload;
     },
     setTabsList(state, data) {
-      state.tabsList = data.payload;
+      state.tabsList.push(data.payload);
     }
   }
 });

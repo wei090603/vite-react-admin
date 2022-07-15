@@ -8,7 +8,9 @@ const dashboardRouter: Array<RouteObject> = [
   {
     element: Layout,
     meta: {
-      title: "Dashboard"
+      title: "Dashboard",
+      key: "Dashboard",
+      sort: 1
     },
     children: [
       {
@@ -17,16 +19,7 @@ const dashboardRouter: Array<RouteObject> = [
         meta: {
           requiresAuth: true,
           title: "首页",
-          key: "dashboard"
-        }
-      },
-      {
-        path: "/dashboard",
-        element: lazyLoad(React.lazy(() => import("@/pages/dashboard"))),
-        meta: {
-          requiresAuth: true,
-          title: "首页",
-          key: "dashboard"
+          key: "home"
         }
       }
     ]

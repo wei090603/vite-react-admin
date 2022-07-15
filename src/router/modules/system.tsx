@@ -10,9 +10,19 @@ const systemRouter: Array<RouteObject> = [
     path: "/system",
     meta: {
       title: "系统管理",
-      key: "system"
+      key: "system",
+      sort: 8
     },
     children: [
+      {
+        path: "/system/advertise",
+        element: lazyLoad(React.lazy(() => import("@/pages/system/notice"))),
+        meta: {
+          requiresAuth: true,
+          title: "广告列表",
+          key: "advertise"
+        }
+      },
       {
         path: "/system/notice",
         element: lazyLoad(React.lazy(() => import("@/pages/system/notice"))),

@@ -55,17 +55,6 @@ export namespace User {
   // }
 }
 
-export namespace Navgation {
-  export interface ResMenuList {
-    createdAt: string;
-    id: number;
-    link: string;
-    sort: number;
-    title: string;
-    updatedAt: string;
-  }
-}
-
 export namespace IArticle {
   interface Categor {
     id: number;
@@ -173,4 +162,46 @@ export namespace IRoles {
     updatedAt: string;
   }
   export type ReqGetRolesParams = ReqPage;
+}
+
+export namespace IUser {
+  export type ResUserList = {
+    id: number;
+    account: string;
+    nickName: string;
+    mobile: string;
+    email: string;
+    sign: string;
+    status: boolean;
+    createdAt: string;
+    updatedAt: string;
+  };
+
+  export type ReqGetUserParams = ReqPage;
+}
+
+export namespace IManager {
+  export type ManagerItem = {
+    id: string;
+    name: string;
+    account: string;
+    email: string;
+    phone: string;
+    remark: string;
+    createdAt: string;
+    updatedAt: string;
+  };
+}
+
+export namespace INavgation {
+  export type ResNavgationList = {
+    id: string;
+    title: string;
+    link: string;
+    sort: number;
+    createdAt: string;
+    updatedAt: string;
+  };
+
+  export type ReqGetNavgationParams = ReqPage;
 }

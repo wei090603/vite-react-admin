@@ -1,6 +1,6 @@
 import http from "@/service";
-import { Navgation } from "./interface";
+import { INavgation } from "./interface";
 
-export const navgationList = () => {
-  return http.get<Navgation.ResMenuList>("" + `/menu`);
+export const getNavgationList = () => {
+  return http.get<INavgation.ResNavgationList[]>("" + `/navgation`);
 };
