@@ -3,7 +3,7 @@ import { getArticle } from "@/api/article";
 import { IArticle } from "@/api/interface";
 import { Table, Tag, Button, Space } from "antd";
 import type { ColumnsType } from "antd/lib/table";
-import OperateBtn from "@/components/operateBtn";
+import OperateBtn from "@/components/OperateBtn";
 import { useNavigate } from "react-router-dom";
 
 const Article: FC = () => {
@@ -132,7 +132,6 @@ const Article: FC = () => {
         rowKey={"id"}
         pagination={{ total, onChange: page => handlePageChange(page) }}
       />
-      <Button onClick={() => handleEdit(1)}>111111111</Button>
     </>
   );
 };

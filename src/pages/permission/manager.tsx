@@ -3,7 +3,7 @@ import { IManager } from "@/api/interface";
 import type { ColumnsType } from "antd/lib/table";
 import { getManagerList } from "@/api/permission";
 import { Button, Space, Table } from "antd";
-import OperateBtn from "@/components/operateBtn";
+import OperateBtn from "@/components/OperateBtn";
 
 const Manager: FC = () => {
   const columns: ColumnsType<IManager.ResManagerList> = [

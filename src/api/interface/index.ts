@@ -169,9 +169,19 @@ export namespace IUser {
     id: number;
     account: string;
     nickName: string;
-    mobile: string;
+    phoneNum: string;
     email: string;
+    favs: number;
+    signInCount: number;
+    age: number;
+    sex: boolean;
+    dateBirth: number;
+    position: boolean;
+    location: string;
     sign: string;
+    vip: boolean;
+    avatar: string;
+    openId: string;
     status: boolean;
     createdAt: string;
     updatedAt: string;
@@ -204,4 +214,20 @@ export namespace INavgation {
   };
 
   export type ReqGetNavgationParams = ReqPage;
+}
+
+export namespace ILoginLogger {
+  type Manager = {
+    account: string;
+  };
+  export type ResLoginLogger = {
+    id: number;
+    manager: Manager;
+    loginAddress: string;
+    loginIp: string;
+    createdAt: string;
+    updatedAt: string;
+  };
+
+  export type ReqGetLoginLoggerParams = ReqPage;
 }

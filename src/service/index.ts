@@ -61,7 +61,7 @@ class RequestHttp {
         if (data.code == ResultEnum.OVERDUE) {
           // dispatch(fetchLoginOut());
           message.error(data.msg);
-          window.location.hash = "/login";
+          window.location.href = "/login";
           return Promise.reject(data);
         }
         // * 全局错误信息拦截（防止下载文件得时候返回数据流，没有code，直接报错）
@@ -79,7 +79,7 @@ class RequestHttp {
         // 根据响应的错误状态码，做不同的处理
         if (response) return checkStatus(response.status);
         // 服务器结果都没有返回(可能服务器错误可能客户端断网) 断网处理:可以跳转到断网页面
-        if (!window.navigator.onLine) return (window.location.hash = "/500");
+        if (!window.navigator.onLine) return (window.location.href = "/500");
         return Promise.reject(error);
       }
     );

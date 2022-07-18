@@ -6,6 +6,10 @@ export const getArticle = (params: IArticle.ReqGetArticleParams) => {
   return http.get<ResPage<IArticle.ResArticleList>>("" + `/article`, params);
 };
 
+export const getArticleDetail = (id: string) => {
+  return http.get<IArticle.ResArticleList>("" + `/article/${id}`);
+};
+
 export const getCategoryAll = () => {
   return http.get<ICategory.ResCategory[]>("" + `/category/all`);
 };

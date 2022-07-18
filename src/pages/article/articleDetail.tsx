@@ -2,21 +2,22 @@ import { FC, useEffect, useState } from "react";
 import { useSearchParams, useLocation } from "react-router-dom";
 import { Button, Form, Input, Select, Space, message } from "antd";
 import { ICategory, ITag } from "@/api/interface";
-import { getCategoryAll, getTagAll } from "@/api/article";
+import { getArticleDetail, getCategoryAll, getTagAll } from "@/api/article";
 import Editor from "@/components/Editor";
 import "./index.less";
 
 const { Option } = Select;
 const ArticleDetail: FC = () => {
   // const params = useParams();
-  const location = useLocation();
+  const { pathname } = useLocation();
   const [params] = useSearchParams();
   const id = params.get("id");
   console.log(id, "id");
-  console.log(location, "location");
 
-  // isAdd: route.name === 'noticeAdd', // 新增
-  // isEdit: route.name === 'noticeEdit', // 编辑
+  // const isAdd = pathname === "/article/add"; // 新增
+  const isEdit = pathname === "/article/edit"; // 编辑
+
+  // const [articleDetail, setArticleDetail] = useState<IArticle.ResArticleList>({});
 
   const [categoryList, setCategoryList] = useState<ICategory.ResCategory[]>([]);
   const [tagList, setTagList] = useState<ITag.ResTag[]>([]);
@@ -36,6 +37,15 @@ const ArticleDetail: FC = () => {
     const data = await getTagAll();
     setTagList(data);
   };
+
+  const getArticle = async () => {
+    const data = await getArticleDetail(id!);
+    console.log(data, "data");
+  };
+
+  if (isEdit) {
+    getArticle();
+  }
 
   const onFinish = (values: any) => {
     message.success("提交的数据为 : " + JSON.stringify(values));

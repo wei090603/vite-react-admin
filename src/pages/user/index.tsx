@@ -2,7 +2,7 @@ import { FC, useEffect, useState } from "react";
 import { IUser } from "@/api/interface";
 import { Table, Button, Space } from "antd";
 import type { ColumnsType } from "antd/lib/table";
-import OperateBtn from "@/components/operateBtn";
+import OperateBtn from "@/components/OperateBtn";
 import { useNavigate } from "react-router-dom";
 import { getUserList } from "@/api/user";
 

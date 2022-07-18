@@ -3,7 +3,7 @@ import { IRoles } from "@/api/interface";
 import type { ColumnsType } from "antd/lib/table";
 import { getRolesList } from "@/api/permission";
 import { Button, Space, Table } from "antd";
-import OperateBtn from "@/components/operateBtn";
+import OperateBtn from "@/components/OperateBtn";
 
 const Role: FC = () => {
   const columns: ColumnsType<IRoles.ResRolesList> = [

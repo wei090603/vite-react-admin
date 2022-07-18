@@ -31,6 +31,15 @@ const systemRouter: Array<RouteObject> = [
           title: "通知公告",
           key: "notice"
         }
+      },
+      {
+        path: "/system/loginLogger",
+        element: lazyLoad(React.lazy(() => import("@/pages/system/loginLogger"))),
+        meta: {
+          requiresAuth: true,
+          title: "登录日志",
+          key: "loginLogger"
+        }
       }
     ]
   }

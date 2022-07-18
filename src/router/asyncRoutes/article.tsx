@@ -15,15 +15,6 @@ const articleRouter: Array<RouteObject> = [
     },
     children: [
       {
-        path: "/article/articleList",
-        element: lazyLoad(React.lazy(() => import("@/pages/article/article"))),
-        meta: {
-          requiresAuth: true,
-          title: "文章列表",
-          key: "articleList"
-        }
-      },
-      {
         path: "/article/tag",
         element: lazyLoad(React.lazy(() => import("@/pages/article/tag"))),
         meta: {
@@ -39,6 +30,15 @@ const articleRouter: Array<RouteObject> = [
           requiresAuth: true,
           title: "分类列表",
           key: "category"
+        }
+      },
+      {
+        path: "/article/articleList",
+        element: lazyLoad(React.lazy(() => import("@/pages/article/article"))),
+        meta: {
+          requiresAuth: true,
+          title: "文章列表",
+          key: "articleList"
         }
       },
       {

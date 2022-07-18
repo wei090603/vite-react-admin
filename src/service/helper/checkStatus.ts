@@ -12,6 +12,7 @@ export const checkStatus = (status: number): void => {
       break;
     case 401:
       message.error("登录失效！请您重新登录");
+      location.href = "/login";
       break;
     case 403:
       message.error("当前账号无权限访问！");

@@ -35,7 +35,7 @@ const LayoutTabs = () => {
     if (tabsList.every((item: any) => item.path !== currentRoute.path)) {
       dispatch(setTabsList({ title: currentRoute.meta!.title, path: currentRoute.path! }));
     }
-    setActiveValue(route.path as string);
+    setActiveValue(currentRoute.path as string);
   };
 
   // delete tabs

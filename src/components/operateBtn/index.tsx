@@ -4,7 +4,7 @@ import { Button } from "antd";
 import "./index.less";
 
 interface IProps {
-  handleAdd: () => void;
+  handleAdd?: () => void;
   handleDel: () => void;
   handlImport?: () => void;
   handleExport?: () => void;
@@ -14,7 +14,7 @@ const OperateBtn: FC<IProps> = (props: IProps) => {
   return (
     <div className="operate-wrapper">
       <div className="operate-left-btn">
-        <Button onClick={props.handleAdd}>新增</Button>
+        {props.handleAdd ? <Button onClick={props.handleAdd}>新增</Button> : null}
         <Button onClick={props.handleDel} danger>
           删除
         </Button>

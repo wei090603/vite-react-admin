@@ -1,6 +1,6 @@
 import React, { FC, useEffect, useState } from "react";
 import { Table, Button, Space, Modal, Form, Input } from "antd";
-import OperateBtn from "@/components/operateBtn";
+import OperateBtn from "@/components/OperateBtn";
 import type { ColumnsType } from "antd/lib/table";
 import { ICategory } from "@/api/interface";
 import { createCategory, getCategoryList } from "@/api/article";
