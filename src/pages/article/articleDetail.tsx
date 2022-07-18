@@ -49,13 +49,15 @@ const ArticleDetail: FC = () => {
 
   const onFinish = (values: any) => {
     message.success("提交的数据为 : " + JSON.stringify(values));
-    console.log(JSON.stringify(values));
+    values.type = 0;
+    console.log(values);
   };
 
   const onReset = () => {
     form.resetFields();
   };
 
+  const onBlurChange = () => {};
   return (
     <Form form={form} name="control-hooks" onFinish={onFinish} labelCol={{ span: 1 }}>
       <Form.Item name="title" label="标题" rules={[{ required: true, message: "请填写标题" }]}>
@@ -88,7 +90,7 @@ const ArticleDetail: FC = () => {
         </Select>
       </Form.Item>
       <Form.Item name="content" label="内容" rules={[{ required: true, message: "请填写内容" }]}>
-        <Editor />
+        <Editor onBlurChange={onBlurChange} />
       </Form.Item>
       <Form.Item wrapperCol={{ offset: 1 }}>
         <Space>

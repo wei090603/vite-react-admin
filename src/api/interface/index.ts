@@ -86,6 +86,15 @@ export namespace IArticle {
     title: string;
     tag: Tag[];
   }
+  export type ReqArticleParams = {
+    id?: number;
+    image: string[];
+    isTop?: boolean;
+    status: number;
+    title: string;
+    tag: Tag[];
+    category: number;
+  };
   export type ReqGetArticleParams = ReqPage;
 }
 
