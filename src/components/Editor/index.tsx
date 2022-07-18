@@ -6,9 +6,14 @@ import { IDomEditor, IEditorConfig } from "@wangeditor/editor";
 
 type InsertFnType = (url: string, alt: string, href: string) => void;
 
-function MyEditor() {
+function MyEditor(props: any) {
+  const { form } = props;
   const [editor, setEditor] = useState<IDomEditor | null>(null); // 存储 editor 实例
-  const [html, setHtml] = useState(""); // 编辑器内容
+  const [html, setHtml] = useState(props.content); // 编辑器内容
+
+  useEffect(() => {
+    form.setFieldsValue({ content: html });
+  }, [html]);
 
   const toolbarConfig = {};
   const editorConfig: Partial<IEditorConfig> = {

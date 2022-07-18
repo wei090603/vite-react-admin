@@ -2,7 +2,7 @@ import { FC, useEffect, useState } from "react";
 import { useSearchParams, useLocation } from "react-router-dom";
 import { Button, Form, Input, Select, Space, message } from "antd";
 import { ICategory, ITag } from "@/api/interface";
-import { getArticleDetail, getCategoryAll, getTagAll } from "@/api/article";
+import { createArticle, getArticleDetail, getCategoryAll, getTagAll } from "@/api/article";
 import Editor from "@/components/Editor";
 import "./index.less";
 
@@ -47,17 +47,17 @@ const ArticleDetail: FC = () => {
     getArticle();
   }
 
-  const onFinish = (values: any) => {
+  const onFinish = async (values: any) => {
     message.success("提交的数据为 : " + JSON.stringify(values));
     values.type = 0;
     console.log(values);
+    await createArticle(values);
   };
 
   const onReset = () => {
     form.resetFields();
   };
 
-  const onBlurChange = () => {};
   return (
     <Form form={form} name="control-hooks" onFinish={onFinish} labelCol={{ span: 1 }}>
       <Form.Item name="title" label="标题" rules={[{ required: true, message: "请填写标题" }]}>
@@ -90,7 +90,7 @@ const ArticleDetail: FC = () => {
         </Select>
       </Form.Item>
       <Form.Item name="content" label="内容" rules={[{ required: true, message: "请填写内容" }]}>
-        <Editor onBlurChange={onBlurChange} />
+        <Editor form={form} />
       </Form.Item>
       <Form.Item wrapperCol={{ offset: 1 }}>
         <Space>
