@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { login, loginOut, userInfo } from "@/api/login";
-import { removeStorage, setStorage } from "@/utils/storage";
+import { getStorage, removeStorage, setStorage } from "@/utils/storage";
 import { ILoginForm } from "@/pages/login";
 
 interface IUserInfo {
@@ -30,7 +30,7 @@ const initialState: ICounterState = {
     phone: "",
     remark: ""
   },
-  token: ""
+  token: getStorage("token") || ""
 };
 
 const namespaces = "user";
@@ -40,6 +40,7 @@ const userSlice = createSlice({
   initialState,
   reducers: {
     setToken(state, { payload }) {
+      console.log(payload, "payload");
       state.token = payload;
     },
     setUserInfo(state, { payload }) {

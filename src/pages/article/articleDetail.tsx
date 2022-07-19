@@ -4,6 +4,8 @@ import { Button, Form, Input, Select, Space, message } from "antd";
 import { ICategory, ITag } from "@/api/interface";
 import { createArticle, getArticleDetail, getCategoryAll, getTagAll } from "@/api/article";
 import Editor from "@/components/Editor";
+import MyUpload from "@/components/Upload";
+
 import "./index.less";
 
 const { Option } = Select;
@@ -50,6 +52,7 @@ const ArticleDetail: FC = () => {
   const onFinish = async (values: any) => {
     message.success("提交的数据为 : " + JSON.stringify(values));
     values.type = 0;
+    values.image = values.image.map((item: any) => item.response.data.filename);
     console.log(values);
     await createArticle(values);
   };
@@ -58,8 +61,16 @@ const ArticleDetail: FC = () => {
     form.resetFields();
   };
 
+  const normFile = (e: any) => {
+    console.log("Upload event:", e);
+    if (Array.isArray(e)) {
+      return e;
+    }
+    return e?.fileList;
+  };
+
   return (
-    <Form form={form} name="control-hooks" onFinish={onFinish} labelCol={{ span: 1 }}>
+    <Form form={form} name="control-hooks" onFinish={onFinish} labelCol={{ span: 1 }} initialValues={{ image: [], content: "" }}>
       <Form.Item name="title" label="标题" rules={[{ required: true, message: "请填写标题" }]}>
         <Input placeholder="前填写文章标题" />
       </Form.Item>
@@ -89,9 +100,15 @@ const ArticleDetail: FC = () => {
           <Option value="3">仅自己可见</Option>
         </Select>
       </Form.Item>
-      <Form.Item name="content" label="内容" rules={[{ required: true, message: "请填写内容" }]}>
-        <Editor form={form} />
+      <Form.Item label="图片" name="image" getValueFromEvent={normFile} extra="">
+        <MyUpload />
       </Form.Item>
+      <Form.Item name="content" label="内容" rules={[{ required: true, message: "请填写内容" }]}>
+        <Editor />
+      </Form.Item>
+      {/* <Form.Item label="状态" name="status" valuePropName="checked">
+        <Switch checkedChildren="开启" unCheckedChildren="禁用" />
+      </Form.Item> */}
       <Form.Item wrapperCol={{ offset: 1 }}>
         <Space>
           <Button type="primary" htmlType="submit">

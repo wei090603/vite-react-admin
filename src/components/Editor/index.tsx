@@ -6,14 +6,13 @@ import { IDomEditor, IEditorConfig } from "@wangeditor/editor";
 
 type InsertFnType = (url: string, alt: string, href: string) => void;
 
-function MyEditor(props: any) {
-  const { form } = props;
-  const [editor, setEditor] = useState<IDomEditor | null>(null); // 存储 editor 实例
-  const [html, setHtml] = useState(props.content); // 编辑器内容
+interface Props {
+  value?: string;
+  onChange?: (arg: any) => void;
+}
 
-  useEffect(() => {
-    form.setFieldsValue({ content: html });
-  }, [html]);
+function MyEditor({ value, onChange }: Props) {
+  const [editor, setEditor] = useState<IDomEditor | null>(null); // 存储 editor 实例
 
   const toolbarConfig = {};
   const editorConfig: Partial<IEditorConfig> = {
@@ -89,9 +88,9 @@ function MyEditor(props: any) {
         <Toolbar editor={editor} defaultConfig={toolbarConfig} mode="default" style={{ borderBottom: "1px solid #ccc" }} />
         <Editor
           defaultConfig={editorConfig}
-          value={html}
+          value={value}
           onCreated={setEditor}
-          onChange={editor => setHtml(editor.getHtml())}
+          onChange={editor => onChange?.(editor.getHtml())}
           mode="default"
           style={{ height: "500px", overflowY: "hidden" }}
         />

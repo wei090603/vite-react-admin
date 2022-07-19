@@ -75,22 +75,19 @@ const Tag: FC = () => {
   const [confirmLoading, setConfirmLoading] = useState(false);
 
   const handleOk = () => {
-    setConfirmLoading(true);
-
     form
       .validateFields()
       .then(async values => {
-        form.resetFields();
-        values.grade = 0;
-        values.parentId = 0;
+        setConfirmLoading(true);
         await createTag(values);
+        form.resetFields();
 
-        setConfirmLoading(false);
         setVisible(false);
         getTag();
       })
-      .catch(info => {
-        console.log("Validate Failed:", info);
+      .catch(() => {})
+      .finally(() => {
+        setConfirmLoading(false);
       });
   };
 
