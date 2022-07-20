@@ -1,3 +1,5 @@
+import { type } from "os";
+
 // * 分页响应参数
 export interface ResPage<T> {
   list: T[];
@@ -232,14 +234,22 @@ export namespace IManager {
 }
 
 export namespace INavgation {
-  export type ResNavgationList = ResDate & {
-    id: string;
+  export type Navgation = {
     title: string;
     link: string;
     sort: number;
   };
 
-  export type ReqPostNavgationList = Omit<ResNavgationList, "id">;
+  export type ResNavgationList = ResDate &
+    Navgation & {
+      id: number;
+    };
+
+  export type ReqUpdateNavationParams = Navgation & {
+    id: number;
+  };
+
+  // export type ReqPostNavgationList = Omit<Navgation, "id">;
 
   export type ReqGetNavgationParams = ReqPage;
 }

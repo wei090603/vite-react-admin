@@ -1,7 +1,7 @@
 import { FC, useEffect, useState } from "react";
 import { Button, Form, Input, InputNumber, Modal, Space, Table } from "antd";
 import type { ColumnsType } from "antd/lib/table";
-import { getNavgationList } from "@/api/navgation";
+import { createNavgation, getNavgationList } from "@/api/navgation";
 import { INavgation } from "@/api/interface";
 import OperateBtn from "@/components/OperateBtn";
 import "./index.less";
@@ -90,8 +90,10 @@ const Navigation: FC = () => {
       .validateFields()
       .then(async values => {
         setConfirmLoading(true);
+        await createNavgation(values);
         console.log(values, "values");
         handleCancel();
+        getNavgation();
       })
       .catch(() => {})
       .finally(() => {

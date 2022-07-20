@@ -5,6 +5,10 @@ export const getNavgationList = () => {
   return http.get<INavgation.ResNavgationList[]>("" + `/navgation`);
 };
 
-export const createArticle = (params: INavgation.ReqPostNavgationList) => {
-  return http.post("" + `/article`, params);
+export const createNavgation = (params: INavgation.Navgation) => {
+  return http.post("" + `/navgation`, params);
+};
+
+export const patchNavgation = ({ id, ...params }: INavgation.ReqUpdateNavationParams) => {
+  return http.post("" + `/navgation/${id}`, params);
 };
