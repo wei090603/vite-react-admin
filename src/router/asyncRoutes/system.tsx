@@ -16,7 +16,7 @@ const systemRouter: Array<RouteObject> = [
     children: [
       {
         path: "/system/advertise",
-        element: lazyLoad(React.lazy(() => import("@/pages/system/notice"))),
+        element: lazyLoad(React.lazy(() => import("@/pages/system/advertise"))),
         meta: {
           requiresAuth: true,
           title: "广告列表",

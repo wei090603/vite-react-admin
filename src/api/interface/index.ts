@@ -10,6 +10,11 @@ export interface ReqPage {
   limit: number;
 }
 
+export interface ResDate {
+  createdAt: string;
+  updatedAt: string;
+}
+
 // * 登录
 export namespace Login {
   export interface ReqLoginForm {
@@ -173,6 +178,20 @@ export namespace IRoles {
   export type ReqGetRolesParams = ReqPage;
 }
 
+export namespace IResources {
+  export type ResResourcesList = {
+    title: string;
+    id: number;
+    parentId: number;
+    path: string;
+    icon: string;
+    type: string;
+    status: boolean;
+    component: string;
+    createdAt: string;
+  };
+}
+
 export namespace IUser {
   export type ResUserList = {
     id: number;
@@ -213,14 +232,14 @@ export namespace IManager {
 }
 
 export namespace INavgation {
-  export type ResNavgationList = {
+  export type ResNavgationList = ResDate & {
     id: string;
     title: string;
     link: string;
     sort: number;
-    createdAt: string;
-    updatedAt: string;
   };
+
+  export type ReqPostNavgationList = Omit<ResNavgationList, "id">;
 
   export type ReqGetNavgationParams = ReqPage;
 }
@@ -239,4 +258,31 @@ export namespace ILoginLogger {
   };
 
   export type ReqGetLoginLoggerParams = ReqPage;
+}
+
+export namespace Notice {
+  type NoticeItem = {
+    id: string;
+    title: string;
+    type: number;
+    status: boolean;
+  };
+
+  type NoticeFormItem = NoticeItem & {
+    content: string;
+  };
+}
+
+export namespace IAdvertise {
+  enum Type {
+    HOME = "home"
+  }
+  export type AdvertiseItem = {
+    id: string;
+    title: string;
+    picture: string;
+    type: Type;
+    status: boolean;
+    describe: string;
+  };
 }

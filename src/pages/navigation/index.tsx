@@ -1,8 +1,9 @@
 import { FC, useEffect, useState } from "react";
-import { Space, Table, Button } from "antd";
+import { Button, Form, Input, InputNumber, Modal, Space, Table } from "antd";
 import type { ColumnsType } from "antd/lib/table";
 import { getNavgationList } from "@/api/navgation";
 import { INavgation } from "@/api/interface";
+import OperateBtn from "@/components/OperateBtn";
 import "./index.less";
 
 const Navigation: FC = () => {
@@ -64,7 +65,70 @@ const Navigation: FC = () => {
     setNavgationList(data);
   };
 
-  return <Table columns={columns} dataSource={navgationList} rowKey={"id"} />;
+  const formItemLayout = {
+    labelCol: {
+      xs: { span: 24 },
+      sm: { span: 4 }
+    },
+    wrapperCol: {
+      xs: { span: 24 },
+      sm: { span: 20 }
+    }
+  };
+
+  const [form] = Form.useForm();
+  const [visible, setVisible] = useState(false);
+  const [confirmLoading, setConfirmLoading] = useState(false);
+
+  const handleCancel = () => {
+    form.resetFields();
+    setVisible(false);
+  };
+
+  const handleSubmit = () => {
+    form
+      .validateFields()
+      .then(async values => {
+        setConfirmLoading(true);
+        console.log(values, "values");
+        handleCancel();
+      })
+      .catch(() => {})
+      .finally(() => {
+        setConfirmLoading(false);
+      });
+  };
+
+  const handleDel = () => {};
+
+  return (
+    <>
+      <OperateBtn handleAdd={() => setVisible(true)} handleDel={handleDel} />
+      <Table columns={columns} dataSource={navgationList} rowKey={"id"} />
+
+      <Modal
+        visible={visible}
+        title="新增角色"
+        okText="提交"
+        cancelText="取消"
+        confirmLoading={confirmLoading}
+        onCancel={handleCancel}
+        onOk={handleSubmit}
+      >
+        <Form form={form} {...formItemLayout} name="form_in_modal" initialValues={{}}>
+          <Form.Item name="title" label="导航名称" rules={[{ required: true, message: "" }]}>
+            <Input placeholder="前填写导航名称" />
+          </Form.Item>
+          <Form.Item name="link" label="导航路径" rules={[{ required: true, message: "" }]}>
+            <Input placeholder="前填写标签名称" />
+          </Form.Item>
+          <Form.Item name="sort" label="排序" rules={[{ type: "number", min: 1, max: 99 }]}>
+            <InputNumber />
+          </Form.Item>
+        </Form>
+      </Modal>
+    </>
+  );
 };
 
 export default Navigation;

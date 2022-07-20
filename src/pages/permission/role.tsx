@@ -2,18 +2,18 @@ import { FC, useState, useEffect } from "react";
 import { IRoles } from "@/api/interface";
 import type { ColumnsType } from "antd/lib/table";
 import { getRolesList } from "@/api/permission";
-import { Button, Space, Table } from "antd";
+import { Button, Form, Input, Modal, Space, Table } from "antd";
 import OperateBtn from "@/components/OperateBtn";
 
 const Role: FC = () => {
   const columns: ColumnsType<IRoles.ResRolesList> = [
     {
-      title: "角色名",
+      title: "角色名称",
       dataIndex: "roleName",
       key: "roleName"
     },
     {
-      title: "标识",
+      title: "角色编码",
       dataIndex: "mark",
       key: "mark"
     },
@@ -65,18 +65,71 @@ const Role: FC = () => {
     setTotal(total);
   };
 
-  const handleAdd = () => {};
-
   const handleDel = () => {};
 
   const handleEdit = (row: IRoles.ResRolesList) => {
     console.log(row, "row");
   };
 
+  const [form] = Form.useForm();
+  const [visible, setVisible] = useState(false);
+  const [confirmLoading, setConfirmLoading] = useState(false);
+
+  const handleOk = () => {
+    form
+      .validateFields()
+      .then(async values => {
+        setConfirmLoading(true);
+
+        console.log(values, "values");
+      })
+      .catch(() => {})
+      .finally(() => {
+        setConfirmLoading(false);
+      });
+  };
+
+  const handleCancel = () => {
+    setVisible(false);
+  };
+
+  const formItemLayout = {
+    labelCol: {
+      xs: { span: 24 },
+      sm: { span: 4 }
+    },
+    wrapperCol: {
+      xs: { span: 24 },
+      sm: { span: 20 }
+    }
+  };
+
   return (
     <>
-      <OperateBtn handleAdd={handleAdd} handleDel={handleDel} />
+      <OperateBtn handleAdd={() => setVisible(true)} handleDel={handleDel} />
       <Table columns={columns} dataSource={rolesList} rowKey={"id"} pagination={{ total, onChange: page => getRoles(page) }} />
+
+      <Modal
+        visible={visible}
+        title="新增角色"
+        okText="提交"
+        cancelText="取消"
+        confirmLoading={confirmLoading}
+        onCancel={handleCancel}
+        onOk={handleOk}
+      >
+        <Form form={form} {...formItemLayout} name="form_in_modal" initialValues={{}}>
+          <Form.Item name="roleName" label="角色名称" rules={[{ required: true, message: "" }]}>
+            <Input placeholder="前填写标签名称" />
+          </Form.Item>
+          <Form.Item name="mark" label="标签编码" rules={[{ required: true, message: "" }]}>
+            <Input placeholder="前填写标签名称" />
+          </Form.Item>
+          <Form.Item name="remark" label="备注">
+            <Input.TextArea />
+          </Form.Item>
+        </Form>
+      </Modal>
     </>
   );
 };

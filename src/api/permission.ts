@@ -1,4 +1,4 @@
-import { IManager, IRoles, ResPage } from "@/api/interface/index";
+import { IManager, IRoles, ResPage, IResources } from "@/api/interface/index";
 
 import http from "@/service";
 
@@ -7,5 +7,9 @@ export const getManagerList = (params: IManager.ReqGetManagerParams) => {
 };
 
 export const getRolesList = (params: IRoles.ReqGetRolesParams) => {
-  return http.get<ResPage<IRoles.ResRolesList>>("" + `/roles`, params);
+  return http.get<ResPage<IRoles.ResRolesList>>("" + `/role`, params);
+};
+
+export const getResourcesList = () => {
+  return http.get<IResources.ResResourcesList[]>("" + `/resources`);
 };

@@ -39,6 +39,21 @@ const Article: FC = () => {
       )
     },
     {
+      title: "点赞",
+      dataIndex: "likes",
+      key: "likes"
+    },
+    {
+      title: "评论",
+      dataIndex: "comments",
+      key: "comments"
+    },
+    {
+      title: "阅读",
+      dataIndex: "reading",
+      key: "reading"
+    },
+    {
       title: "状态",
       dataIndex: "status",
       key: "status",
