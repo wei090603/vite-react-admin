@@ -16,8 +16,9 @@ const getBase64 = (file: RcFile): Promise<string> =>
 interface Props {
   value?: any;
   onChange?: (arg: any) => void;
+  maxCount?: number;
 }
-const MyUpload: React.FC<Props> = ({ value, onChange }) => {
+const MyUpload: React.FC<Props> = ({ value, onChange, maxCount = 1 }) => {
   const { token } = useAppSelector(state => state.user);
 
   const [previewVisible, setPreviewVisible] = useState(false);
@@ -76,10 +77,11 @@ const MyUpload: React.FC<Props> = ({ value, onChange }) => {
         fileList={fileList}
         onPreview={handlePreview}
         onChange={handleChange}
+        maxCount={maxCount}
         action={import.meta.env.VITE_API_URL + "/upload/file"}
         headers={{ Authorization: `Bearer ${token}` }}
       >
-        {fileList.length >= 8 ? null : uploadButton}
+        {fileList.length >= maxCount ? null : uploadButton}
       </Upload>
       <Modal visible={previewVisible} title={previewTitle} footer={null} onCancel={handleCancel}>
         <img alt="example" style={{ width: "100%" }} src={previewImage} />

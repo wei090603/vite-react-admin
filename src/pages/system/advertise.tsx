@@ -1,9 +1,12 @@
 import { IAdvertise } from "@/api/interface";
 import { getAdvertiseList } from "@/api/system";
 import OperateBtn from "@/components/OperateBtn";
-import { Button, Form, Input, InputNumber, Modal, Space, Table } from "antd";
+import MyUpload from "@/components/Upload";
+import { Button, Form, Input, InputNumber, Modal, Select, Space, Switch, Table } from "antd";
 import type { ColumnsType } from "antd/es/table";
 import React, { useEffect, useState } from "react";
+
+const { Option } = Select;
 
 const type = {
   home: "首页"
@@ -113,6 +116,14 @@ const Advertise: React.FC = () => {
 
   const handleDel = () => {};
 
+  const normFile = (e: any) => {
+    console.log("Upload event:", e);
+    if (Array.isArray(e)) {
+      return e;
+    }
+    return e?.fileList;
+  };
+
   return (
     <>
       <OperateBtn handleAdd={() => setVisible(true)} handleDel={handleDel} />
@@ -132,12 +143,29 @@ const Advertise: React.FC = () => {
         onCancel={handleCancel}
         onOk={handleSubmit}
       >
-        <Form form={form} {...formItemLayout} name="form_in_modal" initialValues={{}}>
-          <Form.Item name="title" label="广告标题" rules={[{ required: true, message: "" }]}>
+        <Form form={form} {...formItemLayout} name="form_in_modal" initialValues={{ picture: [], sort: 1 }}>
+          <Form.Item name="title" label="广告标题" rules={[{ required: true, message: "前填写广告标题" }]}>
             <Input placeholder="前填写广告标题" />
           </Form.Item>
-          <Form.Item name="link" label="导航路径" rules={[{ required: true, message: "" }]}>
-            <Input placeholder="前填写标签名称" />
+          <Form.Item name="link" label="广告跳转" rules={[{ required: true, message: "前填写广告跳转" }]}>
+            <Input placeholder="前填写广告跳转" />
+          </Form.Item>
+          <Form.Item name="link" label="广告位置" rules={[{ required: true, message: "请选择广告位置" }]}>
+            <Select placeholder="请选择广告位置" allowClear>
+              <Option value="home">首页</Option>
+            </Select>
+          </Form.Item>
+          <Form.Item
+            label="图片"
+            name="picture"
+            getValueFromEvent={normFile}
+            extra=""
+            rules={[{ required: true, message: "请选择广告图片" }]}
+          >
+            <MyUpload />
+          </Form.Item>
+          <Form.Item label="状态" valuePropName="status" rules={[{ required: true, message: "请选择广告状态" }]}>
+            <Switch checkedChildren="显示" unCheckedChildren="隐藏" defaultChecked />
           </Form.Item>
           <Form.Item name="sort" label="排序" rules={[{ type: "number", min: 1, max: 99 }]}>
             <InputNumber />

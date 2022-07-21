@@ -6,6 +6,17 @@ import { INavgation } from "@/api/interface";
 import OperateBtn from "@/components/OperateBtn";
 import "./index.less";
 
+const formItemLayout = {
+  labelCol: {
+    xs: { span: 24 },
+    sm: { span: 4 }
+  },
+  wrapperCol: {
+    xs: { span: 24 },
+    sm: { span: 20 }
+  }
+};
+
 const Navigation: FC = () => {
   const [navgationList, setNavgationList] = useState<INavgation.ResNavgationList[]>([]);
 
@@ -36,13 +47,9 @@ const Navigation: FC = () => {
       key: "createdAt"
     },
     {
-      title: "更新日期",
-      dataIndex: "updatedAt",
-      key: "updatedAt"
-    },
-    {
       title: "操作",
       key: "action",
+      width: "150px",
       render: (_, record) => (
         <Space size="middle">
           <Button type="link" onClick={() => handleEdit(record)}>
@@ -63,17 +70,6 @@ const Navigation: FC = () => {
   const getNavgation = async () => {
     const data = await getNavgationList();
     setNavgationList(data);
-  };
-
-  const formItemLayout = {
-    labelCol: {
-      xs: { span: 24 },
-      sm: { span: 4 }
-    },
-    wrapperCol: {
-      xs: { span: 24 },
-      sm: { span: 20 }
-    }
   };
 
   const [form] = Form.useForm();
