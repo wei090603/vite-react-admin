@@ -22,28 +22,29 @@ const columns: ColumnsType<IResources.ResResourcesList> = [
   },
   {
     title: "菜单类型",
-    dataIndex: "age",
-    key: "age"
+    dataIndex: "type",
+    key: "type",
+    render: type => <a>{type === "menu" ? "菜单" : "按钮"}</a>
   },
   {
     title: "图标",
-    dataIndex: "address",
-    key: "address"
+    dataIndex: "icon",
+    key: "icon"
   },
   {
     title: "组件",
-    dataIndex: "address",
-    key: "address"
+    dataIndex: "component",
+    key: "component"
   },
   {
     title: "路径",
-    dataIndex: "address",
-    key: "address"
+    dataIndex: "path",
+    key: "path"
   },
   {
     title: "排序",
-    dataIndex: "address",
-    key: "address"
+    dataIndex: "sort",
+    key: "sort"
   },
   {
     title: "创建时间",
@@ -58,7 +59,7 @@ const columns: ColumnsType<IResources.ResResourcesList> = [
     width: 100,
     render: (_, record) => (
       <Space size="middle">
-        <Button type="primary">编辑 {record.id}</Button>
+        <Button type="link">编辑 {record.id}</Button>
         <Button type="primary" danger>
           删除
         </Button>

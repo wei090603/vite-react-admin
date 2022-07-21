@@ -168,16 +168,22 @@ export namespace IManager {
   export type ReqGetManagerParams = ReqPage;
 }
 
-export namespace IRoles {
-  export interface ResRolesList {
-    id: number;
+export namespace IRole {
+  export type Role = {
     mark: string;
     remark: string;
     roleName: string;
-    createdAt: string;
-    updatedAt: string;
-  }
-  export type ReqGetRolesParams = ReqPage;
+  };
+  export type ResRoleList = Role &
+    ResDate & {
+      id: number;
+    };
+
+  export type RoleUpdate = Role & {
+    id: number;
+  };
+
+  export type ReqGetRoleParams = ReqPage;
 }
 
 export namespace IResources {
@@ -287,12 +293,15 @@ export namespace IAdvertise {
   enum Type {
     HOME = "home"
   }
-  export type AdvertiseItem = {
-    id: string;
+  export type Advertise = {
     title: string;
     picture: string;
     type: Type;
     status: boolean;
     describe: string;
   };
+  export type AdvertiseList = ResDate &
+    Advertise & {
+      id: number;
+    };
 }

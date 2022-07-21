@@ -45,10 +45,10 @@ const Navigation: FC = () => {
       key: "action",
       render: (_, record) => (
         <Space size="middle">
-          <Button type="primary" onClick={() => handleEdit(record)}>
+          <Button type="link" onClick={() => handleEdit(record)}>
             编辑
           </Button>
-          <Button type="primary" danger>
+          <Button type="link" danger>
             删除
           </Button>
         </Space>
@@ -106,7 +106,7 @@ const Navigation: FC = () => {
   return (
     <>
       <OperateBtn handleAdd={() => setVisible(true)} handleDel={handleDel} />
-      <Table columns={columns} dataSource={navgationList} rowKey={"id"} />
+      <Table columns={columns} dataSource={navgationList} rowKey={"id"} pagination={false} />
 
       <Modal
         visible={visible}

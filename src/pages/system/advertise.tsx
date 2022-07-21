@@ -1,21 +1,13 @@
-import { Space, Table, Tag } from "antd";
+import { IAdvertise } from "@/api/interface";
+import { Space, Table } from "antd";
 import type { ColumnsType } from "antd/es/table";
 import React from "react";
 
-interface DataType {
-  key: string;
-  name: string;
-  age: number;
-  address: string;
-  tags: string[];
-}
-
-const columns: ColumnsType<DataType> = [
+const columns: ColumnsType<IAdvertise.AdvertiseList> = [
   {
-    title: "Name",
-    dataIndex: "name",
-    key: "name",
-    render: text => <a>{text}</a>
+    title: "广告标题",
+    dataIndex: "title",
+    key: "title"
   },
   {
     title: "Age",
@@ -26,26 +18,6 @@ const columns: ColumnsType<DataType> = [
     title: "Address",
     dataIndex: "address",
     key: "address"
-  },
-  {
-    title: "Tags",
-    key: "tags",
-    dataIndex: "tags",
-    render: (_, { tags }) => (
-      <>
-        {tags.map(tag => {
-          let color = tag.length > 5 ? "geekblue" : "green";
-          if (tag === "loser") {
-            color = "volcano";
-          }
-          return (
-            <Tag color={color} key={tag}>
-              {tag.toUpperCase()}
-            </Tag>
-          );
-        })}
-      </>
-    )
   },
   {
     title: "Action",
@@ -59,30 +31,12 @@ const columns: ColumnsType<DataType> = [
   }
 ];
 
-const data: DataType[] = [
-  {
-    key: "1",
-    name: "John Brown",
-    age: 32,
-    address: "New York No. 1 Lake Park",
-    tags: ["nice", "developer"]
-  },
-  {
-    key: "2",
-    name: "Jim Green",
-    age: 42,
-    address: "London No. 1 Lake Park",
-    tags: ["loser"]
-  },
-  {
-    key: "3",
-    name: "Joe Black",
-    age: 32,
-    address: "Sidney No. 1 Lake Park",
-    tags: ["cool", "teacher"]
-  }
-];
-
-const Advertise: React.FC = () => <Table columns={columns} dataSource={data} />;
+const Advertise: React.FC = () => {
+  return (
+    <>
+      <Table columns={columns} dataSource={data} />
+    </>
+  );
+};
 
 export default Advertise;
