@@ -290,7 +290,7 @@ export namespace Notice {
 }
 
 export namespace IAdvertise {
-  enum Type {
+  export enum Type {
     HOME = "home"
   }
   export type Advertise = {
@@ -300,8 +300,10 @@ export namespace IAdvertise {
     status: boolean;
     describe: string;
   };
-  export type AdvertiseList = ResDate &
+  export type ResAdvertiseList = ResDate &
     Advertise & {
       id: number;
     };
+
+  export type ReqGetAdvertiseParams = ReqPage;
 }
