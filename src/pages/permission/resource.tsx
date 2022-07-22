@@ -60,7 +60,8 @@ const columns: ColumnsType<IResources.ResResourcesList> = [
     render: (_, record) => (
       <Space size="middle">
         <Button type="link">编辑 {record.id}</Button>
-        <Button type="primary" danger>
+        <Button type="link">子级</Button>
+        <Button type="link" danger>
           删除
         </Button>
       </Space>

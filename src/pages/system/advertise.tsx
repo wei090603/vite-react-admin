@@ -8,7 +8,7 @@ import React, { useEffect, useState } from "react";
 
 const { Option } = Select;
 
-const type = {
+const position = {
   home: "首页"
 };
 
@@ -45,20 +45,31 @@ const Advertise: React.FC = () => {
     },
     {
       title: "位置",
-      dataIndex: "type",
-      key: "type",
-      render: (value: IAdvertise.Type) => type[value]
+      dataIndex: "position",
+      key: "position",
+      render: (value: IAdvertise.Type) => position[value]
     },
     {
       title: "图片",
       dataIndex: "picture",
-      key: "picture"
+      key: "picture",
+      render: picture => <img width={50} height={50} src={import.meta.env.VITE_FILE_URL + picture} alt="" />
+    },
+    {
+      title: "链接",
+      dataIndex: "link",
+      key: "link"
     },
     {
       title: "状态",
       dataIndex: "status",
       key: "status",
-      render: (status: boolean) => <span>{status ? "隐藏" : "显示"}</span>
+      render: (status: boolean) => <Switch checkedChildren="显示" unCheckedChildren="隐藏" checked={status} />
+    },
+    {
+      title: "排序",
+      dataIndex: "sort",
+      key: "sort"
     },
     {
       title: "描述",
@@ -150,7 +161,7 @@ const Advertise: React.FC = () => {
           <Form.Item name="link" label="广告跳转" rules={[{ required: true, message: "前填写广告跳转" }]}>
             <Input placeholder="前填写广告跳转" />
           </Form.Item>
-          <Form.Item name="link" label="广告位置" rules={[{ required: true, message: "请选择广告位置" }]}>
+          <Form.Item name="position" label="广告位置" rules={[{ required: true, message: "请选择广告位置" }]}>
             <Select placeholder="请选择广告位置" allowClear>
               <Option value="home">首页</Option>
             </Select>

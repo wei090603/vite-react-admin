@@ -34,7 +34,7 @@ const LoginLogger: FC = () => {
       width: 100,
       render: (_, record) => (
         <Space size="middle">
-          <Button type="primary" danger onClick={() => handleDel(record.id)}>
+          <Button type="link" danger onClick={() => handleDel(record.id)}>
             删除
           </Button>
         </Space>

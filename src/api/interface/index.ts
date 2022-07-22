@@ -296,7 +296,7 @@ export namespace IAdvertise {
   export type Advertise = {
     title: string;
     picture: string;
-    type: Type;
+    position: Type;
     status: boolean;
     describe: string;
   };

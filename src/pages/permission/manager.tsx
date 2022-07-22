@@ -25,7 +25,8 @@ const Manager: FC = () => {
     {
       title: "头像",
       dataIndex: "avatar",
-      key: "avatar"
+      key: "avatar",
+      render: avatar => <img width={50} height={50} src={avatar} alt="" />
     },
     {
       title: "手机号",
@@ -66,11 +67,10 @@ const Manager: FC = () => {
       width: 100,
       render: (_, record) => (
         <Space size="middle">
-          <Button type="primary" onClick={() => handleEdit(record)}>
+          <Button type="link" onClick={() => handleEdit(record)}>
             编辑
           </Button>
-
-          <Button type="primary" danger>
+          <Button type="link" danger>
             删除
           </Button>
         </Space>
