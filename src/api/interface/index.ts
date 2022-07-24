@@ -1,5 +1,3 @@
-import { type } from "os";
-
 // * 分页响应参数
 export interface ResPage<T> {
   list: T[];
@@ -116,7 +114,7 @@ export namespace ICategory {
   }
   export type ReqGetCategoryParams = ReqPage;
 
-  export type ReqCreateCategoryParams = {
+  export type CreateCategory = {
     grade: number;
     parentId: number;
     title: string;
@@ -284,7 +282,7 @@ export namespace Notice {
     status: boolean;
   };
 
-  type NoticeFormItem = NoticeItem & {
+  export type NoticeFormItem = NoticeItem & {
     content: string;
   };
 }
@@ -299,6 +297,8 @@ export namespace IAdvertise {
     position: Type;
     status: boolean;
     describe: string;
+    link: string;
+    sort: number;
   };
   export type ResAdvertiseList = ResDate &
     Advertise & {

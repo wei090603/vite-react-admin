@@ -1,8 +1,8 @@
 import { IAdvertise } from "@/api/interface";
-import { getAdvertiseList } from "@/api/system";
+import { createAdvertise, getAdvertiseList, putAdvertise } from "@/api/system";
 import OperateBtn from "@/components/OperateBtn";
 import MyUpload from "@/components/Upload";
-import { Button, Form, Input, InputNumber, Modal, Select, Space, Switch, Table } from "antd";
+import { Button, Form, Input, InputNumber, Modal, Popconfirm, Select, Space, Switch, Table } from "antd";
 import type { ColumnsType } from "antd/es/table";
 import React, { useEffect, useState } from "react";
 
@@ -26,16 +26,19 @@ const formItemLayout = {
 const Advertise: React.FC = () => {
   const [advertiseList, setResAdvertiseList] = useState<IAdvertise.ResAdvertiseList[]>([]);
   const [total, setTotal] = useState<number>(0);
-
-  useEffect(() => {
-    getAdvertise();
-  }, []);
-
-  const getAdvertise = async (page: number = 1, limit: number = 10) => {
-    const { list, total } = await getAdvertiseList({ page, limit });
-    setResAdvertiseList(list);
-    setTotal(total);
-  };
+  const [form] = Form.useForm();
+  const [visible, setVisible] = useState<boolean>(false);
+  const [confirmLoading, setConfirmLoading] = useState<boolean>(false);
+  const [formData, setFormData] = useState<IAdvertise.Advertise>({
+    title: "",
+    picture: "",
+    position: IAdvertise.Type.HOME,
+    status: true,
+    describe: "",
+    link: "",
+    sort: 1
+  });
+  const [id, setId] = useState<number>(0);
 
   const columns: ColumnsType<IAdvertise.ResAdvertiseList> = [
     {
@@ -58,7 +61,8 @@ const Advertise: React.FC = () => {
     {
       title: "链接",
       dataIndex: "link",
-      key: "link"
+      key: "link",
+      width: "200px"
     },
     {
       title: "状态",
@@ -79,32 +83,42 @@ const Advertise: React.FC = () => {
     {
       title: "操作",
       key: "action",
-      width: "150px",
+      width: "200px",
       render: (_, record) => (
         <Space size="middle">
           <Button type="link" onClick={() => handleEdit(record)}>
             编辑
           </Button>
-          <Button type="link" danger>
-            删除
-          </Button>
+          <Popconfirm title="确认删除此项？" onConfirm={handleDel} okText="确认" cancelText="取消">
+            <Button type="link" danger>
+              删除
+            </Button>
+          </Popconfirm>
         </Space>
       )
     }
   ];
 
+  useEffect(() => {
+    getAdvertise();
+  }, []);
+
+  const getAdvertise = async (page: number = 1, limit: number = 10) => {
+    const { list, total } = await getAdvertiseList({ page, limit });
+    setResAdvertiseList(list);
+    setTotal(total);
+  };
+
   const handleEdit = (row: IAdvertise.ResAdvertiseList) => {
-    console.log(row, "row");
+    setId(row.id);
+    setFormData(row);
+    setVisible(true);
   };
 
   // 改变页码的回调 page代表页码数 pageSize代表每页条数
   const handlePageChange = (page: number) => {
     getAdvertise(page);
   };
-
-  const [form] = Form.useForm();
-  const [visible, setVisible] = useState(false);
-  const [confirmLoading, setConfirmLoading] = useState(false);
 
   const handleCancel = () => {
     form.resetFields();
@@ -116,7 +130,14 @@ const Advertise: React.FC = () => {
       .validateFields()
       .then(async values => {
         setConfirmLoading(true);
-        console.log(values, "values");
+        values.picture = values.picture[0].response.data.filename;
+
+        if (id) {
+          await putAdvertise(id, values);
+        } else {
+          await createAdvertise(values);
+        }
+        getAdvertise();
         handleCancel();
       })
       .catch(() => {})
@@ -154,7 +175,7 @@ const Advertise: React.FC = () => {
         onCancel={handleCancel}
         onOk={handleSubmit}
       >
-        <Form form={form} {...formItemLayout} name="form_in_modal" initialValues={{ picture: [], sort: 1 }}>
+        <Form form={form} {...formItemLayout} name="form_in_modal" initialValues={formData}>
           <Form.Item name="title" label="广告标题" rules={[{ required: true, message: "前填写广告标题" }]}>
             <Input placeholder="前填写广告标题" />
           </Form.Item>
@@ -166,6 +187,7 @@ const Advertise: React.FC = () => {
               <Option value="home">首页</Option>
             </Select>
           </Form.Item>
+
           <Form.Item
             label="图片"
             name="picture"
@@ -174,6 +196,9 @@ const Advertise: React.FC = () => {
             rules={[{ required: true, message: "请选择广告图片" }]}
           >
             <MyUpload />
+          </Form.Item>
+          <Form.Item label="描述" name="describe">
+            <Input.TextArea />
           </Form.Item>
           <Form.Item label="状态" valuePropName="status" rules={[{ required: true, message: "请选择广告状态" }]}>
             <Switch checkedChildren="显示" unCheckedChildren="隐藏" defaultChecked />

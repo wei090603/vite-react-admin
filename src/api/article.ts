@@ -26,8 +26,12 @@ export const getCategoryList = (params: ICategory.ReqGetCategoryParams) => {
   return http.get<ResPage<ICategory.ResCategoryList>>("" + `/category`, params);
 };
 
-export const createCategory = (params: ICategory.ReqCreateCategoryParams) => {
+export const createCategory = (params: ICategory.CreateCategory) => {
   return http.post("" + `/category`, params);
+};
+
+export const putCategory = (id: number, params: ICategory.CreateCategory) => {
+  return http.put("" + `/category/${id}`, params);
 };
 
 export const getTagList = (params: ITag.ReqGetTagParams) => {

@@ -13,8 +13,6 @@ const ArticleDetail: FC = () => {
   // const params = useParams();
   const { pathname } = useLocation();
   const [params] = useSearchParams();
-  const id = params.get("id");
-  console.log(id, "id");
 
   // const isAdd = pathname === "/article/add"; // 新增
   const isEdit = pathname === "/article/edit"; // 编辑
@@ -24,10 +22,14 @@ const ArticleDetail: FC = () => {
   const [categoryList, setCategoryList] = useState<ICategory.ResCategory[]>([]);
   const [tagList, setTagList] = useState<ITag.ResTag[]>([]);
   const [form] = Form.useForm();
+  const [formData, setFormData] = useState({});
 
   useEffect(() => {
     _getCategoryAll();
     _getTagAll();
+    if (isEdit) {
+      getArticle();
+    }
   }, []);
 
   const _getCategoryAll = async () => {
@@ -41,13 +43,10 @@ const ArticleDetail: FC = () => {
   };
 
   const getArticle = async () => {
-    const data = await getArticleDetail(id!);
-    console.log(data, "data");
+    const data = await getArticleDetail(params.get("id")!);
+    setFormData(data);
+    console.log(data, formData, "data");
   };
-
-  if (isEdit) {
-    getArticle();
-  }
 
   const onFinish = async (values: any) => {
     message.success("提交的数据为 : " + JSON.stringify(values));

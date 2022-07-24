@@ -9,3 +9,11 @@ export const getLoginLoggerList = (params: ILoginLogger.ReqGetLoginLoggerParams)
 export const getAdvertiseList = (params: IAdvertise.ReqGetAdvertiseParams) => {
   return http.get<ResPage<IAdvertise.ResAdvertiseList>>("" + `/advertise`, params);
 };
+
+export const createAdvertise = (params: IAdvertise.Advertise) => {
+  return http.post("" + `/advertise`, params);
+};
+
+export const putAdvertise = (id: number, params: IAdvertise.Advertise) => {
+  return http.put("" + `/advertise/${id}`, params);
+};
