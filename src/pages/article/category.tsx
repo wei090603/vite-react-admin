@@ -38,7 +38,9 @@ const Category: FC = () => {
           <Button type="link" onClick={() => handleEdit(record)}>
             编辑
           </Button>
-          <Button type="link">子级</Button>
+          <Button type="link" onClick={() => handleAddSon(record)}>
+            添加子级
+          </Button>
           <Button type="link" danger>
             删除
           </Button>
@@ -62,6 +64,10 @@ const Category: FC = () => {
   };
 
   const handleDel = () => {};
+
+  const handleAddSon = ({ title, id }: ICategory.ResCategoryList) => {
+    console.log(title, id, '33');
+  };
 
   const handleEdit = ({ title, id }: ICategory.ResCategoryList) => {
     const data = { title };
