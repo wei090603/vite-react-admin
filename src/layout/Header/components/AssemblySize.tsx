@@ -1,6 +1,6 @@
-import { Dropdown, Menu } from "antd";
-import { setAssemblySize } from "@/redux/modules/global/action";
-import { connect } from "react-redux";
+import { Dropdown, Menu } from 'antd';
+import { setAssemblySize } from '@/redux/modules/global/action';
+import { connect } from 'react-redux';
 
 const AssemblySize = (props: any) => {
   // 切换组件大小
@@ -12,20 +12,20 @@ const AssemblySize = (props: any) => {
     <Menu
       items={[
         {
-          key: "middle",
-          disabled: props.assemblySize == "middle",
+          key: 'middle',
+          disabled: props.assemblySize == 'middle',
           label: <span>默认</span>,
           onClick
         },
         {
-          disabled: props.assemblySize == "large",
-          key: "large",
+          disabled: props.assemblySize == 'large',
+          key: 'large',
           label: <span>大型</span>,
           onClick
         },
         {
-          disabled: props.assemblySize == "small",
-          key: "small",
+          disabled: props.assemblySize == 'small',
+          key: 'small',
           label: <span>小型</span>,
           onClick
         }
@@ -33,7 +33,7 @@ const AssemblySize = (props: any) => {
     />
   );
   return (
-    <Dropdown overlay={menu} placement="bottom" trigger={["click"]} arrow={true}>
+    <Dropdown overlay={menu} placement="bottom" trigger={['click']} arrow={true}>
       <i className="icon-style iconfont icon-contentright"></i>
     </Dropdown>
   );

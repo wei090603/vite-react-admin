@@ -1,8 +1,8 @@
-import "@wangeditor/editor/dist/css/style.css"; // 引入 css
+import '@wangeditor/editor/dist/css/style.css'; // 引入 css
 
-import React, { useState, useEffect } from "react";
-import { Editor, Toolbar } from "@wangeditor/editor-for-react";
-import { IDomEditor, IEditorConfig } from "@wangeditor/editor";
+import React, { useState, useEffect } from 'react';
+import { Editor, Toolbar } from '@wangeditor/editor-for-react';
+import { IDomEditor, IEditorConfig } from '@wangeditor/editor';
 
 type InsertFnType = (url: string, alt: string, href: string) => void;
 
@@ -16,12 +16,12 @@ function MyEditor({ value, onChange }: Props) {
 
   const toolbarConfig = {};
   const editorConfig: Partial<IEditorConfig> = {
-    placeholder: "请输入内容...",
+    placeholder: '请输入内容...',
     MENU_CONF: {
       uploadImage: {
-        server: (import.meta.env.VITE_API_URL as string) + "/upload/file",
+        server: (import.meta.env.VITE_API_URL as string) + '/upload/file',
         // form-data fieldName ，默认值 'wangeditor-uploaded-image'
-        fieldName: "file",
+        fieldName: 'file',
 
         // 单个文件的最大体积限制，默认为 2M
         maxFileSize: 1 * 1024 * 1024, // 1M
@@ -64,8 +64,8 @@ function MyEditor({ value, onChange }: Props) {
         customInsert(res: any, insertFn: InsertFnType) {
           // res 即服务端的返回结果
           const url = import.meta.env.VITE_FILE_URL + res.data.filename;
-          const alt = "";
-          const href = "";
+          const alt = '';
+          const href = '';
           // 从 res 中找到 url alt href ，然后插图图片
           insertFn(url, alt, href);
         }
@@ -84,15 +84,15 @@ function MyEditor({ value, onChange }: Props) {
 
   return (
     <>
-      <div style={{ border: "1px solid #ccc", zIndex: 100 }}>
-        <Toolbar editor={editor} defaultConfig={toolbarConfig} mode="default" style={{ borderBottom: "1px solid #ccc" }} />
+      <div style={{ border: '1px solid #ccc', zIndex: 100 }}>
+        <Toolbar editor={editor} defaultConfig={toolbarConfig} mode="default" style={{ borderBottom: '1px solid #ccc' }} />
         <Editor
           defaultConfig={editorConfig}
           value={value}
           onCreated={setEditor}
           onChange={editor => onChange?.(editor.getHtml())}
           mode="default"
-          style={{ height: "500px", overflowY: "hidden" }}
+          style={{ height: '500px', overflowY: 'hidden' }}
         />
       </div>
     </>

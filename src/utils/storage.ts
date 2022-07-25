@@ -5,7 +5,7 @@
  * @param key
  * @returns {*}
  */
-function getProjectKey(key: string, prefix: string = "") {
+function getProjectKey(key: string, prefix: string = '') {
   return `${prefix}_${key}`;
 }
 
@@ -15,13 +15,13 @@ function getProjectKey(key: string, prefix: string = "") {
  * @param common 是否为全局共享的 key,如果为 true 则不会加上工程的前缀
  * @returns {*}
  */
-export function getStorage(key: string, common = false, prefix: string = "") {
+export function getStorage(key: string, common = false, prefix: string = '') {
   const realKey = common ? key : getProjectKey(key, prefix);
   let value: string | null | undefined = localStorage.getItem(realKey);
-  if (value === "null") {
+  if (value === 'null') {
     value = null;
   }
-  if (value === "undefined") {
+  if (value === 'undefined') {
     value = undefined;
   }
   return value;

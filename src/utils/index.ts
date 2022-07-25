@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react';
 
 export const useDebounce = <T>(value: T, delay: number) => {
   const [debounceValue, setDebounceValue] = useState(value);
@@ -26,7 +26,7 @@ export const getBreadcrumbList = (path: string, menuList: Menu.MenuOptions[]) =>
       tempPath.push(node);
       // 找到符合条件的节点，通过throw终止掉递归
       if (node.path === path) {
-        throw new Error("GOT IT!");
+        throw new Error('GOT IT!');
       }
       if (node.children && node.children.length > 0) {
         for (let i = 0; i < node.children.length; i++) {
@@ -69,9 +69,9 @@ export const findAllBreadcrumb = (menuList: Menu.MenuOptions[]): { [key: string]
  * @returns array
  */
 export const getOpenKeys = (path: string) => {
-  let newStr: string = "";
+  let newStr: string = '';
   let newArr: any[] = [];
-  let arr = path.split("/").map(i => "/" + i);
+  let arr = path.split('/').map(i => '/' + i);
   for (let i = 1; i < arr.length - 1; i++) {
     newStr += arr[i];
     newArr.push(newStr);

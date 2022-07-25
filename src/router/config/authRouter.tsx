@@ -1,8 +1,8 @@
-import { getStorage } from "@/utils/storage";
-import { useLocation, Navigate } from "react-router-dom";
-import { searchRoute } from "@/utils/reouter";
-import { rootRouter } from "@/router";
-import { AxiosCanceler } from "@/service/helper/axiosCancel";
+import { getStorage } from '@/utils/storage';
+import { useLocation, Navigate } from 'react-router-dom';
+import { searchRoute } from '@/utils/reouter';
+import { rootRouter } from '@/router';
+import { AxiosCanceler } from '@/service/helper/axiosCancel';
 // import { HOME_URL } from "@/config/config";
 
 const axiosCanceler = new AxiosCanceler();
@@ -11,7 +11,7 @@ const axiosCanceler = new AxiosCanceler();
  * @description 路由守卫组件
  * */
 const AuthRouter = (props: any) => {
-  const isToken = getStorage("token");
+  const isToken = getStorage('token');
 
   const { pathname } = useLocation();
   const route = searchRoute(pathname, rootRouter);

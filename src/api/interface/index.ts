@@ -289,7 +289,7 @@ export namespace Notice {
 
 export namespace IAdvertise {
   export enum Type {
-    HOME = "home"
+    HOME = 'home'
   }
   export type Advertise = {
     title: string;

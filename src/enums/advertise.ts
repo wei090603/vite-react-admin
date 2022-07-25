@@ -1,3 +1,3 @@
 export enum PositionEnum {
-  HOME = "首页"
+  HOME = '首页'
 }

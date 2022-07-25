@@ -1,16 +1,16 @@
-import React, { useEffect, useState } from "react";
-import * as Icons from "@ant-design/icons";
-import { Menu, Spin, Layout } from "antd";
-import type { MenuProps } from "antd";
-import { useLocation, useNavigate } from "react-router-dom";
-import { useAppDispatch, useAppSelector } from "@/hooks";
-import { searchRoute } from "@/utils/reouter";
-import { rootRouter } from "@/router";
-import { RouteObject } from "@/router/interface";
-import Logo from "./components/Logo";
-import { findAllBreadcrumb, getOpenKeys } from "@/utils";
-import { setBreadcrumbList } from "@/store/modules/app";
-import "./index.less";
+import React, { useEffect, useState } from 'react';
+import * as Icons from '@ant-design/icons';
+import { Menu, Spin, Layout } from 'antd';
+import type { MenuProps } from 'antd';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { useAppDispatch, useAppSelector } from '@/hooks';
+import { searchRoute } from '@/utils/reouter';
+import { rootRouter } from '@/router';
+import { RouteObject } from '@/router/interface';
+import Logo from './components/Logo';
+import { findAllBreadcrumb, getOpenKeys } from '@/utils';
+import { setBreadcrumbList } from '@/store/modules/app';
+import './index.less';
 
 const { Sider } = Layout;
 
@@ -39,13 +39,13 @@ const LayoutMenu = () => {
   };
 
   // 定义 menu 类型
-  type MenuItem = Required<MenuProps>["items"][number];
+  type MenuItem = Required<MenuProps>['items'][number];
   const getItem = (
     label: React.ReactNode,
     key?: React.Key | null,
     icon?: React.ReactNode,
     children?: MenuItem[],
-    type?: "group"
+    type?: 'group'
   ): MenuItem => {
     return {
       key,
@@ -67,8 +67,8 @@ const LayoutMenu = () => {
     menuList.forEach((item: RouteObject) => {
       if (!item.meta?.hidden) {
         // 下面判断代码解释 *** !item?.children?.length   ==>   (!item.children || item.children.length === 0)
-        if (!item?.children?.length) return newArr.push(getItem(item.meta?.title, item.path, addIcon("ContainerOutlined")));
-        newArr.push(getItem(item.meta?.title, item.path, addIcon("ContainerOutlined"), deepLoopFloat(item.children)));
+        if (!item?.children?.length) return newArr.push(getItem(item.meta?.title, item.path, addIcon('ContainerOutlined')));
+        newArr.push(getItem(item.meta?.title, item.path, addIcon('ContainerOutlined'), deepLoopFloat(item.children)));
       }
     });
     return newArr;
@@ -106,9 +106,9 @@ const LayoutMenu = () => {
 
   // 点击当前菜单跳转页面
   const navigate = useNavigate();
-  const clickMenu: MenuProps["onClick"] = ({ key }: { key: string }) => {
+  const clickMenu: MenuProps['onClick'] = ({ key }: { key: string }) => {
     const route = searchRoute(key, rootRouter);
-    if (route.isLink) window.open(route.isLink, "_blank");
+    if (route.isLink) window.open(route.isLink, '_blank');
     navigate(key);
   };
 

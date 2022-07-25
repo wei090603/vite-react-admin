@@ -1,5 +1,5 @@
-import { useState, useImperativeHandle, Ref } from "react";
-import { Modal, message } from "antd";
+import { useState, useImperativeHandle, Ref } from 'react';
+import { Modal, message } from 'antd';
 
 interface Props {
   innerRef: Ref<{ showModal: (params: any) => void }>;
@@ -19,7 +19,7 @@ const PasswordModal = (props: Props) => {
 
   const handleOk = () => {
     setIsModalVisible(false);
-    message.success("修改密码成功 🎉🎉🎉");
+    message.success('修改密码成功 🎉🎉🎉');
   };
 
   const handleCancel = () => {

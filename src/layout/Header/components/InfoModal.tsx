@@ -1,5 +1,5 @@
-import { useState, useImperativeHandle, Ref } from "react";
-import { Modal, message } from "antd";
+import { useState, useImperativeHandle, Ref } from 'react';
+import { Modal, message } from 'antd';
 
 interface Props {
   innerRef: Ref<{ showModal: (params: any) => void } | undefined>;
@@ -19,7 +19,7 @@ const InfoModal = (props: Props) => {
 
   const handleOk = () => {
     setModalVisible(false);
-    message.success("修改用户信息成功 🎉🎉🎉");
+    message.success('修改用户信息成功 🎉🎉🎉');
   };
 
   const handleCancel = () => {

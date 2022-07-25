@@ -1,7 +1,7 @@
-import { FC } from "react";
-import { Button } from "antd";
+import { FC } from 'react';
+import { Button } from 'antd';
 
-import "./index.less";
+import './index.less';
 
 interface IProps {
   handleAdd?: () => void;

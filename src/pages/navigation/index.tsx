@@ -1,10 +1,10 @@
-import { FC, useEffect, useState } from "react";
-import { Button, Form, Input, InputNumber, Modal, Space, Table } from "antd";
-import type { ColumnsType } from "antd/lib/table";
-import { createNavgation, getNavgationList } from "@/api/navgation";
-import { INavgation } from "@/api/interface";
-import OperateBtn from "@/components/OperateBtn";
-import "./index.less";
+import { FC, useEffect, useState } from 'react';
+import { Button, Form, Input, InputNumber, Modal, Space, Table } from 'antd';
+import type { ColumnsType } from 'antd/lib/table';
+import { createNavgation, getNavgationList } from '@/api/navgation';
+import { INavgation } from '@/api/interface';
+import OperateBtn from '@/components/OperateBtn';
+import './index.less';
 
 const formItemLayout = {
   labelCol: {
@@ -26,30 +26,30 @@ const Navigation: FC = () => {
 
   const columns: ColumnsType<INavgation.ResNavgationList> = [
     {
-      title: "导航名",
-      dataIndex: "title",
-      key: "title",
+      title: '导航名',
+      dataIndex: 'title',
+      key: 'title',
       render: title => <span>{title}</span>
     },
     {
-      title: "链接",
-      dataIndex: "link",
-      key: "link"
+      title: '链接',
+      dataIndex: 'link',
+      key: 'link'
     },
     {
-      title: "排序",
-      dataIndex: "sort",
-      key: "sort"
+      title: '排序',
+      dataIndex: 'sort',
+      key: 'sort'
     },
     {
-      title: "创建日期",
-      dataIndex: "createdAt",
-      key: "createdAt"
+      title: '创建日期',
+      dataIndex: 'createdAt',
+      key: 'createdAt'
     },
     {
-      title: "操作",
-      key: "action",
-      width: "150px",
+      title: '操作',
+      key: 'action',
+      width: '150px',
       render: (_, record) => (
         <Space size="middle">
           <Button type="link" onClick={() => handleEdit(record)}>
@@ -64,7 +64,7 @@ const Navigation: FC = () => {
   ];
 
   const handleEdit = (row: INavgation.ResNavgationList) => {
-    console.log(row, "row");
+    console.log(row, 'row');
   };
 
   const getNavgation = async () => {
@@ -87,7 +87,7 @@ const Navigation: FC = () => {
       .then(async values => {
         setConfirmLoading(true);
         await createNavgation(values);
-        console.log(values, "values");
+        console.log(values, 'values');
         handleCancel();
         getNavgation();
       })
@@ -102,7 +102,7 @@ const Navigation: FC = () => {
   return (
     <>
       <OperateBtn handleAdd={() => setVisible(true)} handleDel={handleDel} />
-      <Table columns={columns} dataSource={navgationList} rowKey={"id"} pagination={false} />
+      <Table columns={columns} dataSource={navgationList} rowKey={'id'} pagination={false} />
 
       <Modal
         visible={visible}
@@ -114,13 +114,13 @@ const Navigation: FC = () => {
         onOk={handleSubmit}
       >
         <Form form={form} {...formItemLayout} name="form_in_modal" initialValues={{}}>
-          <Form.Item name="title" label="导航名称" rules={[{ required: true, message: "" }]}>
+          <Form.Item name="title" label="导航名称" rules={[{ required: true, message: '' }]}>
             <Input placeholder="前填写导航名称" />
           </Form.Item>
-          <Form.Item name="link" label="导航路径" rules={[{ required: true, message: "" }]}>
+          <Form.Item name="link" label="导航路径" rules={[{ required: true, message: '' }]}>
             <Input placeholder="前填写标签名称" />
           </Form.Item>
-          <Form.Item name="sort" label="排序" rules={[{ type: "number", min: 1, max: 99 }]}>
+          <Form.Item name="sort" label="排序" rules={[{ type: 'number', min: 1, max: 99 }]}>
             <InputNumber />
           </Form.Item>
         </Form>

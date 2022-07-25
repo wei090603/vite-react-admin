@@ -1,37 +1,37 @@
-import { FC, useState, useEffect } from "react";
-import { IRole } from "@/api/interface";
-import type { ColumnsType } from "antd/lib/table";
-import { createRole, getRoleList } from "@/api/permission";
-import { Button, Form, Input, Modal, Space, Table } from "antd";
-import OperateBtn from "@/components/OperateBtn";
+import { FC, useState, useEffect } from 'react';
+import { IRole } from '@/api/interface';
+import type { ColumnsType } from 'antd/lib/table';
+import { createRole, getRoleList } from '@/api/permission';
+import { Button, Form, Input, Modal, Space, Table } from 'antd';
+import OperateBtn from '@/components/OperateBtn';
 
 const Role: FC = () => {
   const columns: ColumnsType<IRole.ResRoleList> = [
     {
-      title: "角色名称",
-      dataIndex: "roleName",
-      key: "roleName"
+      title: '角色名称',
+      dataIndex: 'roleName',
+      key: 'roleName'
     },
     {
-      title: "角色编码",
-      dataIndex: "mark",
-      key: "mark"
+      title: '角色编码',
+      dataIndex: 'mark',
+      key: 'mark'
     },
     {
-      title: "备注",
-      dataIndex: "remark",
-      key: "remark"
+      title: '备注',
+      dataIndex: 'remark',
+      key: 'remark'
     },
     {
-      title: "创建时间",
-      dataIndex: "createdAt",
-      key: "createdAt",
+      title: '创建时间',
+      dataIndex: 'createdAt',
+      key: 'createdAt',
       render: (_, { createdAt }) => <span>{createdAt}</span>
     },
     {
-      title: "操作",
-      key: "action",
-      fixed: "right",
+      title: '操作',
+      key: 'action',
+      fixed: 'right',
       width: 100,
       render: (_, record) => (
         <Space size="middle">
@@ -61,7 +61,7 @@ const Role: FC = () => {
 
   const handleEdit = (row: IRole.ResRoleList) => {
     setVisible(true);
-    console.log(row, "row");
+    console.log(row, 'row');
   };
 
   const [form] = Form.useForm();
@@ -76,7 +76,7 @@ const Role: FC = () => {
         await createRole(values);
         getRole();
         handleCancel();
-        console.log(values, "values");
+        console.log(values, 'values');
       })
       .catch(() => {})
       .finally(() => {
@@ -103,7 +103,7 @@ const Role: FC = () => {
   return (
     <>
       <OperateBtn handleAdd={() => setVisible(true)} />
-      <Table columns={columns} dataSource={rolesList} rowKey={"id"} pagination={{ total, onChange: page => getRole(page) }} />
+      <Table columns={columns} dataSource={rolesList} rowKey={'id'} pagination={{ total, onChange: page => getRole(page) }} />
 
       <Modal
         visible={visible}
@@ -114,11 +114,11 @@ const Role: FC = () => {
         onCancel={handleCancel}
         onOk={handleOk}
       >
-        <Form form={form} {...formItemLayout} name="form_in_modal" initialValues={{ remark: "" }}>
-          <Form.Item name="roleName" label="角色名称" rules={[{ required: true, message: "" }]}>
+        <Form form={form} {...formItemLayout} name="form_in_modal" initialValues={{ remark: '' }}>
+          <Form.Item name="roleName" label="角色名称" rules={[{ required: true, message: '' }]}>
             <Input placeholder="前填写标签名称" />
           </Form.Item>
-          <Form.Item name="mark" label="标签编码" rules={[{ required: true, message: "" }]}>
+          <Form.Item name="mark" label="标签编码" rules={[{ required: true, message: '' }]}>
             <Input placeholder="前填写标签名称" />
           </Form.Item>
           <Form.Item name="remark" label="备注">

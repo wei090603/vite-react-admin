@@ -1,6 +1,6 @@
-import { Action, configureStore, ThunkAction } from "@reduxjs/toolkit";
-import appReducer from "./modules/app";
-import userReducer from "./modules/user";
+import { Action, configureStore, ThunkAction } from '@reduxjs/toolkit';
+import appReducer from './modules/app';
+import userReducer from './modules/user';
 
 export const store = configureStore({
   // 合并子reducer

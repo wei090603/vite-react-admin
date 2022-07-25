@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
 
 // initial state interface
 // export interface InitialStateTypes {
@@ -22,7 +22,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 // 创建一个slice
 const customerSlice = createSlice({
-  name: "counter", // 命名空间
+  name: 'counter', // 命名空间
   initialState: {}, // 初始值
   // reducers中每一个方法都是action和reducer的结合，并集成了immer
   reducers: {

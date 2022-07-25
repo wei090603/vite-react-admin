@@ -1,44 +1,44 @@
-import React from "react";
-import lazyLoad from "@/router/config/lazyLoad";
-import { Layout } from "@/router/constant";
-import { RouteObject } from "@/router/interface";
+import React from 'react';
+import lazyLoad from '@/router/config/lazyLoad';
+import { Layout } from '@/router/constant';
+import { RouteObject } from '@/router/interface';
 
 // permission 模块
 const permissionRouter: Array<RouteObject> = [
   {
     element: Layout,
-    path: "/permission",
+    path: '/permission',
     meta: {
-      title: "权限管理",
-      key: "permission",
+      title: '权限管理',
+      key: 'permission',
       sort: 7
     },
     children: [
       {
-        path: "/permission/resource",
-        element: lazyLoad(React.lazy(() => import("@/pages/permission/resource"))),
+        path: '/permission/resource',
+        element: lazyLoad(React.lazy(() => import('@/pages/permission/resource'))),
         meta: {
           requiresAuth: true,
-          title: "资源列表",
-          key: "resource"
+          title: '资源列表',
+          key: 'resource'
         }
       },
       {
-        path: "/permission/role",
-        element: lazyLoad(React.lazy(() => import("@/pages/permission/role"))),
+        path: '/permission/role',
+        element: lazyLoad(React.lazy(() => import('@/pages/permission/role'))),
         meta: {
           requiresAuth: true,
-          title: "角色列表",
-          key: "role"
+          title: '角色列表',
+          key: 'role'
         }
       },
       {
-        path: "/permission/manager",
-        element: lazyLoad(React.lazy(() => import("@/pages/permission/manager"))),
+        path: '/permission/manager',
+        element: lazyLoad(React.lazy(() => import('@/pages/permission/manager'))),
         meta: {
           requiresAuth: true,
-          title: "管理员列表",
-          key: "manager"
+          title: '管理员列表',
+          key: 'manager'
         }
       }
     ]

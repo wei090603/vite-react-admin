@@ -1,45 +1,45 @@
-import { IArticle, ICategory, ITag, ResPage } from "@/api/interface/index";
+import { IArticle, ICategory, ITag, ResPage } from '@/api/interface/index';
 
-import http from "@/service";
+import http from '@/service';
 
 export const getArticle = (params: IArticle.ReqGetArticleParams) => {
-  return http.get<ResPage<IArticle.ResArticleList>>("" + `/article`, params);
+  return http.get<ResPage<IArticle.ResArticleList>>('' + `/article`, params);
 };
 
 export const createArticle = (params: IArticle.ReqArticleParams) => {
-  return http.post("" + `/article`, params);
+  return http.post('' + `/article`, params);
 };
 
 export const getArticleDetail = (id: string) => {
-  return http.get<IArticle.ResArticleList>("" + `/article/${id}`);
+  return http.get<IArticle.ResArticleList>('' + `/article/${id}`);
 };
 
 export const getCategoryAll = () => {
-  return http.get<ICategory.ResCategory[]>("" + `/category/all`);
+  return http.get<ICategory.ResCategory[]>('' + `/category/all`);
 };
 
 export const getTagAll = () => {
-  return http.get<ITag.ResTag[]>("" + `/tag/all`);
+  return http.get<ITag.ResTag[]>('' + `/tag/all`);
 };
 
 export const getCategoryList = (params: ICategory.ReqGetCategoryParams) => {
-  return http.get<ResPage<ICategory.ResCategoryList>>("" + `/category`, params);
+  return http.get<ResPage<ICategory.ResCategoryList>>('' + `/category`, params);
 };
 
 export const createCategory = (params: ICategory.CreateCategory) => {
-  return http.post("" + `/category`, params);
+  return http.post('' + `/category`, params);
 };
 
 export const putCategory = (id: number, params: ICategory.CreateCategory) => {
-  return http.put("" + `/category/${id}`, params);
+  return http.put('' + `/category/${id}`, params);
 };
 
 export const getTagList = (params: ITag.ReqGetTagParams) => {
-  return http.get<ResPage<ITag.ResTagList>>("" + `/tag`, params);
+  return http.get<ResPage<ITag.ResTagList>>('' + `/tag`, params);
 };
 
 export const createTag = (params: ITag.ReqCreateTagParams) => {
-  return http.post("" + `/tag`, params);
+  return http.post('' + `/tag`, params);
 };
 
 // // * 批量添加用户

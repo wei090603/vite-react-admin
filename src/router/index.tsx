@@ -1,9 +1,9 @@
-import { useRoutes } from "react-router-dom";
-import { RouteObject } from "./interface";
-import constantRoutes from "./constantRoutes/platform";
+import { useRoutes } from 'react-router-dom';
+import { RouteObject } from './interface';
+import constantRoutes from './constantRoutes/platform';
 
 // * 导入所有router
-const metaRouters = import.meta.globEager("./asyncRoutes/*.tsx");
+const metaRouters = import.meta.globEager('./asyncRoutes/*.tsx');
 
 // * 处理路由
 export const routerArray: RouteObject[] = [];

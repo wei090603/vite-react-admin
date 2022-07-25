@@ -1,14 +1,14 @@
-import React, { useEffect } from "react";
-import { Layout } from "antd";
-import LeftSider from "./Menu";
-import { Outlet } from "react-router-dom";
-import HeaderMain from "./Header";
-import Tabs from "./Tabs";
-import { useAppDispatch } from "@/hooks";
-import { getUserInfo } from "@/store/modules/user";
+import React, { useEffect } from 'react';
+import { Layout } from 'antd';
+import LeftSider from './Menu';
+import { Outlet } from 'react-router-dom';
+import HeaderMain from './Header';
+import Tabs from './Tabs';
+import { useAppDispatch } from '@/hooks';
+import { getUserInfo } from '@/store/modules/user';
 
-import "./index.less";
-import LayoutFooter from "./Footer";
+import './index.less';
+import LayoutFooter from './Footer';
 
 const { Content } = Layout;
 

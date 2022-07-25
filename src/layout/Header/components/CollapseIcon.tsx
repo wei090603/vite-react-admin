@@ -1,7 +1,7 @@
-import React, { FC } from "react";
-import { MenuFoldOutlined, MenuUnfoldOutlined } from "@ant-design/icons";
-import { useAppDispatch, useAppSelector } from "@/hooks";
-import { setCollapsed } from "@/store/modules/app";
+import React, { FC } from 'react';
+import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons';
+import { useAppDispatch, useAppSelector } from '@/hooks';
+import { setCollapsed } from '@/store/modules/app';
 
 const CollapseIcon: FC = () => {
   const dispatch = useAppDispatch();
@@ -9,7 +9,7 @@ const CollapseIcon: FC = () => {
   return (
     <>
       {React.createElement(isCollapse ? MenuUnfoldOutlined : MenuFoldOutlined, {
-        className: "collapsed",
+        className: 'collapsed',
         onClick: () => dispatch(setCollapsed())
       })}
     </>

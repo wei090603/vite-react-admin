@@ -1,5 +1,5 @@
-import { rootRouter } from "@/router";
-import { RouteObject } from "@/router/interface";
+import { rootRouter } from '@/router';
+import { RouteObject } from '@/router/interface';
 
 /**
  * @description 递归查询对应的路由

@@ -1,29 +1,29 @@
-import { FC, useEffect, useState } from "react";
-import { Table, Button, Space, Modal, Form, Input } from "antd";
-import OperateBtn from "@/components/OperateBtn";
-import type { ColumnsType } from "antd/lib/table";
-import { ITag } from "@/api/interface";
-import { createTag, getTagList } from "@/api/article";
+import { FC, useEffect, useState } from 'react';
+import { Table, Button, Space, Modal, Form, Input } from 'antd';
+import OperateBtn from '@/components/OperateBtn';
+import type { ColumnsType } from 'antd/lib/table';
+import { ITag } from '@/api/interface';
+import { createTag, getTagList } from '@/api/article';
 
 const Tag: FC = () => {
   const columns: ColumnsType<ITag.ResTagList> = [
-    { title: "标签名", dataIndex: "name", key: "name" },
+    { title: '标签名', dataIndex: 'name', key: 'name' },
     {
-      title: "创建时间",
-      dataIndex: "createdAt",
-      key: "createdAt",
+      title: '创建时间',
+      dataIndex: 'createdAt',
+      key: 'createdAt',
       render: (_, { createdAt }) => <span>{createdAt}</span>
     },
     {
-      title: "更新时间",
-      dataIndex: "updatedAt",
-      key: "updatedAt",
+      title: '更新时间',
+      dataIndex: 'updatedAt',
+      key: 'updatedAt',
       render: (_, { updatedAt }) => <span>{updatedAt}</span>
     },
     {
-      title: "操作",
-      key: "action",
-      fixed: "right",
+      title: '操作',
+      key: 'action',
+      fixed: 'right',
       width: 100,
       render: (_, record) => (
         <Space size="middle">
@@ -58,7 +58,7 @@ const Tag: FC = () => {
   const handleDel = () => {};
 
   const handleEdit = (row: ITag.ResTagList) => {
-    console.log(row, "row");
+    console.log(row, 'row');
   };
 
   // 改变页码的回调 page代表页码数 pageSize代表每页条数
@@ -101,7 +101,7 @@ const Tag: FC = () => {
       <Table
         columns={columns}
         dataSource={tagList}
-        rowKey={"id"}
+        rowKey={'id'}
         pagination={{ total, onChange: page => handlePageChange(page) }}
       />
 
@@ -115,7 +115,7 @@ const Tag: FC = () => {
         onOk={handleOk}
       >
         <Form form={form} name="form_in_modal" initialValues={{}}>
-          <Form.Item name="name" label="标签名称" rules={[{ required: true, message: "前填写标签名称" }]}>
+          <Form.Item name="name" label="标签名称" rules={[{ required: true, message: '前填写标签名称' }]}>
             <Input placeholder="前填写标签名称" />
           </Form.Item>
         </Form>

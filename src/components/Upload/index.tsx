@@ -1,9 +1,9 @@
-import { PlusOutlined } from "@ant-design/icons";
-import { message, Modal, Upload } from "antd";
-import type { RcFile, UploadProps } from "antd/es/upload";
-import type { UploadFile } from "antd/es/upload/interface";
-import React, { useState, useEffect } from "react";
-import { useAppSelector } from "@/hooks";
+import { PlusOutlined } from '@ant-design/icons';
+import { message, Modal, Upload } from 'antd';
+import type { RcFile, UploadProps } from 'antd/es/upload';
+import type { UploadFile } from 'antd/es/upload/interface';
+import React, { useState, useEffect } from 'react';
+import { useAppSelector } from '@/hooks';
 
 const getBase64 = (file: RcFile): Promise<string> =>
   new Promise((resolve, reject) => {
@@ -22,8 +22,8 @@ const MyUpload: React.FC<Props> = ({ value, onChange, maxCount = 1 }) => {
   const { token } = useAppSelector(state => state.user);
 
   const [previewVisible, setPreviewVisible] = useState(false);
-  const [previewImage, setPreviewImage] = useState("");
-  const [previewTitle, setPreviewTitle] = useState("");
+  const [previewImage, setPreviewImage] = useState('');
+  const [previewTitle, setPreviewTitle] = useState('');
   const [fileList, setFileList] = useState<UploadFile[]>([]);
 
   useEffect(() => {
@@ -39,20 +39,20 @@ const MyUpload: React.FC<Props> = ({ value, onChange, maxCount = 1 }) => {
 
     setPreviewImage(file.url || (file.preview as string));
     setPreviewVisible(true);
-    setPreviewTitle(file.name || file.url!.substring(file.url!.lastIndexOf("/") + 1));
+    setPreviewTitle(file.name || file.url!.substring(file.url!.lastIndexOf('/') + 1));
   };
 
-  const handleChange: UploadProps["onChange"] = ({ file, fileList: newFileList }) => {
-    console.log(file, "file");
+  const handleChange: UploadProps['onChange'] = ({ file, fileList: newFileList }) => {
+    console.log(file, 'file');
 
-    if (file.status === "error") {
-      message.error("上传出错！");
+    if (file.status === 'error') {
+      message.error('上传出错！');
     }
     if (onChange) {
       onChange(
         newFileList?.map(v => ({
           ...v,
-          status: "done"
+          status: 'done'
         }))
       );
     }
@@ -60,7 +60,7 @@ const MyUpload: React.FC<Props> = ({ value, onChange, maxCount = 1 }) => {
     //   props.onChange?.(newFileList?.response.data.filename);
     // }
 
-    console.log(newFileList, "newFileList");
+    console.log(newFileList, 'newFileList');
   };
 
   const uploadButton = (
@@ -78,13 +78,13 @@ const MyUpload: React.FC<Props> = ({ value, onChange, maxCount = 1 }) => {
         onPreview={handlePreview}
         onChange={handleChange}
         maxCount={maxCount}
-        action={import.meta.env.VITE_API_URL + "/upload/file"}
+        action={import.meta.env.VITE_API_URL + '/upload/file'}
         headers={{ Authorization: `Bearer ${token}` }}
       >
         {fileList.length >= maxCount ? null : uploadButton}
       </Upload>
       <Modal visible={previewVisible} title={previewTitle} footer={null} onCancel={handleCancel}>
-        <img alt="example" style={{ width: "100%" }} src={previewImage} />
+        <img alt="example" style={{ width: '100%' }} src={previewImage} />
       </Modal>
     </>
   );

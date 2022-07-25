@@ -1,7 +1,7 @@
-import { createSlice } from "@reduxjs/toolkit";
-import { login, loginOut, userInfo } from "@/api/login";
-import { getStorage, removeStorage, setStorage } from "@/utils/storage";
-import { ILoginForm } from "@/pages/login";
+import { createSlice } from '@reduxjs/toolkit';
+import { login, loginOut, userInfo } from '@/api/login';
+import { getStorage, removeStorage, setStorage } from '@/utils/storage';
+import { ILoginForm } from '@/pages/login';
 
 interface IUserInfo {
   account: string;
@@ -21,26 +21,26 @@ export interface ICounterState {
 
 const initialState: ICounterState = {
   userInfo: {
-    account: "",
-    avatar: "",
-    createdAt: "",
-    email: "",
-    id: "",
-    name: "",
-    phone: "",
-    remark: ""
+    account: '',
+    avatar: '',
+    createdAt: '',
+    email: '',
+    id: '',
+    name: '',
+    phone: '',
+    remark: ''
   },
-  token: getStorage("token") || ""
+  token: getStorage('token') || ''
 };
 
-const namespaces = "user";
+const namespaces = 'user';
 
 const userSlice = createSlice({
   name: namespaces,
   initialState,
   reducers: {
     setToken(state, { payload }) {
-      console.log(payload, "payload");
+      console.log(payload, 'payload');
       state.token = payload;
     },
     setUserInfo(state, { payload }) {
@@ -54,7 +54,7 @@ export const { setToken, setUserInfo } = userSlice.actions;
 export const fetchLogin = (payload: ILoginForm) => async (dispatch: any) => {
   const { token } = await login(payload);
   dispatch(setToken(token));
-  setStorage("token", token);
+  setStorage('token', token);
 };
 
 export const getUserInfo = () => async (dispatch: any) => {
@@ -64,7 +64,7 @@ export const getUserInfo = () => async (dispatch: any) => {
 
 export const fetchLoginOut = () => async () => {
   await loginOut();
-  removeStorage("token");
+  removeStorage('token');
 };
 
 export default userSlice.reducer;

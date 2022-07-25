@@ -1,12 +1,12 @@
-import { Layout } from "antd";
-import AvatarIcon from "./components/AvatarIcon";
-import CollapseIcon from "./components/CollapseIcon";
+import { Layout } from 'antd';
+import AvatarIcon from './components/AvatarIcon';
+import CollapseIcon from './components/CollapseIcon';
 // import BreadcrumbNav from "./components/BreadcrumbNav";
 // import Theme from "./components/Theme";
-import Fullscreen from "./components/Fullscreen";
-import { useAppSelector } from "@/hooks";
+import Fullscreen from './components/Fullscreen';
+import { useAppSelector } from '@/hooks';
 
-import "./index.less";
+import './index.less';
 
 const { Header } = Layout;
 

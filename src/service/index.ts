@@ -1,11 +1,11 @@
-import NProgress from "@/config/nprogress";
-import axios, { AxiosInstance, AxiosError, AxiosRequestConfig, AxiosResponse } from "axios";
-import { showFullScreenLoading, tryHideFullScreenLoading } from "@/config/serviceLoading";
-import { checkStatus } from "./helper/checkStatus";
-import { AxiosCanceler } from "./helper/axiosCancel";
-import { message } from "antd";
-import { getStorage } from "@/utils/storage";
-import { ResultEnum } from "@/enums/httpEnum";
+import NProgress from '@/config/nprogress';
+import axios, { AxiosInstance, AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios';
+import { showFullScreenLoading, tryHideFullScreenLoading } from '@/config/serviceLoading';
+import { checkStatus } from './helper/checkStatus';
+import { AxiosCanceler } from './helper/axiosCancel';
+import { message } from 'antd';
+import { getStorage } from '@/utils/storage';
+import { ResultEnum } from '@/enums/httpEnum';
 
 const axiosCanceler = new AxiosCanceler();
 
@@ -38,7 +38,7 @@ class RequestHttp {
         axiosCanceler.addPending(config);
         // * 如果当前请求不需要显示 loading,在api服务中通过指定的第三个参数: { headers: { noLoading: true } }来控制不显示loading，参见loginApi
         config.headers!.noLoading || showFullScreenLoading();
-        const token: string = getStorage("token") || "";
+        const token: string = getStorage('token') || '';
         return { ...config, headers: { Authorization: `Bearer ${token}` } };
       },
       (error: AxiosError) => {
@@ -61,7 +61,7 @@ class RequestHttp {
         if (data.code == ResultEnum.OVERDUE) {
           // dispatch(fetchLoginOut());
           message.error(data.message);
-          window.location.href = "/login";
+          window.location.href = '/login';
           return Promise.reject(data);
         }
         // * 全局错误信息拦截（防止下载文件得时候返回数据流，没有code，直接报错）
@@ -79,7 +79,7 @@ class RequestHttp {
         // 根据响应的错误状态码，做不同的处理
         if (response) return checkStatus(response.status);
         // 服务器结果都没有返回(可能服务器错误可能客户端断网) 断网处理:可以跳转到断网页面
-        if (!window.navigator.onLine) return (window.location.href = "/500");
+        if (!window.navigator.onLine) return (window.location.href = '/500');
         return Promise.reject(error);
       }
     );

@@ -1,10 +1,10 @@
-import React, { FC } from "react";
-import { Card, Form, Input, Checkbox, Button } from "antd";
-import { useNavigate } from "react-router-dom";
-import "./index.less";
-import { fetchLogin } from "@/store/modules/user";
-import { useAppDispatch } from "@/hooks";
-import { HOME_URL } from "@/config/config";
+import React, { FC } from 'react';
+import { Card, Form, Input, Checkbox, Button } from 'antd';
+import { useNavigate } from 'react-router-dom';
+import './index.less';
+import { fetchLogin } from '@/store/modules/user';
+import { useAppDispatch } from '@/hooks';
+import { HOME_URL } from '@/config/config';
 
 export interface ILoginForm {
   account: string;
@@ -30,11 +30,11 @@ const Login: FC = () => {
         {/* 登录表单 */}
         {/* 子项用到的触发事件 需要在Form中都声明一下才可以 */}
         <Form
-          validateTrigger={["onBlur", "onChange"]}
+          validateTrigger={['onBlur', 'onChange']}
           initialValues={{
             remember: true,
-            account: "admin",
-            password: ""
+            account: 'admin',
+            password: ''
           }}
           onFinish={onFinish}
         >
@@ -43,7 +43,7 @@ const Login: FC = () => {
             rules={[
               {
                 required: true,
-                message: "请输入账号"
+                message: '请输入账号'
               }
             ]}
           >
@@ -54,12 +54,12 @@ const Login: FC = () => {
             rules={[
               {
                 required: true,
-                message: "请输入密码"
+                message: '请输入密码'
               },
               {
                 min: 1,
-                message: "请输入密码",
-                validateTrigger: "onBlur"
+                message: '请输入密码',
+                validateTrigger: 'onBlur'
               }
             ]}
           >

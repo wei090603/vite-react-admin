@@ -1,14 +1,14 @@
-import { Tabs, message } from "antd";
-import { HomeFilled } from "@ant-design/icons";
-import { useEffect, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
-import { HOME_URL } from "@/config/config";
-import MoreButton from "./components/MoreButton";
-import { searchRoute } from "@/utils/reouter";
+import { Tabs } from 'antd';
+import { HomeFilled } from '@ant-design/icons';
+import { useEffect, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { HOME_URL } from '@/config/config';
+import MoreButton from './components/MoreButton';
+import { searchRoute } from '@/utils/reouter';
 
-import "./index.less";
-import { useAppDispatch, useAppSelector } from "@/hooks";
-import { setTabsList } from "@/store/modules/app";
+import './index.less';
+import { useAppDispatch, useAppSelector } from '@/hooks';
+import { delTabsList, setTabsList } from '@/store/modules/app';
 
 const LayoutTabs = () => {
   const { TabPane } = Tabs;
@@ -39,7 +39,7 @@ const LayoutTabs = () => {
   };
 
   // delete tabs
-  const delTabs = (tabPath?: string) => {
+  const delTabs = (tabPath: string) => {
     if (tabPath === HOME_URL) return;
     if (pathname === tabPath) {
       tabsList.forEach((item: Menu.MenuOptions, index: number) => {
@@ -49,8 +49,7 @@ const LayoutTabs = () => {
         navigate(nextTab.path);
       });
     }
-    message.success("你删除了Tabs标签");
-    dispatch(setTabsList(tabsList.filter((item: Menu.MenuOptions) => item.path !== tabPath)));
+    dispatch(delTabsList(tabsList.filter((item: Menu.MenuOptions) => item.path !== tabPath)));
   };
 
   return (
@@ -70,7 +69,7 @@ const LayoutTabs = () => {
               key={item.path}
               tab={
                 <span>
-                  {item.path == HOME_URL ? <HomeFilled /> : ""}
+                  {item.path == HOME_URL ? <HomeFilled /> : ''}
                   {item.title}
                 </span>
               }

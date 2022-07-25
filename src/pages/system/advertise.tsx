@@ -1,15 +1,15 @@
-import { IAdvertise } from "@/api/interface";
-import { createAdvertise, getAdvertiseList, putAdvertise } from "@/api/system";
-import OperateBtn from "@/components/OperateBtn";
-import MyUpload from "@/components/Upload";
-import { Button, Form, Input, InputNumber, Modal, Popconfirm, Select, Space, Switch, Table } from "antd";
-import type { ColumnsType } from "antd/es/table";
-import React, { useEffect, useState } from "react";
+import { IAdvertise } from '@/api/interface';
+import { createAdvertise, getAdvertiseList, putAdvertise } from '@/api/system';
+import OperateBtn from '@/components/OperateBtn';
+import MyUpload from '@/components/Upload';
+import { Button, Form, Input, InputNumber, Modal, Popconfirm, Select, Space, Switch, Table } from 'antd';
+import type { ColumnsType } from 'antd/es/table';
+import React, { useEffect, useState } from 'react';
 
 const { Option } = Select;
 
 const position = {
-  home: "首页"
+  home: '首页'
 };
 
 const formItemLayout = {
@@ -30,60 +30,60 @@ const Advertise: React.FC = () => {
   const [visible, setVisible] = useState<boolean>(false);
   const [confirmLoading, setConfirmLoading] = useState<boolean>(false);
   const [formData, setFormData] = useState<IAdvertise.Advertise>({
-    title: "",
-    picture: "",
+    title: '',
+    picture: '',
     position: IAdvertise.Type.HOME,
     status: true,
-    describe: "",
-    link: "",
+    describe: '',
+    link: '',
     sort: 1
   });
   const [id, setId] = useState<number>(0);
 
   const columns: ColumnsType<IAdvertise.ResAdvertiseList> = [
     {
-      title: "广告标题",
-      dataIndex: "title",
-      key: "title"
+      title: '广告标题',
+      dataIndex: 'title',
+      key: 'title'
     },
     {
-      title: "位置",
-      dataIndex: "position",
-      key: "position",
+      title: '位置',
+      dataIndex: 'position',
+      key: 'position',
       render: (value: IAdvertise.Type) => position[value]
     },
     {
-      title: "图片",
-      dataIndex: "picture",
-      key: "picture",
+      title: '图片',
+      dataIndex: 'picture',
+      key: 'picture',
       render: picture => <img width={50} height={50} src={import.meta.env.VITE_FILE_URL + picture} alt="" />
     },
     {
-      title: "链接",
-      dataIndex: "link",
-      key: "link",
-      width: "200px"
+      title: '链接',
+      dataIndex: 'link',
+      key: 'link',
+      width: '200px'
     },
     {
-      title: "状态",
-      dataIndex: "status",
-      key: "status",
+      title: '状态',
+      dataIndex: 'status',
+      key: 'status',
       render: (status: boolean) => <Switch checkedChildren="显示" unCheckedChildren="隐藏" checked={status} />
     },
     {
-      title: "排序",
-      dataIndex: "sort",
-      key: "sort"
+      title: '排序',
+      dataIndex: 'sort',
+      key: 'sort'
     },
     {
-      title: "描述",
-      dataIndex: "describe",
-      key: "describe"
+      title: '描述',
+      dataIndex: 'describe',
+      key: 'describe'
     },
     {
-      title: "操作",
-      key: "action",
-      width: "200px",
+      title: '操作',
+      key: 'action',
+      width: '200px',
       render: (_, record) => (
         <Space size="middle">
           <Button type="link" onClick={() => handleEdit(record)}>
@@ -149,7 +149,7 @@ const Advertise: React.FC = () => {
   const handleDel = () => {};
 
   const normFile = (e: any) => {
-    console.log("Upload event:", e);
+    console.log('Upload event:', e);
     if (Array.isArray(e)) {
       return e;
     }
@@ -162,7 +162,7 @@ const Advertise: React.FC = () => {
       <Table
         columns={columns}
         dataSource={advertiseList}
-        rowKey={"id"}
+        rowKey={'id'}
         pagination={{ total, onChange: page => handlePageChange(page) }}
       />
 
@@ -176,13 +176,13 @@ const Advertise: React.FC = () => {
         onOk={handleSubmit}
       >
         <Form form={form} {...formItemLayout} name="form_in_modal" initialValues={formData}>
-          <Form.Item name="title" label="广告标题" rules={[{ required: true, message: "前填写广告标题" }]}>
+          <Form.Item name="title" label="广告标题" rules={[{ required: true, message: '前填写广告标题' }]}>
             <Input placeholder="前填写广告标题" />
           </Form.Item>
-          <Form.Item name="link" label="广告跳转" rules={[{ required: true, message: "前填写广告跳转" }]}>
+          <Form.Item name="link" label="广告跳转" rules={[{ required: true, message: '前填写广告跳转' }]}>
             <Input placeholder="前填写广告跳转" />
           </Form.Item>
-          <Form.Item name="position" label="广告位置" rules={[{ required: true, message: "请选择广告位置" }]}>
+          <Form.Item name="position" label="广告位置" rules={[{ required: true, message: '请选择广告位置' }]}>
             <Select placeholder="请选择广告位置" allowClear>
               <Option value="home">首页</Option>
             </Select>
@@ -193,17 +193,17 @@ const Advertise: React.FC = () => {
             name="picture"
             getValueFromEvent={normFile}
             extra=""
-            rules={[{ required: true, message: "请选择广告图片" }]}
+            rules={[{ required: true, message: '请选择广告图片' }]}
           >
             <MyUpload />
           </Form.Item>
           <Form.Item label="描述" name="describe">
             <Input.TextArea />
           </Form.Item>
-          <Form.Item label="状态" valuePropName="status" rules={[{ required: true, message: "请选择广告状态" }]}>
+          <Form.Item label="状态" valuePropName="status" rules={[{ required: true, message: '请选择广告状态' }]}>
             <Switch checkedChildren="显示" unCheckedChildren="隐藏" defaultChecked />
           </Form.Item>
-          <Form.Item name="sort" label="排序" rules={[{ type: "number", min: 1, max: 99 }]}>
+          <Form.Item name="sort" label="排序" rules={[{ type: 'number', min: 1, max: 99 }]}>
             <InputNumber />
           </Form.Item>
         </Form>

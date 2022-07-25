@@ -1,36 +1,36 @@
-import { FC, useEffect, useState } from "react";
-import { Table, Button, Space } from "antd";
-import OperateBtn from "@/components/OperateBtn";
-import type { ColumnsType } from "antd/lib/table";
-import { ILoginLogger } from "@/api/interface";
-import { getLoginLoggerList } from "@/api/system";
+import { FC, useEffect, useState } from 'react';
+import { Table, Button, Space } from 'antd';
+import OperateBtn from '@/components/OperateBtn';
+import type { ColumnsType } from 'antd/lib/table';
+import { ILoginLogger } from '@/api/interface';
+import { getLoginLoggerList } from '@/api/system';
 
 const LoginLogger: FC = () => {
   const columns: ColumnsType<ILoginLogger.ResLoginLogger> = [
     {
-      title: "账号",
-      dataIndex: "manager",
-      key: "manager",
+      title: '账号',
+      dataIndex: 'manager',
+      key: 'manager',
       render: (_, { manager }) => <span>{manager.account}</span>
     },
-    { title: "ip", dataIndex: "loginIp", key: "loginIp" },
-    { title: "地址", dataIndex: "loginAddress", key: "loginAddress" },
+    { title: 'ip', dataIndex: 'loginIp', key: 'loginIp' },
+    { title: '地址', dataIndex: 'loginAddress', key: 'loginAddress' },
     {
-      title: "创建时间",
-      dataIndex: "createdAt",
-      key: "createdAt",
+      title: '创建时间',
+      dataIndex: 'createdAt',
+      key: 'createdAt',
       render: (_, { createdAt }) => <span>{createdAt}</span>
     },
     {
-      title: "更新时间",
-      dataIndex: "updatedAt",
-      key: "updatedAt",
+      title: '更新时间',
+      dataIndex: 'updatedAt',
+      key: 'updatedAt',
       render: (_, { updatedAt }) => <span>{updatedAt}</span>
     },
     {
-      title: "操作",
-      key: "action",
-      fixed: "right",
+      title: '操作',
+      key: 'action',
+      fixed: 'right',
       width: 100,
       render: (_, record) => (
         <Space size="middle">
@@ -72,7 +72,7 @@ const LoginLogger: FC = () => {
       <Table
         columns={columns}
         dataSource={loginLoggerList}
-        rowKey={"id"}
+        rowKey={'id'}
         pagination={{ total, onChange: page => handlePageChange(page) }}
       />
     </>

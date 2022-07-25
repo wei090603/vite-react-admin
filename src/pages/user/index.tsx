@@ -1,48 +1,48 @@
-import { FC, useEffect, useState } from "react";
-import { IUser } from "@/api/interface";
-import { Table, Button, Space } from "antd";
-import type { ColumnsType } from "antd/lib/table";
-import OperateBtn from "@/components/OperateBtn";
-import { useNavigate } from "react-router-dom";
-import { getUserList } from "@/api/user";
+import { FC, useEffect, useState } from 'react';
+import { IUser } from '@/api/interface';
+import { Table, Button, Space } from 'antd';
+import type { ColumnsType } from 'antd/lib/table';
+import OperateBtn from '@/components/OperateBtn';
+import { useNavigate } from 'react-router-dom';
+import { getUserList } from '@/api/user';
 
 const User: FC = () => {
   const navigate = useNavigate();
 
   const columns: ColumnsType<IUser.ResUserList> = [
     {
-      title: "账号",
-      dataIndex: "account",
-      key: "account"
+      title: '账号',
+      dataIndex: 'account',
+      key: 'account'
     },
     {
-      title: "邮箱",
-      dataIndex: "email",
-      key: "email"
+      title: '邮箱',
+      dataIndex: 'email',
+      key: 'email'
     },
     {
-      title: "创建时间",
-      dataIndex: "createdAt",
-      key: "createdAt",
+      title: '创建时间',
+      dataIndex: 'createdAt',
+      key: 'createdAt',
       render: (_, { createdAt }) => <span>{createdAt}</span>
     },
     {
-      title: "更新时间",
-      dataIndex: "updatedAt",
-      key: "updatedAt",
+      title: '更新时间',
+      dataIndex: 'updatedAt',
+      key: 'updatedAt',
       render: (_, { updatedAt }) => <span>{updatedAt}</span>
     },
     {
-      title: "操作",
-      key: "action",
-      fixed: "right",
+      title: '操作',
+      key: 'action',
+      fixed: 'right',
       width: 100,
       render: (_, record) => (
         <Space size="middle">
-          <Button type="primary" onClick={() => handleEdit(record.id)}>
+          <Button type="link" onClick={() => handleEdit(record.id)}>
             编辑
           </Button>
-          <Button type="primary" danger>
+          <Button type="link" danger>
             删除
           </Button>
         </Space>
@@ -64,7 +64,7 @@ const User: FC = () => {
 
   const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
   const onSelectChange = (newSelectedRowKeys: React.Key[]) => {
-    console.log("selectedRowKeys changed: ", selectedRowKeys);
+    console.log('selectedRowKeys changed: ', selectedRowKeys);
     setSelectedRowKeys(newSelectedRowKeys);
   };
 
@@ -75,11 +75,11 @@ const User: FC = () => {
   // const hasSelected = selectedRowKeys.length > 0;
 
   const handleAdd = () => {
-    navigate("/article/add");
+    navigate('/article/add');
   };
 
   const handleDel = () => {
-    navigate("/article/add");
+    navigate('/article/add');
   };
 
   const handleEdit = (id: number) => {
@@ -99,7 +99,7 @@ const User: FC = () => {
         rowSelection={rowSelection}
         columns={columns}
         dataSource={userList}
-        rowKey={"id"}
+        rowKey={'id'}
         pagination={{ total, onChange: page => handlePageChange(page) }}
       />
     </>
