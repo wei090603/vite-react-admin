@@ -63,19 +63,19 @@ const Article: FC = () => {
       title: '作者',
       dataIndex: 'author',
       key: 'author',
-      render: (_, { author }) => <span>{author.nickName}</span>
+      render: author => <span>{author.nickName}</span>
     },
     {
       title: '创建时间',
       dataIndex: 'createdAt',
       key: 'createdAt',
-      render: (_, { createdAt }) => <span>{createdAt}</span>
+      render: createdAt => <span>{createdAt}</span>
     },
     {
       title: '更新时间',
       dataIndex: 'updatedAt',
       key: 'updatedAt',
-      render: (_, { updatedAt }) => <span>{updatedAt}</span>
+      render: updatedAt => <span>{updatedAt}</span>
     },
     {
       title: '操作',

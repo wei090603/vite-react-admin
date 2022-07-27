@@ -20,13 +20,13 @@ const Category: FC = () => {
       title: '创建时间',
       dataIndex: 'createdAt',
       key: 'createdAt',
-      render: (_, { createdAt }) => <span>{createdAt}</span>
+      render: createdAt => <span>{createdAt}</span>
     },
     {
       title: '更新时间',
       dataIndex: 'updatedAt',
       key: 'updatedAt',
-      render: (_, { updatedAt }) => <span>{updatedAt}</span>
+      render: updatedAt => <span>{updatedAt}</span>
     },
     {
       title: '操作',
@@ -103,8 +103,10 @@ const Category: FC = () => {
   };
 
   const handleCancel = () => {
+    console.log(1111);
     setId(null);
     form.resetFields();
+    setFormData({});
     setVisible(false);
   };
 

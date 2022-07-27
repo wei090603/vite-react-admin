@@ -27,10 +27,10 @@ const Tag: FC = () => {
       width: 100,
       render: (_, record) => (
         <Space size="middle">
-          <Button type="primary" onClick={() => handleEdit(record)}>
+          <Button type="link" onClick={() => handleEdit(record)}>
             编辑
           </Button>
-          <Button type="primary" danger>
+          <Button type="link" danger>
             删除
           </Button>
         </Space>
