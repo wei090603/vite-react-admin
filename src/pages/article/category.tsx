@@ -7,6 +7,7 @@ import { createCategory, getCategoryList, putCategory } from '@/api/article';
 
 const Category: FC = () => {
   const [id, setId] = useState<number | null>(null);
+  const [parentId, setParentId] = useState<number>(0);
   const [form] = Form.useForm();
   const [visible, setVisible] = useState(false);
   const [confirmLoading, setConfirmLoading] = useState(false);
@@ -60,14 +61,15 @@ const Category: FC = () => {
 
   const handleDel = () => {};
 
-  const handleAddSon = ({ title, id }: ICategory.ResCategoryList) => {
-    console.log(title, id, '33');
+  const handleAddSon = ({ id }: ICategory.ResCategoryList) => {
+    setParentId(id);
+    showModal();
   };
 
   const handleEdit = ({ title, id }: ICategory.ResCategoryList) => {
     setId(id);
-    setVisible(true);
     form.setFieldsValue({ title });
+    setVisible(true);
   };
 
   // 改变页码的回调 page代表页码数 pageSize代表每页条数
@@ -77,7 +79,6 @@ const Category: FC = () => {
 
   const showModal = () => {
     setVisible(true);
-    console.log(form.getFieldsValue(), 'showModal');
   };
 
   const handleSubmit = () => {
@@ -85,8 +86,11 @@ const Category: FC = () => {
     form
       .validateFields()
       .then(async values => {
-        values.parentId = 0;
-        id ? await putCategory(id, values) : await createCategory(values);
+        const params = {
+          parentId,
+          title: values.title
+        };
+        id ? await putCategory(id, params) : await createCategory(params);
         message.success(id ? '修改成功' : '新增成功');
         handleCancel();
         getCategory();
@@ -99,6 +103,7 @@ const Category: FC = () => {
 
   const handleCancel = () => {
     setId(null);
+    setParentId(0);
     form.resetFields();
     setVisible(false);
   };
@@ -116,7 +121,6 @@ const Category: FC = () => {
 
       <Modal
         visible={visible}
-        destroyOnClose={true}
         title={id ? '编辑分类' : '新增分类'}
         okText="提交"
         cancelText="取消"
