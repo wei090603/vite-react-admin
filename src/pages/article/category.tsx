@@ -7,7 +7,6 @@ import { createCategory, getCategoryList, putCategory } from '@/api/article';
 
 const Category: FC = () => {
   const [id, setId] = useState<number | null>(null);
-  const [formData, setFormData] = useState({});
   const [form] = Form.useForm();
   const [visible, setVisible] = useState(false);
   const [confirmLoading, setConfirmLoading] = useState(false);
@@ -59,10 +58,6 @@ const Category: FC = () => {
     setTotal(total);
   };
 
-  const handleAdd = () => {
-    showModal();
-  };
-
   const handleDel = () => {};
 
   const handleAddSon = ({ title, id }: ICategory.ResCategoryList) => {
@@ -70,10 +65,9 @@ const Category: FC = () => {
   };
 
   const handleEdit = ({ title, id }: ICategory.ResCategoryList) => {
-    const data = { title };
-    setFormData(data);
     setId(id);
     setVisible(true);
+    form.setFieldsValue({ title });
   };
 
   // 改变页码的回调 page代表页码数 pageSize代表每页条数
@@ -83,6 +77,7 @@ const Category: FC = () => {
 
   const showModal = () => {
     setVisible(true);
+    console.log(form.getFieldsValue(), 'showModal');
   };
 
   const handleSubmit = () => {
@@ -103,16 +98,14 @@ const Category: FC = () => {
   };
 
   const handleCancel = () => {
-    console.log(1111);
     setId(null);
     form.resetFields();
-    setFormData({});
     setVisible(false);
   };
 
   return (
     <>
-      <OperateBtn handleAdd={handleAdd} handleDel={handleDel} />
+      <OperateBtn handleAdd={() => showModal()} handleDel={handleDel} />
       <Table
         rowKey={'id'}
         columns={columns}
@@ -131,7 +124,7 @@ const Category: FC = () => {
         onCancel={handleCancel}
         onOk={handleSubmit}
       >
-        <Form form={form} name="form_in_modal" initialValues={formData}>
+        <Form form={form} name="form_in_modal" initialValues={{}}>
           <Form.Item name="title" label="分类名称" rules={[{ required: true, message: '前填写分类名称' }]}>
             <Input placeholder="前填写分类名称" />
           </Form.Item>
