@@ -1,4 +1,4 @@
-import { ILoginLogger, ResPage, IAdvertise } from '@/api/interface/index';
+import { ILoginLogger, ResPage, IAdvertise, INotice } from '@/api/interface/index';
 
 import http from '@/service';
 
@@ -16,4 +16,15 @@ export const createAdvertise = (params: IAdvertise.Advertise) => {
 
 export const putAdvertise = (id: number, params: IAdvertise.Advertise) => {
   return http.put('' + `/advertise/${id}`, params);
+};
+export const getNoticeList = (params: INotice.NoticeListReq) => {
+  return http.get<ResPage<INotice.INoticeList>>('' + `/notice`, params);
+};
+//新增
+export const addNotice = (params: INotice.NoticeFormItem) => {
+  return http.post('' + `/notice`, params);
+};
+// 通知公告详情
+export const getNoticeInfo = (id: number) => {
+  return http.get<INotice.INoticeList>('' + `/notice/${id}`);
 };

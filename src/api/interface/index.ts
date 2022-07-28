@@ -274,16 +274,28 @@ export namespace ILoginLogger {
   export type ReqGetLoginLoggerParams = ReqPage;
 }
 
-export namespace Notice {
+export namespace INotice {
   type NoticeItem = {
-    id: string;
     title: string;
     type: number;
     status: boolean;
   };
+  export type NoticeListReq = {
+    limit: number;
+    page: number;
+    title: string;
+  };
+  export type INoticeList = ResDate &
+    NoticeItem & {
+      id: string;
+      content: string;
+    };
 
   export type NoticeFormItem = NoticeItem & {
     content: string;
+  };
+  export type Id = {
+    id: string;
   };
 }
 

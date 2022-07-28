@@ -4,7 +4,6 @@ import constantRoutes from './constantRoutes/platform';
 
 // * 导入所有router
 const metaRouters = import.meta.globEager('./asyncRoutes/*.tsx');
-
 // * 处理路由
 export const routerArray: RouteObject[] = [];
 Object.keys(metaRouters).forEach(item => {

@@ -33,6 +33,39 @@ const systemRouter: Array<RouteObject> = [
         }
       },
       {
+        path: '/system/addNotice',
+        element: lazyLoad(React.lazy(() => import('@/pages/system/noticeDetails'))),
+        meta: {
+          requiresAuth: true,
+          title: '新增通知公告',
+          hidden: true,
+          key: 'notice',
+          activeMenu: '/system/notice'
+        }
+      },
+      {
+        path: '/system/editNotice',
+        element: lazyLoad(React.lazy(() => import('@/pages/system/noticeDetails'))),
+        meta: {
+          requiresAuth: true,
+          title: '编辑通知公告',
+          hidden: true,
+          key: 'notice',
+          activeMenu: '/system/notice'
+        }
+      },
+      {
+        path: '/system/viewsNotice',
+        element: lazyLoad(React.lazy(() => import('@/pages/system/noticeDetails'))),
+        meta: {
+          requiresAuth: true,
+          title: '查看通知公告',
+          hidden: true,
+          key: 'notice',
+          activeMenu: '/system/notice'
+        }
+      },
+      {
         path: '/system/loginLogger',
         element: lazyLoad(React.lazy(() => import('@/pages/system/loginLogger'))),
         meta: {
