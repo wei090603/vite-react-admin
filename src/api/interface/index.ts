@@ -115,7 +115,6 @@ export namespace ICategory {
   export type ReqGetCategoryParams = ReqPage;
 
   export type CreateCategory = {
-    grade: number;
     parentId: number;
     title: string;
   };

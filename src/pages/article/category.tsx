@@ -7,7 +7,7 @@ import { createCategory, getCategoryList, putCategory } from '@/api/article';
 
 const Category: FC = () => {
   const [id, setId] = useState<number | null>(null);
-  const [formData, setFormData] = useState({});
+  const [parentId, setParentId] = useState<number>(0);
   const [form] = Form.useForm();
   const [visible, setVisible] = useState(false);
   const [confirmLoading, setConfirmLoading] = useState(false);
@@ -20,13 +20,13 @@ const Category: FC = () => {
       title: '创建时间',
       dataIndex: 'createdAt',
       key: 'createdAt',
-      render: (_, { createdAt }) => <span>{createdAt}</span>
+      render: createdAt => <span>{createdAt}</span>
     },
     {
       title: '更新时间',
       dataIndex: 'updatedAt',
       key: 'updatedAt',
-      render: (_, { updatedAt }) => <span>{updatedAt}</span>
+      render: updatedAt => <span>{updatedAt}</span>
     },
     {
       title: '操作',
@@ -59,20 +59,16 @@ const Category: FC = () => {
     setTotal(total);
   };
 
-  const handleAdd = () => {
+  const handleDel = () => {};
+
+  const handleAddSon = ({ id }: ICategory.ResCategoryList) => {
+    setParentId(id);
     showModal();
   };
 
-  const handleDel = () => {};
-
-  const handleAddSon = ({ title, id }: ICategory.ResCategoryList) => {
-    console.log(title, id, '33');
-  };
-
   const handleEdit = ({ title, id }: ICategory.ResCategoryList) => {
-    const data = { title };
-    setFormData(data);
     setId(id);
+    form.setFieldsValue({ title });
     setVisible(true);
   };
 
@@ -90,8 +86,11 @@ const Category: FC = () => {
     form
       .validateFields()
       .then(async values => {
-        values.parentId = 0;
-        id ? await putCategory(id, values) : await createCategory(values);
+        const params = {
+          parentId,
+          title: values.title
+        };
+        id ? await putCategory(id, params) : await createCategory(params);
         message.success(id ? '修改成功' : '新增成功');
         handleCancel();
         getCategory();
@@ -104,13 +103,14 @@ const Category: FC = () => {
 
   const handleCancel = () => {
     setId(null);
+    setParentId(0);
     form.resetFields();
     setVisible(false);
   };
 
   return (
     <>
-      <OperateBtn handleAdd={handleAdd} handleDel={handleDel} />
+      <OperateBtn handleAdd={() => showModal()} handleDel={handleDel} />
       <Table
         rowKey={'id'}
         columns={columns}
@@ -121,7 +121,6 @@ const Category: FC = () => {
 
       <Modal
         visible={visible}
-        destroyOnClose={true}
         title={id ? '编辑分类' : '新增分类'}
         okText="提交"
         cancelText="取消"
@@ -129,7 +128,7 @@ const Category: FC = () => {
         onCancel={handleCancel}
         onOk={handleSubmit}
       >
-        <Form form={form} name="form_in_modal" initialValues={formData}>
+        <Form form={form} name="form_in_modal" initialValues={{}}>
           <Form.Item name="title" label="分类名称" rules={[{ required: true, message: '前填写分类名称' }]}>
             <Input placeholder="前填写分类名称" />
           </Form.Item>

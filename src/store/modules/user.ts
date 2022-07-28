@@ -40,7 +40,6 @@ const userSlice = createSlice({
   initialState,
   reducers: {
     setToken(state, { payload }) {
-      console.log(payload, 'payload');
       state.token = payload;
     },
     setUserInfo(state, { payload }) {
