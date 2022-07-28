@@ -28,3 +28,7 @@ export const addNotice = (params: INotice.NoticeFormItem) => {
 export const getNoticeInfo = (id: number) => {
   return http.get<INotice.INoticeList>('' + `/notice/${id}`);
 };
+// 编辑公告详情
+export const editNoticeInfo = (id: number, params: INotice.NoticeFormItem) => {
+  return http.put('' + `/notice/${id}`, params);
+};

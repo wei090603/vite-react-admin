@@ -2,7 +2,7 @@ import React, { FC, useEffect, useState } from 'react';
 import { Button, Form, Input, Radio, Space, message } from 'antd';
 import Editor from '@/components/Editor';
 // import { INotice } from '@/api/interface/index';
-import { addNotice, getNoticeInfo } from '@/api/system';
+import { addNotice, getNoticeInfo, editNoticeInfo } from '@/api/system';
 import { useNavigate, useSearchParams, useLocation } from 'react-router-dom';
 
 const NoticeDetails: FC = () => {
@@ -22,10 +22,11 @@ const NoticeDetails: FC = () => {
   const onFinish = async (values: any) => {
     const param = {
       ...values,
-      status: true
+      status: false
     };
-    id ? await addNotice(param) : '';
-    message.success('新增成功');
+    console.log('id', id);
+    !id ? await addNotice(param) : await editNoticeInfo(id, param);
+    message.success(!id ? '编辑成功' : '新增成功');
     navigate(-1);
   };
   // 提交失败回调
@@ -37,11 +38,8 @@ const NoticeDetails: FC = () => {
   };
   // 获取详情
   const reqGetNoticeInfo = async (id: number) => {
-    console.log('详情');
     const body = await getNoticeInfo(id);
-    console.log('body', body);
-    setFormData(body);
-    console.log('formData', formData);
+    form.setFieldsValue(body);
   };
   useEffect(() => {
     const id = Number(params.get('id'));
@@ -55,7 +53,7 @@ const NoticeDetails: FC = () => {
       name="basic"
       form={form}
       {...layout}
-      initialValues={formData}
+      initialValues={{}}
       onFinish={onFinish}
       onFinishFailed={onFinishFailed}
       autoComplete="off"
