@@ -22,6 +22,7 @@ export const getTagAll = () => {
   return http.get<ITag.ResTag[]>('' + `/tag/all`);
 };
 
+// 分类
 export const getCategoryList = (params: ICategory.ReqGetCategoryParams) => {
   return http.get<ResPage<ICategory.ResCategoryList>>('' + `/category`, params);
 };
@@ -34,12 +35,17 @@ export const putCategory = (id: number, params: ICategory.CreateCategory) => {
   return http.put('' + `/category/${id}`, params);
 };
 
+// 标签
 export const getTagList = (params: ITag.ReqGetTagParams) => {
   return http.get<ResPage<ITag.ResTagList>>('' + `/tag`, params);
 };
 
 export const createTag = (params: ITag.ReqCreateTagParams) => {
   return http.post('' + `/tag`, params);
+};
+
+export const putTag = (id: number, params: ITag.ReqCreateTagParams) => {
+  return http.put('' + `/tag/${id}`, params);
 };
 
 // // * 批量添加用户

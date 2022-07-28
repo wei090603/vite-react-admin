@@ -1,7 +1,7 @@
 import { FC, useEffect, useState } from 'react';
 import { useSearchParams, useLocation } from 'react-router-dom';
 import { Button, Form, Input, Select, Space, message } from 'antd';
-import { ICategory, ITag } from '@/api/interface';
+import { IArticle, ICategory, ITag } from '@/api/interface';
 import { createArticle, getArticleDetail, getCategoryAll, getTagAll } from '@/api/article';
 import Editor from '@/components/Editor';
 import MyUpload from '@/components/Upload';
@@ -11,6 +11,7 @@ import './index.less';
 const { Option } = Select;
 const ArticleDetail: FC = () => {
   // const params = useParams();
+  const [id, setId] = useState<number | null>(null);
   const { pathname } = useLocation();
   const [params] = useSearchParams();
 
@@ -22,11 +23,12 @@ const ArticleDetail: FC = () => {
   const [categoryList, setCategoryList] = useState<ICategory.ResCategory[]>([]);
   const [tagList, setTagList] = useState<ITag.ResTag[]>([]);
   const [form] = Form.useForm();
-  const [formData, setFormData] = useState({});
 
   useEffect(() => {
     _getCategoryAll();
     _getTagAll();
+    const id = Number(params.get('id'));
+    setId(id);
     if (isEdit) {
       getArticle();
     }
@@ -43,17 +45,23 @@ const ArticleDetail: FC = () => {
   };
 
   const getArticle = async () => {
-    const data = await getArticleDetail(params.get('id')!);
-    setFormData(data);
-    console.log(data, formData, 'data');
+    const { title, tag, category, image, status } = await getArticleDetail(params.get('id')!);
+    const tagList = tag.map(item => item.id);
+    form.setFieldsValue({ title, tag: tagList, category: category.id, image, status });
   };
 
   const onFinish = async (values: any) => {
     message.success('提交的数据为 : ' + JSON.stringify(values));
-    values.type = 0;
-    values.image = values.image.map((item: any) => item.response.data.filename);
+    const params: IArticle.ReqArticleParams = {
+      status: values.status,
+      title: values.title,
+      image: values.image.map((item: any) => item.response.data.filename),
+      content: values.content,
+      category: values.category,
+      tag: values.tag
+    };
     console.log(values);
-    await createArticle(values);
+    id ? await createArticle(params) : '';
   };
 
   const onReset = () => {
@@ -94,9 +102,9 @@ const ArticleDetail: FC = () => {
       </Form.Item>
       <Form.Item name="status" label="状态" rules={[{ required: true, message: '请选择帖子状态' }]}>
         <Select placeholder="请选择帖子状态">
-          <Option value="1">打开回复</Option>
-          <Option value="2">关闭回复</Option>
-          <Option value="3">仅自己可见</Option>
+          <Option value={1}>打开回复</Option>
+          <Option value={2}>关闭回复</Option>
+          <Option value={3}>仅自己可见</Option>
         </Select>
       </Form.Item>
       <Form.Item label="图片" name="image" getValueFromEvent={normFile} extra="">

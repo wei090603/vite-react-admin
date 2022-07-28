@@ -99,6 +99,7 @@ export namespace IArticle {
     title: string;
     tag: Tag[];
     category: number;
+    content: string;
   };
   export type ReqGetArticleParams = ReqPage;
 }

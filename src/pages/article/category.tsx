@@ -112,7 +112,9 @@ const Category: FC = () => {
     <>
       <OperateBtn handleAdd={() => showModal()} handleDel={handleDel} />
       <Table
+        key={'id'}
         rowKey={'id'}
+        expandable={{ defaultExpandAllRows: true }}
         columns={columns}
         rowSelection={{ checkStrictly: true }}
         dataSource={categoryList}
