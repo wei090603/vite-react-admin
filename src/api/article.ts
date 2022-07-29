@@ -10,6 +10,10 @@ export const createArticle = (params: IArticle.ReqArticleParams) => {
   return http.post('' + `/article`, params);
 };
 
+export const putArticle = (id: number, params: IArticle.ReqArticleParams) => {
+  return http.put('' + `/article/${id}`, params);
+};
+
 export const getArticleDetail = (id: string) => {
   return http.get<IArticle.ResArticleList>('' + `/article/${id}`);
 };

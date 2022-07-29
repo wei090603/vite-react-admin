@@ -1,8 +1,9 @@
 import { FC, useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useSearchParams, useLocation } from 'react-router-dom';
 import { Button, Form, Input, Select, Space, message } from 'antd';
 import { IArticle, ICategory, ITag } from '@/api/interface';
-import { createArticle, getArticleDetail, getCategoryAll, getTagAll } from '@/api/article';
+import { createArticle, getArticleDetail, getCategoryAll, getTagAll, putArticle } from '@/api/article';
 import Editor from '@/components/Editor';
 import MyUpload from '@/components/Upload';
 
@@ -11,14 +12,13 @@ import './index.less';
 const { Option } = Select;
 const ArticleDetail: FC = () => {
   // const params = useParams();
-  const [id, setId] = useState<number | null>(null);
+  const navigate = useNavigate();
   const { pathname } = useLocation();
   const [params] = useSearchParams();
+  const [id, setId] = useState<number | null>(null);
 
   // const isAdd = pathname === "/article/add"; // 新增
   const isEdit = pathname === '/article/edit'; // 编辑
-
-  // const [articleDetail, setArticleDetail] = useState<IArticle.ResArticleList>({});
 
   const [categoryList, setCategoryList] = useState<ICategory.ResCategory[]>([]);
   const [tagList, setTagList] = useState<ITag.ResTag[]>([]);
@@ -51,7 +51,6 @@ const ArticleDetail: FC = () => {
   };
 
   const onFinish = async (values: any) => {
-    message.success('提交的数据为 : ' + JSON.stringify(values));
     const params: IArticle.ReqArticleParams = {
       status: values.status,
       title: values.title,
@@ -60,8 +59,9 @@ const ArticleDetail: FC = () => {
       category: values.category,
       tag: values.tag
     };
-    console.log(values);
-    id ? await createArticle(params) : '';
+    id ? await putArticle(id, params) : await createArticle(params);
+    message.success(id ? '修改成功' : '新增成功');
+    navigate(-1);
   };
 
   const onReset = () => {
@@ -69,7 +69,6 @@ const ArticleDetail: FC = () => {
   };
 
   const normFile = (e: any) => {
-    console.log('Upload event:', e);
     if (Array.isArray(e)) {
       return e;
     }
