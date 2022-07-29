@@ -1,4 +1,4 @@
-import { IManager, IRole, ResPage, IResources } from '@/api/interface/index';
+import { IManager, IRole, ResPage, IResource } from '@/api/interface/index';
 
 import http from '@/service';
 
@@ -14,6 +14,14 @@ export const createRole = (params: IRole.Role) => {
   return http.post('' + `/role`, params);
 };
 
-export const getResourcesList = () => {
-  return http.get<IResources.ResResourcesList[]>('' + `/resources`);
+export const getResourceList = () => {
+  return http.get<IResource.ResResourceList[]>('' + `/resources`);
+};
+
+export const createResource = (params: IResource.Resource) => {
+  return http.post('' + `/resources`, params);
+};
+
+export const putResource = (id: number, params: IResource.Resource) => {
+  return http.put('' + `/resources/${id}`, params);
 };
