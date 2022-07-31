@@ -14,7 +14,7 @@ export const putArticle = (id: number, params: IArticle.ReqArticleParams) => {
   return http.put('' + `/article/${id}`, params);
 };
 
-export const getArticleDetail = (id: string) => {
+export const getArticleDetail = (id: number) => {
   return http.get<IArticle.ResArticleList>('' + `/article/${id}`);
 };
 

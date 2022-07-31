@@ -6,6 +6,7 @@ import { IArticle, ICategory, ITag } from '@/api/interface';
 import { createArticle, getArticleDetail, getCategoryAll, getTagAll, putArticle } from '@/api/article';
 import Editor from '@/components/Editor';
 import MyUpload from '@/components/Upload';
+import type { UploadFile } from 'antd/es/upload/interface';
 
 import './index.less';
 
@@ -15,7 +16,7 @@ const ArticleDetail: FC = () => {
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const [params] = useSearchParams();
-  const [id, setId] = useState<number | null>(null);
+  const id = Number(params.get('id'));
 
   // const isAdd = pathname === "/article/add"; // 新增
   const isEdit = pathname === '/article/edit'; // 编辑
@@ -23,12 +24,11 @@ const ArticleDetail: FC = () => {
   const [categoryList, setCategoryList] = useState<ICategory.ResCategory[]>([]);
   const [tagList, setTagList] = useState<ITag.ResTag[]>([]);
   const [form] = Form.useForm();
+  const [fileList, setFileList] = useState<UploadFile[]>([]);
 
   useEffect(() => {
     _getCategoryAll();
     _getTagAll();
-    const id = Number(params.get('id'));
-    setId(id);
     if (isEdit) {
       getArticle();
     }
@@ -45,16 +45,27 @@ const ArticleDetail: FC = () => {
   };
 
   const getArticle = async () => {
-    const { title, tag, category, image, status } = await getArticleDetail(params.get('id')!);
+    const { title, tag, category, image, status } = await getArticleDetail(id);
     const tagList = tag.map(item => item.id);
     form.setFieldsValue({ title, tag: tagList, category: category.id, image, status });
+
+    const images: UploadFile[] = image.map((item: string) => {
+      return {
+        uid: item,
+        name: item,
+        url: import.meta.env.VITE_FILE_URL + item,
+        status: 'done'
+      };
+    });
+    setFileList(images);
   };
 
   const onFinish = async (values: any) => {
+    console.log(values, 'values');
     const params: IArticle.ReqArticleParams = {
       status: values.status,
       title: values.title,
-      image: values.image.map((item: any) => item.response.data.filename),
+      image: values.image,
       content: values.content,
       category: values.category,
       tag: values.tag
@@ -68,15 +79,14 @@ const ArticleDetail: FC = () => {
     form.resetFields();
   };
 
-  const normFile = (e: any) => {
-    if (Array.isArray(e)) {
-      return e;
-    }
-    return e?.fileList;
-  };
-
   return (
-    <Form form={form} name="control-hooks" onFinish={onFinish} labelCol={{ span: 1 }} initialValues={{ image: [], content: '' }}>
+    <Form
+      form={form}
+      name="control-hooks"
+      onFinish={onFinish}
+      labelCol={{ span: 1 }}
+      initialValues={{ image: [], content: '', status: 1 }}
+    >
       <Form.Item name="title" label="标题" rules={[{ required: true, message: '请填写标题' }]}>
         <Input placeholder="前填写文章标题" />
       </Form.Item>
@@ -106,8 +116,8 @@ const ArticleDetail: FC = () => {
           <Option value={3}>仅自己可见</Option>
         </Select>
       </Form.Item>
-      <Form.Item label="图片" name="image" getValueFromEvent={normFile} extra="">
-        <MyUpload />
+      <Form.Item label="图片" name="image" extra="">
+        <MyUpload maxCount={6} form={form} imageList={fileList} />
       </Form.Item>
       <Form.Item name="content" label="内容" rules={[{ required: true, message: '请填写内容' }]}>
         <Editor />
