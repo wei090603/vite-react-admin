@@ -1,6 +1,6 @@
 import { FC, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useSearchParams, useLocation } from 'react-router-dom';
+import { useSearchParams } from 'react-router-dom';
 import { Button, Form, Input, Select, Space, message } from 'antd';
 import { IArticle, ICategory, ITag } from '@/api/interface';
 import { createArticle, getArticleDetail, getCategoryAll, getTagAll, putArticle } from '@/api/article';
@@ -14,12 +14,8 @@ const { Option } = Select;
 const ArticleDetail: FC = () => {
   // const params = useParams();
   const navigate = useNavigate();
-  const { pathname } = useLocation();
   const [params] = useSearchParams();
   const id = Number(params.get('id'));
-
-  // const isAdd = pathname === "/article/add"; // 新增
-  const isEdit = pathname === '/article/edit'; // 编辑
 
   const [categoryList, setCategoryList] = useState<ICategory.ResCategory[]>([]);
   const [tagList, setTagList] = useState<ITag.ResTag[]>([]);
@@ -29,7 +25,7 @@ const ArticleDetail: FC = () => {
   useEffect(() => {
     _getCategoryAll();
     _getTagAll();
-    if (isEdit) {
+    if (id) {
       getArticle();
     }
   }, []);
@@ -70,9 +66,13 @@ const ArticleDetail: FC = () => {
       category: values.category,
       tag: values.tag
     };
-    id ? await putArticle(id, params) : await createArticle(params);
-    message.success(id ? '修改成功' : '新增成功');
-    navigate(-1);
+    try {
+      id ? await putArticle(id, params) : await createArticle(params);
+      message.success(id ? '修改成功' : '新增成功');
+      navigate(-1);
+    } catch (error) {
+      console.log(error, 'error');
+    }
   };
 
   const onReset = () => {
