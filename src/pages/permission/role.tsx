@@ -1,7 +1,7 @@
 import { FC, useState, useEffect } from 'react';
 import { IRole } from '@/api/interface';
 import type { ColumnsType } from 'antd/lib/table';
-import { createRole, getRoleList } from '@/api/permission';
+import { createRole, getRoleList, putRole } from '@/api/permission';
 import { Button, Form, Input, Modal, Space, Table } from 'antd';
 import OperateBtn from '@/components/OperateBtn';
 
@@ -25,8 +25,7 @@ const Role: FC = () => {
     {
       title: '创建时间',
       dataIndex: 'createdAt',
-      key: 'createdAt',
-      render: (_, { createdAt }) => <span>{createdAt}</span>
+      key: 'createdAt'
     },
     {
       title: '操作',
@@ -47,8 +46,13 @@ const Role: FC = () => {
     }
   ];
 
+  const [form] = Form.useForm();
+  const [id, setId] = useState<number | null>(null);
+  const [visible, setVisible] = useState(false);
+  const [confirmLoading, setConfirmLoading] = useState(false);
   const [rolesList, setRolesList] = useState<IRole.ResRoleList[]>([]);
   const [total, setTotal] = useState<number>(0);
+
   useEffect(() => {
     getRole();
   }, []);
@@ -59,24 +63,20 @@ const Role: FC = () => {
     setTotal(total);
   };
 
-  const handleEdit = (row: IRole.ResRoleList) => {
+  const handleEdit = ({ id, roleName, mark, remark }: IRole.ResRoleList) => {
     setVisible(true);
-    console.log(row, 'row');
+    setId(id);
+    form.setFieldsValue({ roleName, mark, remark });
   };
-
-  const [form] = Form.useForm();
-  const [visible, setVisible] = useState(false);
-  const [confirmLoading, setConfirmLoading] = useState(false);
 
   const handleOk = () => {
     form
       .validateFields()
       .then(async values => {
         setConfirmLoading(true);
-        await createRole(values);
+        id ? await putRole(id, values) : await createRole(values);
         getRole();
         handleCancel();
-        console.log(values, 'values');
       })
       .catch(() => {})
       .finally(() => {

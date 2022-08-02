@@ -126,16 +126,13 @@ const Resources: React.FC = () => {
   };
 
   const handleAddSOn = (row: IResource.ResResourceList) => {
+    console.log(row, 'row');
     setParentId(row.id);
     setParentTitle(row.title);
     setVisible(true);
   };
 
   const handleDel = () => {};
-
-  const handleCancel = () => {
-    form.resetFields();
-  };
 
   const onClose = () => {
     setId(null);
@@ -159,7 +156,7 @@ const Resources: React.FC = () => {
         };
         id ? await putResource(id, params) : await createResource(params);
         message.success(id ? '修改成功' : '新增成功');
-        handleCancel();
+        onClose();
         getResource();
       })
       .catch(() => {});
@@ -176,19 +173,23 @@ const Resources: React.FC = () => {
         placement="right"
         onClose={onClose}
         visible={visible}
-        extra={
-          <Space>
-            <Button onClick={handleCancel}>重置</Button>
-            <Button onClick={handleSubmit} type="primary">
-              提交
-            </Button>
-          </Space>
+        destroyOnClose={true}
+        footer={
+          <div style={{ textAlign: 'right' }}>
+            <Space>
+              <Button onClick={onClose}>取消</Button>
+              <Button type="primary" onClick={handleSubmit}>
+                确定
+              </Button>
+            </Space>
+          </div>
         }
       >
-        <Form {...formItemLayout} form={form} name="form_in_modal" initialValues={{ sort: 1, switch: false, type: 1 }}>
+        <Form {...formItemLayout} form={form} name="form_in_modal" initialValues={{ sort: 1, switch: false, type: 'menu' }}>
           {parentId ? (
             <Form.Item name="parentTitle" label="父级写菜单" rules={[{ required: true, message: '父级写菜单名称' }]}>
-              <Input placeholder="前填写父级菜单名称" value={parentTitle} disabled />
+              {parentTitle}
+              <Input value={parentTitle} disabled />
             </Form.Item>
           ) : null}
           <Form.Item name="title" label="菜单名称" rules={[{ required: true, message: '前填写菜单名称' }]}>

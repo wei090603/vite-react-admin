@@ -14,6 +14,10 @@ export const createRole = (params: IRole.Role) => {
   return http.post('' + `/role`, params);
 };
 
+export const putRole = (id: number, params: IRole.Role) => {
+  return http.put('' + `/role/${id}`, params);
+};
+
 export const getResourceList = () => {
   return http.get<IResource.ResResourceList[]>('' + `/resources`);
 };
