@@ -2,9 +2,11 @@ import { FC } from 'react';
 import { Button, Drawer, Space } from 'antd';
 
 type IProps = {
+  title: string;
   visible: boolean;
   handleClose: () => void;
   handleSubmit: () => void;
+  children: React.ReactNode;
 };
 
 const FormDrawer: FC<IProps> = (props: IProps) => {
@@ -27,7 +29,9 @@ const FormDrawer: FC<IProps> = (props: IProps) => {
             </Space>
           </div>
         }
-      ></Drawer>
+      >
+        {props.children}
+      </Drawer>
     </>
   );
 };
