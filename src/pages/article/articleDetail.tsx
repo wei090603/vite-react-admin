@@ -57,7 +57,6 @@ const ArticleDetail: FC = () => {
   };
 
   const onFinish = async (values: any) => {
-    console.log(values, 'values');
     const params: IArticle.ReqArticleParams = {
       status: values.status,
       title: values.title,
