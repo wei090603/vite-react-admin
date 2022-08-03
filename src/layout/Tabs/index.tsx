@@ -31,11 +31,13 @@ const LayoutTabs = () => {
   // add tabs
   const addTabs = () => {
     const route = searchRoute(pathname);
-    const currentRoute = route.meta?.activeMenu ? searchRoute(route.meta.activeMenu) : route;
-    if (tabsList.every((item: any) => item.path !== currentRoute.path)) {
-      dispatch(setTabsList({ title: currentRoute.meta!.title, path: currentRoute.path! }));
+    if (JSON.stringify(route) !== '{}') {
+      const currentRoute = route.meta?.activeMenu ? searchRoute(route.meta.activeMenu) : route;
+      if (tabsList.every((item: any) => item.path !== currentRoute.path)) {
+        dispatch(setTabsList({ title: currentRoute.meta!.title, path: currentRoute.path! }));
+      }
+      setActiveValue(currentRoute.path as string);
     }
-    setActiveValue(currentRoute.path as string);
   };
 
   // delete tabs

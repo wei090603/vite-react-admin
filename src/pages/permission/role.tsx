@@ -1,9 +1,10 @@
 import { FC, useState, useEffect } from 'react';
 import { IRole } from '@/api/interface';
 import type { ColumnsType } from 'antd/lib/table';
-import { createRole, getRoleList } from '@/api/permission';
+import { createRole, getRoleList, putRole } from '@/api/permission';
 import { Button, Form, Input, Modal, Space, Table } from 'antd';
 import OperateBtn from '@/components/OperateBtn';
+import FormDrawer from '@/components/FormDrawer';
 
 const Role: FC = () => {
   const columns: ColumnsType<IRole.ResRoleList> = [
@@ -25,8 +26,7 @@ const Role: FC = () => {
     {
       title: '创建时间',
       dataIndex: 'createdAt',
-      key: 'createdAt',
-      render: (_, { createdAt }) => <span>{createdAt}</span>
+      key: 'createdAt'
     },
     {
       title: '操作',
@@ -47,8 +47,13 @@ const Role: FC = () => {
     }
   ];
 
+  const [form] = Form.useForm();
+  const [id, setId] = useState<number | null>(null);
+  const [visible, setVisible] = useState(false);
+  const [confirmLoading, setConfirmLoading] = useState(false);
   const [rolesList, setRolesList] = useState<IRole.ResRoleList[]>([]);
   const [total, setTotal] = useState<number>(0);
+
   useEffect(() => {
     getRole();
   }, []);
@@ -59,24 +64,20 @@ const Role: FC = () => {
     setTotal(total);
   };
 
-  const handleEdit = (row: IRole.ResRoleList) => {
+  const handleEdit = ({ id, roleName, mark, remark }: IRole.ResRoleList) => {
     setVisible(true);
-    console.log(row, 'row');
+    setId(id);
+    form.setFieldsValue({ roleName, mark, remark });
   };
-
-  const [form] = Form.useForm();
-  const [visible, setVisible] = useState(false);
-  const [confirmLoading, setConfirmLoading] = useState(false);
 
   const handleOk = () => {
     form
       .validateFields()
       .then(async values => {
         setConfirmLoading(true);
-        await createRole(values);
+        id ? await putRole(id, values) : await createRole(values);
         getRole();
         handleCancel();
-        console.log(values, 'values');
       })
       .catch(() => {})
       .finally(() => {
@@ -104,16 +105,7 @@ const Role: FC = () => {
     <>
       <OperateBtn handleAdd={() => setVisible(true)} />
       <Table columns={columns} dataSource={rolesList} rowKey={'id'} pagination={{ total, onChange: page => getRole(page) }} />
-
-      <Modal
-        visible={visible}
-        title="新增角色"
-        okText="提交"
-        cancelText="取消"
-        confirmLoading={confirmLoading}
-        onCancel={handleCancel}
-        onOk={handleOk}
-      >
+      <FormDrawer title={id ? '编辑' : '新增'} handleClose={handleCancel} handleSubmit={handleOk} visible={visible}>
         <Form form={form} {...formItemLayout} name="form_in_modal" initialValues={{ remark: '' }}>
           <Form.Item name="roleName" label="角色名称" rules={[{ required: true, message: '' }]}>
             <Input placeholder="前填写标签名称" />
@@ -125,7 +117,16 @@ const Role: FC = () => {
             <Input.TextArea />
           </Form.Item>
         </Form>
-      </Modal>
+      </FormDrawer>
+      {/* <Modal
+        visible={visible}
+        title="新增角色"
+        okText="提交"
+        cancelText="取消"
+        confirmLoading={confirmLoading}
+        onCancel={handleCancel}
+        onOk={handleOk}
+      ></Modal> */}
     </>
   );
 };

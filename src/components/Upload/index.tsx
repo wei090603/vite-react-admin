@@ -1,8 +1,8 @@
 import { PlusOutlined } from '@ant-design/icons';
-import { message, Modal, Upload } from 'antd';
+import { Modal, Upload } from 'antd';
 import type { RcFile, UploadProps } from 'antd/es/upload';
 import type { UploadFile } from 'antd/es/upload/interface';
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useAppSelector } from '@/hooks';
 
 const getBase64 = (file: RcFile): Promise<string> =>
@@ -14,11 +14,12 @@ const getBase64 = (file: RcFile): Promise<string> =>
   });
 
 interface Props {
-  value?: any;
   onChange?: (arg: any) => void;
   maxCount?: number;
+  form: any;
+  imageList: UploadFile[];
 }
-const MyUpload: React.FC<Props> = ({ value, onChange, maxCount = 1 }) => {
+const MyUpload: React.FC<Props> = ({ form, imageList, maxCount = 1 }) => {
   const { token } = useAppSelector(state => state.user);
 
   const [previewVisible, setPreviewVisible] = useState(false);
@@ -27,8 +28,8 @@ const MyUpload: React.FC<Props> = ({ value, onChange, maxCount = 1 }) => {
   const [fileList, setFileList] = useState<UploadFile[]>([]);
 
   useEffect(() => {
-    setFileList(value);
-  }, [value]);
+    setFileList(imageList);
+  }, [imageList]);
 
   const handleCancel = () => setPreviewVisible(false);
 
@@ -42,25 +43,21 @@ const MyUpload: React.FC<Props> = ({ value, onChange, maxCount = 1 }) => {
     setPreviewTitle(file.name || file.url!.substring(file.url!.lastIndexOf('/') + 1));
   };
 
-  const handleChange: UploadProps['onChange'] = ({ file, fileList: newFileList }) => {
-    console.log(file, 'file');
+  const handleChange: UploadProps['onChange'] = ({ fileList: newFileList }) => {
+    setFileList(newFileList);
 
-    if (file.status === 'error') {
-      message.error('上传出错！');
+    if (newFileList.every((item: any) => item.status === 'done' && item?.response?.code === 200)) {
+      const imageArr: string[] = [];
+      newFileList.forEach((item: any) => {
+        imageArr.push(item.response.data.filename);
+      });
+      form.setFieldsValue({ image: imageArr });
     }
-    if (onChange) {
-      onChange(
-        newFileList?.map(v => ({
-          ...v,
-          status: 'done'
-        }))
-      );
-    }
-    // if (newFileList?.response?.code === 200) {
-    //   props.onChange?.(newFileList?.response.data.filename);
-    // }
+  };
 
-    console.log(newFileList, 'newFileList');
+  const handleRemove = (file: UploadFile) => {
+    const newFileList = form.getFieldValue('image').filter((item: string) => item !== file.name);
+    form.setFieldsValue({ image: newFileList });
   };
 
   const uploadButton = (
@@ -77,6 +74,7 @@ const MyUpload: React.FC<Props> = ({ value, onChange, maxCount = 1 }) => {
         fileList={fileList}
         onPreview={handlePreview}
         onChange={handleChange}
+        onRemove={handleRemove}
         maxCount={maxCount}
         action={import.meta.env.VITE_API_URL + '/upload/file'}
         headers={{ Authorization: `Bearer ${token}` }}

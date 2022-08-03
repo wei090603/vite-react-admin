@@ -1,4 +1,5 @@
 import React from 'react';
+import { Navigate } from 'react-router-dom';
 import lazyLoad from '@/router/config/lazyLoad';
 import { RouteObject } from '@/router/interface';
 import { Layout } from '@/router/constant';
@@ -20,7 +21,6 @@ const platformRouter: Array<RouteObject> = [
   },
   {
     element: Layout,
-    path: '/platform',
     meta: {
       title: '系统路由',
       key: 'platform',
@@ -29,7 +29,7 @@ const platformRouter: Array<RouteObject> = [
     },
     children: [
       {
-        path: '/platform/403',
+        path: '/403',
         element: lazyLoad(React.lazy(() => import('@/components/ErrorMessage/403'))),
         meta: {
           requiresAuth: true,
@@ -38,7 +38,7 @@ const platformRouter: Array<RouteObject> = [
         }
       },
       {
-        path: '/platform/404',
+        path: '/404',
         element: lazyLoad(React.lazy(() => import('@/components/ErrorMessage/404'))),
         meta: {
           requiresAuth: false,
@@ -47,13 +47,17 @@ const platformRouter: Array<RouteObject> = [
         }
       },
       {
-        path: '/platform/500',
+        path: '/500',
         element: lazyLoad(React.lazy(() => import('@/components/ErrorMessage/500'))),
         meta: {
           requiresAuth: false,
           title: '500页面',
           key: '500'
         }
+      },
+      {
+        path: '*',
+        element: <Navigate to="/404" />
       }
     ]
   }

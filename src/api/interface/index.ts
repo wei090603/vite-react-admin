@@ -99,6 +99,7 @@ export namespace IArticle {
     title: string;
     tag: Tag[];
     category: number;
+    content: string;
   };
   export type ReqGetArticleParams = ReqPage;
 }
@@ -183,16 +184,18 @@ export namespace IRole {
   export type ReqGetRoleParams = ReqPage;
 }
 
-export namespace IResources {
-  export type ResResourcesList = {
-    title: string;
-    id: number;
-    parentId: number;
+export namespace IResource {
+  export type Resource = {
+    status: boolean;
+    component: string;
     path: string;
     icon: string;
     type: string;
-    status: boolean;
-    component: string;
+    parentId: number;
+    title: string;
+  };
+  export type ResResourceList = Resource & {
+    id: number;
     createdAt: string;
   };
 }

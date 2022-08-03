@@ -1,68 +1,13 @@
-import { IResources } from '@/api/interface';
-import { getResourcesList } from '@/api/permission';
+import React, { useEffect, useState } from 'react';
+import { IResource } from '@/api/interface';
+import { createResource, getResourceList, putResource } from '@/api/permission';
 import OperateBtn from '@/components/OperateBtn';
-import { Button, Drawer, Form, Input, InputNumber, Radio, Space, Switch, Table } from 'antd';
+import { Button, Drawer, Form, Input, InputNumber, message, Radio, Space, Switch, Table } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import type { TableRowSelection } from 'antd/es/table/interface';
-import React, { useEffect, useState } from 'react';
-
-const columns: ColumnsType<IResources.ResResourcesList> = [
-  {
-    title: '菜单名称',
-    dataIndex: 'title',
-    key: 'title'
-  },
-  {
-    title: '菜单类型',
-    dataIndex: 'type',
-    key: 'type',
-    render: type => <a>{type === 'menu' ? '菜单' : '按钮'}</a>
-  },
-  {
-    title: '图标',
-    dataIndex: 'icon',
-    key: 'icon'
-  },
-  {
-    title: '组件',
-    dataIndex: 'component',
-    key: 'component'
-  },
-  {
-    title: '路径',
-    dataIndex: 'path',
-    key: 'path'
-  },
-  {
-    title: '排序',
-    dataIndex: 'sort',
-    key: 'sort'
-  },
-  {
-    title: '创建时间',
-    dataIndex: 'createdAt',
-    key: 'createdAt',
-    render: (_, { createdAt }) => <span>{createdAt}</span>
-  },
-  {
-    title: '操作',
-    key: 'action',
-    fixed: 'right',
-    width: 100,
-    render: (_, record) => (
-      <Space size="middle">
-        <Button type="link">添加子级</Button>
-        <Button type="link">编辑 {record.id}</Button>
-        <Button type="link" danger>
-          删除
-        </Button>
-      </Space>
-    )
-  }
-];
 
 // rowSelection objects indicates the need for row selection
-const rowSelection: TableRowSelection<IResources.ResResourcesList> = {
+const rowSelection: TableRowSelection<IResource.ResResourceList> = {
   onChange: (selectedRowKeys, selectedRows) => {
     console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
   },
@@ -75,39 +20,124 @@ const rowSelection: TableRowSelection<IResources.ResResourcesList> = {
 };
 
 const Resources: React.FC = () => {
+  const [id, setId] = useState<number | null>(null);
+  const [parentId, setParentId] = useState<number>(0);
+  const [parentTitle, setParentTitle] = useState<string>('');
   const [visible, setVisible] = useState(false);
   const [form] = Form.useForm();
+  const [resourcesList, setResourcesList] = useState<IResource.ResResourceList[]>([]);
 
-  const [resourcesList, setResourcesList] = useState<IResources.ResResourcesList[]>([]);
+  const columns: ColumnsType<IResource.ResResourceList> = [
+    {
+      title: '菜单名称',
+      dataIndex: 'title',
+      key: 'title'
+    },
+    {
+      title: '菜单类型',
+      dataIndex: 'type',
+      key: 'type',
+      render: type => <a>{type === 'menu' ? '菜单' : '按钮'}</a>
+    },
+    {
+      title: '图标',
+      dataIndex: 'icon',
+      key: 'icon'
+    },
+    {
+      title: '组件',
+      dataIndex: 'component',
+      key: 'component'
+    },
+    {
+      title: '路径',
+      dataIndex: 'path',
+      key: 'path'
+    },
+    {
+      title: '状态',
+      dataIndex: 'status',
+      key: 'status',
+      render: status => <span>{status ? '隐藏' : '显示'}</span>
+    },
+    {
+      title: '排序',
+      dataIndex: 'sort',
+      key: 'sort'
+    },
+    {
+      title: '创建时间',
+      dataIndex: 'createdAt',
+      key: 'createdAt',
+      render: createdAt => <span>{createdAt}</span>
+    },
+    {
+      title: '操作',
+      key: 'action',
+      fixed: 'right',
+      width: 100,
+      render: (_, record) => (
+        <Space size="middle">
+          <Button type="link" onClick={() => handleAddSOn(record)}>
+            添加子级
+          </Button>
+          <Button type="link" onClick={() => handleEdit(record)}>
+            编辑
+          </Button>
+          <Button type="link" danger>
+            删除
+          </Button>
+        </Space>
+      )
+    }
+  ];
 
   useEffect(() => {
-    getManager();
+    getResource();
   }, []);
 
-  const getManager = async () => {
-    const data = await getResourcesList();
+  const getResource = async () => {
+    const data = await getResourceList();
     setResourcesList(data);
   };
 
   const formItemLayout = {
     labelCol: {
       xs: { span: 24 },
-      sm: { span: 4 }
+      sm: { span: 6 }
     },
     wrapperCol: {
       xs: { span: 24 },
-      sm: { span: 20 }
+      sm: { span: 18 }
     }
+  };
+
+  const handleEdit = (row: IResource.ResResourceList) => {
+    setId(row.id);
+    form.setFieldsValue({
+      title: row.title,
+      status: row.status,
+      component: row.component,
+      path: row.path,
+      icon: row.icon,
+      type: row.type
+    });
+    setVisible(true);
+  };
+
+  const handleAddSOn = (row: IResource.ResResourceList) => {
+    console.log(row, 'row');
+    setParentId(row.id);
+    setParentTitle(row.title);
+    setVisible(true);
   };
 
   const handleDel = () => {};
 
-  const handleCancel = () => {
-    form.resetFields();
-  };
-
   const onClose = () => {
-    handleCancel();
+    setId(null);
+    setParentId(0);
+    form.resetFields();
     setVisible(false);
   };
 
@@ -115,8 +145,19 @@ const Resources: React.FC = () => {
     form
       .validateFields()
       .then(async values => {
-        console.log(values, 'values');
-        handleCancel();
+        const params: IResource.Resource = {
+          status: values.status,
+          component: values.component,
+          path: values.path,
+          icon: values.icon,
+          type: values.type,
+          parentId,
+          title: values.parentId
+        };
+        id ? await putResource(id, params) : await createResource(params);
+        message.success(id ? '修改成功' : '新增成功');
+        onClose();
+        getResource();
       })
       .catch(() => {});
   };
@@ -132,16 +173,25 @@ const Resources: React.FC = () => {
         placement="right"
         onClose={onClose}
         visible={visible}
-        extra={
-          <Space>
-            <Button onClick={handleCancel}>重置</Button>
-            <Button onClick={handleSubmit} type="primary">
-              提交
-            </Button>
-          </Space>
+        destroyOnClose={true}
+        footer={
+          <div style={{ textAlign: 'right' }}>
+            <Space>
+              <Button onClick={onClose}>取消</Button>
+              <Button type="primary" onClick={handleSubmit}>
+                确定
+              </Button>
+            </Space>
+          </div>
         }
       >
-        <Form {...formItemLayout} form={form} name="form_in_modal" initialValues={{ sort: 1, switch: false, type: 1 }}>
+        <Form {...formItemLayout} form={form} name="form_in_modal" initialValues={{ sort: 1, switch: false, type: 'menu' }}>
+          {parentId ? (
+            <Form.Item name="parentTitle" label="父级写菜单" rules={[{ required: true, message: '父级写菜单名称' }]}>
+              {parentTitle}
+              <Input value={parentTitle} disabled />
+            </Form.Item>
+          ) : null}
           <Form.Item name="title" label="菜单名称" rules={[{ required: true, message: '前填写菜单名称' }]}>
             <Input placeholder="前填写菜单名称" />
           </Form.Item>
@@ -156,8 +206,8 @@ const Resources: React.FC = () => {
           </Form.Item>
           <Form.Item name="type" label="类型" rules={[{ required: true, message: '类型' }]}>
             <Radio.Group>
-              <Radio value={1}>菜单</Radio>
-              <Radio value={2}>按钮</Radio>
+              <Radio value="menu">菜单</Radio>
+              <Radio value="button">按钮</Radio>
             </Radio.Group>
           </Form.Item>
           <Form.Item name="switch" label="是否隐藏" valuePropName="checked">

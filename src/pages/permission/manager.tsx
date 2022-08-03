@@ -42,7 +42,7 @@ const Manager: FC = () => {
       title: '状态',
       dataIndex: 'status',
       key: 'status',
-      render: (status: boolean) => <Switch checkedChildren="显示" unCheckedChildren="隐藏" checked={status} />
+      render: (status: boolean) => <Switch checkedChildren="启用" unCheckedChildren="禁用" checked={status} />
     },
     {
       title: '备注',
@@ -52,14 +52,12 @@ const Manager: FC = () => {
     {
       title: '创建时间',
       dataIndex: 'createdAt',
-      key: 'createdAt',
-      render: (_, { createdAt }) => <span>{createdAt}</span>
+      key: 'createdAt'
     },
     {
       title: '更新时间',
-      dataIndex: 'updateAt',
-      key: 'updateAt',
-      render: (_, { updatedAt }) => <span>{updatedAt}</span>
+      dataIndex: 'updatedAt',
+      key: 'updatedAt'
     },
     {
       title: '操作',
