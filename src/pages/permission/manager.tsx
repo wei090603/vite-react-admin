@@ -1,9 +1,12 @@
 import { FC, useState, useEffect } from 'react';
+import { IRole } from '@/api/interface';
 import { IManager } from '@/api/interface';
 import type { ColumnsType } from 'antd/lib/table';
 import { getManagerList } from '@/api/permission';
-import { Button, Space, Switch, Table } from 'antd';
+import { Button, Space, Switch, Table, Form, Input, Select } from 'antd';
+const { Option } = Select;
 import OperateBtn from '@/components/OperateBtn';
+import FormDrawer from '@/components/FormDrawer';
 
 const Manager: FC = () => {
   const columns: ColumnsType<IManager.ResManagerList> = [
@@ -79,8 +82,30 @@ const Manager: FC = () => {
 
   const [managerList, setManagerList] = useState<IManager.ResManagerList[]>([]);
   const [total, setTotal] = useState<number>(0);
+  const [id, setId] = useState<number | null>(null);
+  const [visible, setVisible] = useState<boolean>(false);
+  const [form] = Form.useForm();
+  const [roleList, setRoleList] = useState<IRole.RoleUpdate[]>([]);
+  const formItemLayout = {
+    labelCol: {
+      xs: { span: 24 },
+      sm: { span: 4 }
+    },
+    wrapperCol: {
+      xs: { span: 24 },
+      sm: { span: 20 }
+    }
+  };
   useEffect(() => {
     getManager();
+    setRoleList([
+      {
+        mark: '部长',
+        remark: '以及',
+        roleName: '耳机',
+        id: 3
+      }
+    ]);
   }, []);
 
   const getManager = async (page: number = 1, limit: number = 10) => {
@@ -89,14 +114,21 @@ const Manager: FC = () => {
     setTotal(total);
   };
 
-  const handleAdd = () => {};
+  const handleAdd = () => {
+    setVisible(true);
+  };
 
   const handleDel = () => {};
 
   const handleEdit = (row: IManager.ResManagerList) => {
     console.log(row, 'row');
+    setId(row.id);
+    setVisible(true);
   };
-
+  const handleClose = () => {
+    setVisible(false);
+  };
+  const handleSubmit = () => {};
   return (
     <>
       <OperateBtn handleAdd={handleAdd} handleDel={handleDel} />
@@ -106,6 +138,67 @@ const Manager: FC = () => {
         rowKey={'id'}
         pagination={{ total, onChange: page => getManager(page) }}
       />
+      <FormDrawer title={id ? '编辑' : '新增'} handleClose={handleClose} handleSubmit={handleSubmit} visible={visible}>
+        <Form form={form} {...formItemLayout} name="form_in_modal" initialValues={{ remark: '' }}>
+          <Form.Item
+            name="roleName"
+            label="用户名"
+            rules={[
+              { required: true, message: '请输入内容' },
+              {
+                min: 2,
+                max: 15,
+                message: '长度在 2 到 15 个字符'
+              }
+            ]}
+          >
+            <Input placeholder="请填写用户名" />
+          </Form.Item>
+          <Form.Item name="mark" label="姓名" rules={[{ required: true, message: '请输入内容' }]}>
+            <Input placeholder="请填写姓名" />
+          </Form.Item>
+          <Form.Item name="mark" label="角色" rules={[{ required: true, message: '请输入内容' }]}>
+            <Select placeholder="请选择角色" allowClear>
+              {roleList.map(item => {
+                return (
+                  <Option key={item.id} value={item.id}>
+                    {item.roleName}
+                  </Option>
+                );
+              })}
+            </Select>
+          </Form.Item>
+          <Form.Item
+            name="mark"
+            label="邮箱"
+            rules={[
+              { required: true, message: '请输入内容' },
+              {
+                pattern: /^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+(\\.[a-zA-Z0-9-]+)*\.[a-zA-Z0-9]{2,6}$/,
+                message: '请输入正确的邮箱格式！'
+              }
+            ]}
+          >
+            <Input placeholder="请填写邮箱" />
+          </Form.Item>
+          <Form.Item
+            name="mark"
+            label="手机号码"
+            rules={[
+              { required: true, message: '请输入内容' },
+              {
+                pattern: /^1[3456789]\d{9}$/,
+                message: '请输入正确的手机号码格式！'
+              }
+            ]}
+          >
+            <Input placeholder="请填写手机号码" />
+          </Form.Item>
+          <Form.Item name="remark" label="描述">
+            <Input.TextArea />
+          </Form.Item>
+        </Form>
+      </FormDrawer>
     </>
   );
 };

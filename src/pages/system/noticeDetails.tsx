@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC, useEffect } from 'react';
 import { Button, Form, Input, Radio, Space, message } from 'antd';
 import Editor from '@/components/Editor';
 // import { INotice } from '@/api/interface/index';
@@ -12,22 +12,26 @@ const NoticeDetails: FC = () => {
     labelCol: { span: 8 },
     wrapperCol: { span: 16 }
   };
-  const [id, setId] = useState<number | null>(null);
   const [params] = useSearchParams();
   const { pathname } = useLocation();
+  const id = Number(params.get('id'));
+
   const isAdd = pathname === '/system/addNotice';
   // const isEdit = pathname === '/system/editNotice';
   const isView = pathname === '/system/viewsNotice';
   // 提交成功回调
   const onFinish = async (values: any) => {
-    const param = {
-      ...values,
-      status: false
-    };
-    console.log('id', id);
-    !id ? await addNotice(param) : await editNoticeInfo(id, param);
-    message.success(!id ? '编辑成功' : '新增成功');
-    navigate(-1);
+    try {
+      const param = {
+        ...values,
+        status: false
+      };
+      !id ? await addNotice(param) : await editNoticeInfo(id, param);
+      message.success(!id ? '编辑成功' : '新增成功');
+      navigate(-1);
+    } catch (error) {
+      console.log('error', error);
+    }
   };
   // 提交失败回调
   const onFinishFailed = (errorInfo: any) => {
@@ -42,8 +46,6 @@ const NoticeDetails: FC = () => {
     form.setFieldsValue(body);
   };
   useEffect(() => {
-    const id = Number(params.get('id'));
-    setId(id);
     if (!isAdd) {
       reqGetNoticeInfo(id);
     }
