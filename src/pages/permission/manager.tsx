@@ -121,7 +121,7 @@ const Manager: FC = () => {
   const handleDel = () => {};
 
   const handleEdit = (row: IManager.ResManagerList) => {
-    console.log(row, 'row');
+    console.log(row, '000row');
     setId(row.id);
     setVisible(true);
   };
