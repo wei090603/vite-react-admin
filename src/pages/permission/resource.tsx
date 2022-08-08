@@ -165,7 +165,7 @@ const Resources: React.FC = () => {
   return (
     <>
       <OperateBtn handleAdd={() => setVisible(true)} handleDel={handleDel} />
-      <Table rowKey={'id'} columns={columns} rowSelection={{ ...rowSelection, checkStrictly: true }} dataSource={resourcesList} />
+      <Table rowKey="id" columns={columns} rowSelection={{ ...rowSelection, checkStrictly: true }} dataSource={resourcesList} />
 
       <Drawer
         title="新增菜单"

@@ -181,6 +181,10 @@ export namespace IRole {
     id: number;
   };
 
+  export type ResourcesPatch = {
+    resourcesId: React.Key[];
+  };
+
   export type ReqGetRoleParams = ReqPage;
 }
 
@@ -196,6 +200,7 @@ export namespace IResource {
   };
   export type ResResourceList = Resource & {
     id: number;
+    children: ResResourceList[];
     createdAt: string;
   };
 }
