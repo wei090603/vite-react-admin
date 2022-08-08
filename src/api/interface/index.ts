@@ -180,7 +180,10 @@ export namespace IRole {
   export type RoleUpdate = Role & {
     id: number;
   };
-
+  export type NoPageItem = {
+    roleName: string;
+    id: number;
+  };
   export type ReqGetRoleParams = ReqPage;
 }
 
@@ -236,6 +239,16 @@ export namespace IManager {
     remark: string;
     createdAt: string;
     updatedAt: string;
+  };
+  export type Manager = {
+    name: string;
+    account: string;
+    email: string;
+    phone: string;
+    remark: [];
+  };
+  export type UpManager = Manager & {
+    id: number;
   };
 }
 

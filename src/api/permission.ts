@@ -9,7 +9,9 @@ export const getManagerList = (params: IManager.ReqGetManagerParams) => {
 export const getRoleList = (params: IRole.ReqGetRoleParams) => {
   return http.get<ResPage<IRole.ResRoleList>>('' + `/role`, params);
 };
-
+export const getNoPageRoleList = () => {
+  return http.get<IRole.NoPageItem[]>('' + `/role/list`);
+};
 export const createRole = (params: IRole.Role) => {
   return http.post('' + `/role`, params);
 };
@@ -28,4 +30,15 @@ export const createResource = (params: IResource.Resource) => {
 
 export const putResource = (id: number, params: IResource.Resource) => {
   return http.put('' + `/resources/${id}`, params);
+};
+
+export const createManager = (params: IManager.Manager) => {
+  return http.post('' + `/manager`, params);
+};
+export const putManager = (id: number, params: IManager.UpManager) => {
+  return http.put('' + `/manager/${id}`, params);
+};
+
+export const deleteManager = (id: number) => {
+  return http.delete<IResource.ResResourceList[]>('' + `/manager/${id}`);
 };
