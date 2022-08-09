@@ -100,6 +100,7 @@ const Manager: FC = () => {
   const [visible, setVisible] = useState<boolean>(false);
   const [form] = Form.useForm();
   const [roleList, setRoleList] = useState<IRole.NoPageItem[]>([]);
+
   const formItemLayout = {
     labelCol: {
       xs: { span: 24 },
@@ -130,10 +131,11 @@ const Manager: FC = () => {
     // deleteManager()
   };
 
-  const handleEdit = ({ id, name, account, email, phone, remark }: IManager.ResManagerList) => {
+  const handleEdit = ({ id, name, account, email, phone, remark, roles }: IManager.ResManagerList) => {
     setId(id);
+    const roleId = roles.map((item: IRole.ResRoleList) => item.id);
+    form.setFieldsValue({ name, account, email, phone, remark, roles: roleId });
     setVisible(true);
-    form.setFieldsValue({ name, account, email, phone, remark });
   };
   const handleClose = () => {
     setVisible(false);
