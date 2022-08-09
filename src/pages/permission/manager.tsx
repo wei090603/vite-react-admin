@@ -98,7 +98,7 @@ const Manager: FC = () => {
       title: '操作',
       key: 'action',
       fixed: 'right',
-      width: 240,
+      width: 260,
       render: (_, record) => (
         <Space size="middle">
           <Button type="link" onClick={() => changePwd(record)}>
