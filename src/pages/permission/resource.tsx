@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { IResource } from '@/api/interface';
 import { createResource, getResourceList, putResource } from '@/api/permission';
-import OperateBtn from '@/components/OperateBtn';
+import OperateBtn from '@/components/OperateBtn/index';
 import { Button, Drawer, Form, Input, InputNumber, message, Radio, Space, Switch, Table } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import type { TableRowSelection } from 'antd/es/table/interface';
@@ -165,7 +165,7 @@ const Resources: React.FC = () => {
   return (
     <>
       <OperateBtn handleAdd={() => setVisible(true)} handleDel={handleDel} />
-      <Table rowKey={'id'} columns={columns} rowSelection={{ ...rowSelection, checkStrictly: true }} dataSource={resourcesList} />
+      <Table rowKey="id" columns={columns} rowSelection={{ ...rowSelection, checkStrictly: true }} dataSource={resourcesList} />
 
       <Drawer
         title="新增菜单"

@@ -26,15 +26,13 @@ const Article: FC = () => {
       title: '标签',
       key: 'tag',
       dataIndex: 'tag',
-      render: (_, { tag }) => (
+      render: tag => (
         <>
-          {tag.map(item => {
-            return (
-              <Tag color="green" key={item.id}>
-                {item.name}
-              </Tag>
-            );
-          })}
+          {tag?.map((item: { name: string; id: number }) => (
+            <Tag color="green" key={item.id}>
+              {item.name}
+            </Tag>
+          ))}
         </>
       )
     },

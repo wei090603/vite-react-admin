@@ -180,6 +180,9 @@ export namespace IRole {
   export type RoleUpdate = Role & {
     id: number;
   };
+  export type ResourcesPatch = {
+    resourcesId: React.Key[];
+  };
   export type NoPageItem = {
     roleName: string;
     id: number;
@@ -199,6 +202,7 @@ export namespace IResource {
   };
   export type ResResourceList = Resource & {
     id: number;
+    children: ResResourceList[];
     createdAt: string;
   };
 }

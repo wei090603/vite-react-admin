@@ -2,43 +2,36 @@ import { IManager, IRole, ResPage, IResource } from '@/api/interface/index';
 
 import http from '@/service';
 
-export const getManagerList = (params: IManager.ReqGetManagerParams) => {
-  return http.get<ResPage<IManager.ResManagerList>>('' + `/manager`, params);
-};
+// 管理员模块
+export const getManagerList = (params: IManager.ReqGetManagerParams) =>
+  http.get<ResPage<IManager.ResManagerList>>(`/manager`, params);
 
-export const getRoleList = (params: IRole.ReqGetRoleParams) => {
-  return http.get<ResPage<IRole.ResRoleList>>('' + `/role`, params);
-};
-export const getNoPageRoleList = () => {
-  return http.get<IRole.NoPageItem[]>('' + `/role/list`);
-};
-export const createRole = (params: IRole.Role) => {
-  return http.post('' + `/role`, params);
-};
+export const createManager = (params: IManager.Manager) => http.post('' + `/manager`, params);
 
-export const putRole = (id: number, params: IRole.Role) => {
-  return http.put('' + `/role/${id}`, params);
-};
+export const putManager = (id: number, params: IManager.UpManager) => http.put('' + `/manager/${id}`, params);
 
-export const getResourceList = () => {
-  return http.get<IResource.ResResourceList[]>('' + `/resources`);
-};
+export const deleteManager = (id: number) => http.delete<IResource.ResResourceList[]>('' + `/manager/${id}`);
 
-export const createResource = (params: IResource.Resource) => {
-  return http.post('' + `/resources`, params);
-};
+export const putManagerStatus = (id: number) => http.patch('' + `/manager/status/${id}`);
 
-export const putResource = (id: number, params: IResource.Resource) => {
-  return http.put('' + `/resources/${id}`, params);
-};
+export const putManagerPassword = (id: number) => http.patch('' + `/manager/restPassword/${id}`);
 
-export const createManager = (params: IManager.Manager) => {
-  return http.post('' + `/manager`, params);
-};
-export const putManager = (id: number, params: IManager.UpManager) => {
-  return http.put('' + `/manager/${id}`, params);
-};
+// 角色模块
+export const getRoleList = (params: IRole.ReqGetRoleParams) => http.get<ResPage<IRole.ResRoleList>>(`/role`, params);
+// 无分页角色列表
+export const getNoPageRoleList = () => http.get<IRole.NoPageItem[]>('' + `/role/list`);
 
-export const deleteManager = (id: number) => {
-  return http.delete<IResource.ResResourceList[]>('' + `/manager/${id}`);
-};
+export const createRole = (params: IRole.Role) => http.post(`/role`, params);
+
+export const putRole = (id: number, params: IRole.Role) => http.put(`/role/${id}`, params);
+// 获取角色权限
+export const getRoleAuth = (id: number) => http.get<number[]>(`role/${id}`);
+
+export const patchRole = (id: number, params: IRole.ResourcesPatch) => http.patch(`/role/resources/${id}`, params);
+
+// 资源模块
+export const getResourceList = () => http.get<IResource.ResResourceList[]>(`/resources`);
+
+export const createResource = (params: IResource.Resource) => http.post(`/resources`, params);
+
+export const putResource = (id: number, params: IResource.Resource) => http.put(`/resources/${id}`, params);

@@ -1,8 +1,16 @@
 import { FC, useState, useEffect } from 'react';
 import { IManager, IRole } from '@/api/interface';
 import type { ColumnsType } from 'antd/lib/table';
-import { getManagerList, putManager, createManager, getNoPageRoleList, deleteManager } from '@/api/permission';
-import { Button, Space, Switch, Table, Form, Input, Select, message, Popconfirm } from 'antd';
+import {
+  getManagerList,
+  putManager,
+  createManager,
+  getNoPageRoleList,
+  deleteManager,
+  putManagerStatus,
+  putManagerPassword
+} from '@/api/permission';
+import { Button, Space, Switch, Table, Form, Input, Select, message, Popconfirm, Tag, Image } from 'antd';
 const { Option } = Select;
 import OperateBtn from '@/components/OperateBtn';
 import FormDrawer from '@/components/FormDrawer';
@@ -23,43 +31,51 @@ const Manager: FC = () => {
       title: '邮箱',
       dataIndex: 'email',
       key: 'email',
-      width: 160
+      width: 180
     },
     {
       title: '头像',
       dataIndex: 'avatar',
       key: 'avatar',
-      render: avatar => <img width={50} height={50} src={avatar} alt="" />
+      width: 70,
+      render: avatar => <Image width={50} src={avatar} />
     },
     {
       title: '手机号',
       dataIndex: 'phone',
-      key: 'phone'
+      key: 'phone',
+      width: 140
     },
     {
       title: '角色',
       dataIndex: 'roles',
       key: 'roles',
-      render: (roles: IRole.ResRoleList[]) => {
-        return (
-          <>
-            {roles.map(item => {
-              return (
-                <p style={{ width: '100px' }} key={item.id}>
-                  {item.roleName}&nbsp;
-                </p>
-              );
-            })}
-          </>
-        );
-      }
+      width: 120,
+      render: (roles: IRole.ResRoleList[]) => (
+        <>
+          {roles?.map(item => (
+            <Tag color="green" key={item.id}>
+              {item.roleName}
+            </Tag>
+          ))}
+        </>
+      )
     },
     {
       title: '状态',
       dataIndex: 'status',
       key: 'status',
       width: 100,
-      render: (status: boolean) => <Switch checkedChildren="启用" unCheckedChildren="禁用" checked={status} />
+      render: (status: boolean, row: IManager.ResManagerList) => (
+        <Switch
+          checkedChildren="启用"
+          unCheckedChildren="禁用"
+          checked={status}
+          onChange={() => {
+            updateStatus(status, row);
+          }}
+        />
+      )
     },
     {
       title: '备注',
@@ -69,20 +85,25 @@ const Manager: FC = () => {
     {
       title: '创建时间',
       dataIndex: 'createdAt',
-      key: 'createdAt'
+      key: 'createdAt',
+      width: 180
     },
     {
       title: '更新时间',
       dataIndex: 'updatedAt',
-      key: 'updatedAt'
+      key: 'updatedAt',
+      width: 180
     },
     {
       title: '操作',
       key: 'action',
       fixed: 'right',
-      width: 180,
+      width: 240,
       render: (_, record) => (
         <Space size="middle">
+          <Button type="link" onClick={() => changePwd(record)}>
+            重置密码
+          </Button>
           <Button type="link" onClick={() => handleEdit(record)}>
             编辑
           </Button>
@@ -109,6 +130,7 @@ const Manager: FC = () => {
   const [visible, setVisible] = useState<boolean>(false);
   const [form] = Form.useForm();
   const [roleList, setRoleList] = useState<IRole.NoPageItem[]>([]);
+
   const formItemLayout = {
     labelCol: {
       xs: { span: 24 },
@@ -135,15 +157,16 @@ const Manager: FC = () => {
   };
 
   const handleDel = (record: IManager.ResManagerList) => {
-    console.log('ee', record);
-    setId(record.id);
-    deleteManager(3);
+    deleteManager(record.id);
+    message.success('删除成功');
+    getManager();
   };
 
-  const handleEdit = ({ id, name, account, email, phone, remark }: IManager.ResManagerList) => {
+  const handleEdit = ({ id, name, account, email, phone, remark, roles }: IManager.ResManagerList) => {
     setId(id);
+    const roleId = roles.map((item: IRole.ResRoleList) => item.id);
+    form.setFieldsValue({ name, account, email, phone, remark, roles: roleId });
     setVisible(true);
-    form.setFieldsValue({ name, account, email, phone, remark });
   };
   const handleClose = () => {
     setVisible(false);
@@ -159,6 +182,16 @@ const Manager: FC = () => {
       })
       .catch(() => {})
       .finally(() => {});
+  };
+  const updateStatus = async (status: boolean, row: IManager.ResManagerList) => {
+    await putManagerStatus(row.id);
+    message.success(status ? '禁用成功' : '启用成功');
+    getManager();
+  };
+  const changePwd = async (row: IManager.ResManagerList) => {
+    await putManagerPassword(row.id);
+    message.success('重置密码成功');
+    getManager();
   };
   useEffect(() => {
     getManager();
