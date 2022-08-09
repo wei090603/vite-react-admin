@@ -2,7 +2,7 @@ import { FC, useState, useEffect } from 'react';
 import { IManager } from '@/api/interface';
 import type { ColumnsType } from 'antd/lib/table';
 import { getManagerList } from '@/api/permission';
-import { Button, Space, Switch, Table } from 'antd';
+import { Button, Space, Switch, Table, Tag } from 'antd';
 import OperateBtn from '@/components/OperateBtn';
 
 const Manager: FC = () => {
@@ -35,8 +35,17 @@ const Manager: FC = () => {
     },
     {
       title: '角色',
-      dataIndex: 'role',
-      key: 'role'
+      dataIndex: 'roles',
+      key: 'roles',
+      render: (roles: { roleName: string; id: number }[]) => (
+        <>
+          {roles?.map(item => (
+            <Tag color="green" key={item.id}>
+              {item.roleName}
+            </Tag>
+          ))}
+        </>
+      )
     },
     {
       title: '状态',
