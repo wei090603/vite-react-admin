@@ -1,88 +1,100 @@
-import { Space, Table, Tag } from 'antd';
+import { Space, Button, Popconfirm, Table, Tag } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { INotice } from '@/api/interface/index';
+import { getNoticeList } from '@/api/system';
+import OperateBtn from '@/components/OperateBtn';
+import { useNavigate } from 'react-router-dom';
 
-interface DataType {
-  key: string;
-  name: string;
-  age: number;
-  address: string;
-  tags: string[];
-}
+const Notice: React.FC = () => {
+  const [data, setNoticeList] = useState<INotice.INoticeList[]>([]);
+  const navigate = useNavigate();
+  const columns: ColumnsType<INotice.INoticeList> = [
+    {
+      title: '标题',
+      dataIndex: 'title',
+      key: 'title'
+    },
 
-const columns: ColumnsType<DataType> = [
-  {
-    title: 'Name',
-    dataIndex: 'name',
-    key: 'name',
-    render: text => <a>{text}</a>
-  },
-  {
-    title: 'Age',
-    dataIndex: 'age',
-    key: 'age'
-  },
-  {
-    title: 'Address',
-    dataIndex: 'address',
-    key: 'address'
-  },
-  {
-    title: 'Tags',
-    key: 'tags',
-    dataIndex: 'tags',
-    render: (_, { tags }) => (
-      <>
-        {tags.map(tag => {
-          let color = tag.length > 5 ? 'geekblue' : 'green';
-          if (tag === 'loser') {
-            color = 'volcano';
-          }
-          return (
-            <Tag color={color} key={tag}>
-              {tag.toUpperCase()}
-            </Tag>
-          );
-        })}
-      </>
-    )
-  },
-  {
-    title: 'Action',
-    key: 'action',
-    render: (_, record) => (
-      <Space size="middle">
-        <a>Invite {record.name}</a>
-        <a>Delete</a>
-      </Space>
-    )
-  }
-];
-
-const data: DataType[] = [
-  {
-    key: '1',
-    name: 'John Brown',
-    age: 32,
-    address: 'New York No. 1 Lake Park',
-    tags: ['nice', 'developer']
-  },
-  {
-    key: '2',
-    name: 'Jim Green',
-    age: 42,
-    address: 'London No. 1 Lake Park',
-    tags: ['loser']
-  },
-  {
-    key: '3',
-    name: 'Joe Black',
-    age: 32,
-    address: 'Sidney No. 1 Lake Park',
-    tags: ['cool', 'teacher']
-  }
-];
-
-const Notice: React.FC = () => <Table columns={columns} dataSource={data} />;
+    {
+      title: '消息类型',
+      dataIndex: 'type',
+      key: 'type',
+      render: (_, { type }) => {
+        // 类型 1-通知 2-公告
+        return <span>{type === 1 ? '通知' : '公告'}</span>;
+      }
+    },
+    {
+      title: '发布人',
+      dataIndex: 'createBy',
+      key: 'createBy'
+    },
+    {
+      title: '状态',
+      key: 'status',
+      dataIndex: 'status',
+      render: (_, { status }) => {
+        const color = status ? 'green' : 'grey';
+        return (
+          <>
+            <Tag color={color}>{status ? '已发布' : '已撤销'}</Tag>
+          </>
+        );
+      }
+    },
+    {
+      title: '操作',
+      key: 'action',
+      width: 180,
+      render: (_, record) => (
+        <Space size="middle">
+          <Popconfirm title="确认撤销此项？" onConfirm={handleDel} okText="确认" cancelText="取消">
+            <Button type="link" danger>
+              撤销
+            </Button>
+          </Popconfirm>
+          <Button type="link" onClick={() => handleViews(record, true)}>
+            编辑
+          </Button>
+          <Button type="link" onClick={() => handleViews(record, false)}>
+            查看
+          </Button>
+        </Space>
+      )
+    }
+  ];
+  useEffect(() => {
+    reqGetNoticeList();
+  }, []);
+  const reqGetNoticeList = async (page: number = 1, limit: number = 10) => {
+    const body = await getNoticeList({ page, limit, title: '' });
+    setNoticeList(body.list);
+  };
+  const handleAdd = () => {
+    navigate('/system/addNotice');
+  };
+  /**
+   * 撤销
+   */
+  const handleDel = () => {};
+  /**
+   * 查看
+   */
+  const handleViews = (record: INotice.INoticeList, isEdit: boolean) => {
+    console.log('record', record);
+    if (isEdit) {
+      navigate(`/system/editNotice?id=${record.id}`);
+    } else {
+      navigate(`/system/viewsNotice?id=${record.id}`);
+    }
+  };
+  return (
+    <>
+      <OperateBtn handleAdd={() => handleAdd()} />
+      <Table columns={columns} dataSource={data} rowKey={'id'} />
+    </>
+  );
+};
 
 export default Notice;

@@ -180,11 +180,13 @@ export namespace IRole {
   export type RoleUpdate = Role & {
     id: number;
   };
-
   export type ResourcesPatch = {
     resourcesId: React.Key[];
   };
-
+  export type NoPageItem = {
+    roleName: string;
+    id: number;
+  };
   export type ReqGetRoleParams = ReqPage;
 }
 
@@ -242,6 +244,16 @@ export namespace IManager {
     createdAt: string;
     updatedAt: string;
   };
+  export type Manager = {
+    name: string;
+    account: string;
+    email: string;
+    phone: string;
+    remark: [];
+  };
+  export type UpManager = Manager & {
+    id: number;
+  };
 }
 
 export namespace INavgation {
@@ -281,16 +293,28 @@ export namespace ILoginLogger {
   export type ReqGetLoginLoggerParams = ReqPage;
 }
 
-export namespace Notice {
+export namespace INotice {
   type NoticeItem = {
-    id: string;
     title: string;
     type: number;
     status: boolean;
   };
+  export type NoticeListReq = {
+    limit: number;
+    page: number;
+    title: string;
+  };
+  export type INoticeList = ResDate &
+    NoticeItem & {
+      id: string;
+      content: string;
+    };
 
   export type NoticeFormItem = NoticeItem & {
     content: string;
+  };
+  export type Id = {
+    id: string;
   };
 }
 
