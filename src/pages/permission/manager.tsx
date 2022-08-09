@@ -1,7 +1,7 @@
 import { FC, useState, useEffect } from 'react';
 import { IManager, IRole } from '@/api/interface';
 import type { ColumnsType } from 'antd/lib/table';
-import { getManagerList, putManager, createManager, getNoPageRoleList } from '@/api/permission';
+import { getManagerList, putManager, createManager, getNoPageRoleList, deleteManager } from '@/api/permission';
 import { Button, Space, Switch, Table, Form, Input, Select, message, Popconfirm } from 'antd';
 const { Option } = Select;
 import OperateBtn from '@/components/OperateBtn';
@@ -86,7 +86,14 @@ const Manager: FC = () => {
           <Button type="link" onClick={() => handleEdit(record)}>
             编辑
           </Button>
-          <Popconfirm title="确认删除此项？" onConfirm={handleDel} okText="确认" cancelText="取消">
+          <Popconfirm
+            title="确认删除此项？"
+            onConfirm={() => {
+              handleDel(record);
+            }}
+            okText="确认"
+            cancelText="取消"
+          >
             <Button type="link" danger>
               删除
             </Button>
@@ -127,9 +134,10 @@ const Manager: FC = () => {
     setVisible(true);
   };
 
-  const handleDel = (e: any) => {
-    console.log('ee', e);
-    // deleteManager()
+  const handleDel = (record: IManager.ResManagerList) => {
+    console.log('ee', record);
+    setId(record.id);
+    deleteManager(3);
   };
 
   const handleEdit = ({ id, name, account, email, phone, remark }: IManager.ResManagerList) => {
