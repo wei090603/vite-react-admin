@@ -203,7 +203,7 @@ const Manager: FC = () => {
       <Table
         columns={columns}
         dataSource={managerList}
-        rowKey={'id'}
+        rowKey="id"
         pagination={{ total, onChange: page => getManager(page) }}
         scroll={{ x: '100%' }}
       />
