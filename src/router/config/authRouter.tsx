@@ -18,11 +18,11 @@ const AuthRouter = (props: any) => {
   // * 在跳转路由之前，清除所有的请求
   axiosCanceler.removeAllPending();
 
-  // * 判断当前路由是否需要访问权限(不需要权限直接放行)
-  if (!route.meta?.requiresAuth) return props.children;
-
   // * 判断是否有Token
   if (!isToken) return <Navigate to="/login" replace />;
+
+  // * 判断当前路由是否需要访问权限(不需要权限直接放行)
+  if (!route.meta?.requiresAuth) return props.children;
 
   // // * Dynamic Router(动态路由，根据后端返回的菜单数据生成的一维数组)
   // const dynamicRouter = store.getState().auth.authRouter;

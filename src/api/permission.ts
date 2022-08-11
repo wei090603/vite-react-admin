@@ -6,20 +6,23 @@ import http from '@/service';
 export const getManagerList = (params: IManager.ReqGetManagerParams) =>
   http.get<ResPage<IManager.ResManagerList>>(`/manager`, params);
 
-export const createManager = (params: IManager.Manager) => http.post('' + `/manager`, params);
+export const createManager = (params: IManager.Manager) => http.post(`/manager`, params);
 
-export const putManager = (id: number, params: IManager.UpManager) => http.put('' + `/manager/${id}`, params);
+export const putManager = (id: number, params: IManager.UpManager) => http.put(`/manager/${id}`, params);
 
-export const deleteManager = (id: number) => http.delete<IResource.ResResourceList[]>('' + `/manager/${id}`);
+export const deleteManager = (id: number) => http.delete(`/manager/${id}`);
 
-export const putManagerStatus = (id: number) => http.patch('' + `/manager/status/${id}`);
+export const putManagerStatus = (id: number) => http.patch(`/manager/status/${id}`);
 
-export const putManagerPassword = (id: number) => http.patch('' + `/manager/restPassword/${id}`);
+export const putManagerPassword = (id: number) => http.patch(`/manager/restPassword/${id}`);
+
+// 获取当前用户菜单权限
+export const getManagerResources = () => http.get<IResource.ResResourceList[]>(`/manager/resources`);
 
 // 角色模块
 export const getRoleList = (params: IRole.ReqGetRoleParams) => http.get<ResPage<IRole.ResRoleList>>(`/role`, params);
 // 无分页角色列表
-export const getNoPageRoleList = () => http.get<IRole.NoPageItem[]>('' + `/role/list`);
+export const getNoPageRoleList = () => http.get<IRole.NoPageItem[]>(`/role/list`);
 
 export const createRole = (params: IRole.Role) => http.post(`/role`, params);
 
