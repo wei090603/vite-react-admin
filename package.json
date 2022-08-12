@@ -4,7 +4,10 @@
   "version": "0.0.0",
   "scripts": {
     "dev": "vite",
+    "build:dev": "tsc && vite build --mode development",
+		"build:test": "tsc && vite build --mode test",
     "build": "tsc && vite build",
+    "build:pro": "tsc && vite build --mode production",
     "preview": "vite preview",
     "lint:eslint": "eslint --fix --ext .js,.ts,.tsx ./src",
     "lint:prettier": "prettier --write --loglevel warn \"src/**/*.{js,ts,json,tsx,css,less,scss,html,md}\""

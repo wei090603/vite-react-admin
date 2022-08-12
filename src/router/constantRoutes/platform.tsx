@@ -2,7 +2,7 @@ import React from 'react';
 import { Navigate } from 'react-router-dom';
 import lazyLoad from '@/router/config/lazyLoad';
 import { RouteObject } from '@/router/interface';
-import { Layout } from '@/router/constant';
+import { Layout } from '@/router/layout';
 import Login from '@/pages/login';
 
 // 错误页面模块

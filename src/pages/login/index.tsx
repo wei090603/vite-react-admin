@@ -33,7 +33,7 @@ const Login: FC = () => {
           validateTrigger={['onBlur', 'onChange']}
           initialValues={{
             remember: true,
-            account: 'admin',
+            account: '',
             password: ''
           }}
           onFinish={onFinish}

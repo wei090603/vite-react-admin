@@ -1,6 +1,6 @@
 import React from 'react';
 import lazyLoad from '@/router/config/lazyLoad';
-import { Layout } from '@/router/constant';
+import { Layout } from '@/router/layout';
 import { RouteObject } from '@/router/interface';
 
 // article 模块
@@ -30,6 +30,39 @@ const systemRouter: Array<RouteObject> = [
           requiresAuth: true,
           title: '通知公告',
           key: 'notice'
+        }
+      },
+      {
+        path: '/system/addNotice',
+        element: lazyLoad(React.lazy(() => import('@/pages/system/noticeDetails'))),
+        meta: {
+          requiresAuth: true,
+          title: '新增通知公告',
+          hidden: true,
+          key: 'notice',
+          activeMenu: '/system/notice'
+        }
+      },
+      {
+        path: '/system/editNotice',
+        element: lazyLoad(React.lazy(() => import('@/pages/system/noticeDetails'))),
+        meta: {
+          requiresAuth: true,
+          title: '编辑通知公告',
+          hidden: true,
+          key: 'notice',
+          activeMenu: '/system/notice'
+        }
+      },
+      {
+        path: '/system/viewsNotice',
+        element: lazyLoad(React.lazy(() => import('@/pages/system/noticeDetails'))),
+        meta: {
+          requiresAuth: true,
+          title: '查看通知公告',
+          hidden: true,
+          key: 'notice',
+          activeMenu: '/system/notice'
         }
       },
       {

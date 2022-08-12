@@ -1,6 +1,6 @@
 import React from 'react';
 import lazyLoad from '@/router/config/lazyLoad';
-import { Layout } from '@/router/constant';
+import { Layout } from '@/router/layout';
 import { RouteObject } from '@/router/interface';
 
 // article 模块
