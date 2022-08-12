@@ -3,6 +3,8 @@ import { useLocation, Navigate } from 'react-router-dom';
 import { searchRoute } from '@/utils/reouter';
 import { rootRouter } from '@/router';
 import { AxiosCanceler } from '@/service/helper/axiosCancel';
+import { useEffect } from 'react';
+import useLogin from '@/hooks/useLogin';
 // import { HOME_URL } from "@/config/config";
 
 const axiosCanceler = new AxiosCanceler();
@@ -12,6 +14,13 @@ const axiosCanceler = new AxiosCanceler();
  * */
 const AuthRouter = (props: any) => {
   const isToken = getStorage('token');
+  const { initAfterLogin } = useLogin();
+
+  useEffect(() => {
+    if (isToken) {
+      initAfterLogin();
+    }
+  }, [isToken]);
 
   const { pathname } = useLocation();
   const route = searchRoute(pathname, rootRouter);
@@ -20,9 +29,6 @@ const AuthRouter = (props: any) => {
 
   // * 判断是否有Token
   if (!isToken) return <Navigate to="/login" replace />;
-
-  // * 判断当前路由是否需要访问权限(不需要权限直接放行)
-  if (!route.meta?.requiresAuth) return props.children;
 
   // // * Dynamic Router(动态路由，根据后端返回的菜单数据生成的一维数组)
   // const dynamicRouter = store.getState().auth.authRouter;
@@ -36,6 +42,19 @@ const AuthRouter = (props: any) => {
 
   // * 当前账号有权限返回 Router，正常访问页面
   return props.children;
+
+  // return (
+  //   <Routes>
+  //     <Route path={'/login'} element={<LoginPage />} />
+  //     <Route path={'/*'} element={<ILayout />}>
+  //       <Route path="" element={<Home />}></Route>
+  //       {pages.map(item => (
+  //         <Route key={item.path} path={item.path} element={<item.comp></item.comp>} />
+  //       ))}
+  //       <Route path="*" element={pages.length ? <NotFound /> : <LoadingPage />}></Route>
+  //     </Route>
+  //   </Routes>
+  // );
 };
 
 export default AuthRouter;

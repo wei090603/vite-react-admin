@@ -45,11 +45,14 @@ const userSlice = createSlice({
     },
     setUserInfo(state, { payload }) {
       state.userInfo = payload;
+    },
+    setUserResources(state, { payload }) {
+      console.log(payload, 'payload');
     }
   }
 });
 
-export const { setToken, setUserInfo } = userSlice.actions;
+export const { setToken, setUserInfo, setUserResources } = userSlice.actions;
 
 export const fetchLogin = (payload: ILoginForm) => async (dispatch: any) => {
   const { token } = await login(payload);
