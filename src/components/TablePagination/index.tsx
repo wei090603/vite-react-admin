@@ -15,7 +15,7 @@ const TablePagination: FC<IProps> = (props: IProps) => {
       <Table
         columns={columns}
         dataSource={dataList}
-        rowKey={'id'}
+        rowKey="id"
         pagination={{ total, onChange: page => handlePagination(page) }}
       />
     </>

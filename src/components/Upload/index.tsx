@@ -76,6 +76,7 @@ const MyUpload: React.FC<Props> = ({ form, imageList, maxCount = 1 }) => {
         onChange={handleChange}
         onRemove={handleRemove}
         maxCount={maxCount}
+        multiple={maxCount > 1}
         action={import.meta.env.VITE_API_URL + '/upload/file'}
         headers={{ Authorization: `Bearer ${token}` }}
       >
