@@ -1,9 +1,8 @@
+import { useEffect } from 'react';
 import { getStorage } from '@/utils/storage';
 import { useLocation, Navigate } from 'react-router-dom';
-import { searchRoute } from '@/utils/reouter';
-import { rootRouter } from '@/router';
 import { AxiosCanceler } from '@/service/helper/axiosCancel';
-import { useEffect } from 'react';
+import { useAppSelector } from '@/hooks';
 import useLogin from '@/hooks/useLogin';
 // import { HOME_URL } from "@/config/config";
 
@@ -12,23 +11,32 @@ const axiosCanceler = new AxiosCanceler();
 /**
  * @description 路由守卫组件
  * */
-const AuthRouter = (props: any) => {
+const AuthRouter = ({ children }: any) => {
   const isToken = getStorage('token');
+  const { resources } = useAppSelector(state => state.user);
+  const { pathname } = useLocation();
   const { initAfterLogin } = useLogin();
 
   useEffect(() => {
+    console.log(111);
     if (isToken) {
       initAfterLogin();
     }
   }, [isToken]);
 
-  const { pathname } = useLocation();
-  const route = searchRoute(pathname, rootRouter);
   // * 在跳转路由之前，清除所有的请求
   axiosCanceler.removeAllPending();
 
+  if (pathname === '/login') return children;
   // * 判断是否有Token
   if (!isToken) return <Navigate to="/login" replace />;
+
+  // 静态路由，合动态路由合并。
+  // const routes = rootRouter(resources);
+
+  console.log(pathname, resources, 'rootRouter');
+  const route = resources.find(item => item.path === pathname);
+  console.log(route, 'route');
 
   // // * Dynamic Router(动态路由，根据后端返回的菜单数据生成的一维数组)
   // const dynamicRouter = store.getState().auth.authRouter;
@@ -38,23 +46,10 @@ const AuthRouter = (props: any) => {
   // // * 如果访问的地址没有在路由表中重定向到403页面
   // if (routerList.indexOf(pathname) == -1) return <Navigate to="/403" />;
 
-  window.document.title = route.meta?.title || '后台管理系统';
+  // window.document.title = route.meta?.title || '后台管理系统';
 
   // * 当前账号有权限返回 Router，正常访问页面
-  return props.children;
-
-  // return (
-  //   <Routes>
-  //     <Route path={'/login'} element={<LoginPage />} />
-  //     <Route path={'/*'} element={<ILayout />}>
-  //       <Route path="" element={<Home />}></Route>
-  //       {pages.map(item => (
-  //         <Route key={item.path} path={item.path} element={<item.comp></item.comp>} />
-  //       ))}
-  //       <Route path="*" element={pages.length ? <NotFound /> : <LoadingPage />}></Route>
-  //     </Route>
-  //   </Routes>
-  // );
+  return children;
 };
 
 export default AuthRouter;

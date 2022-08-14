@@ -18,6 +18,8 @@ interface IUserInfo {
 export interface ICounterState {
   userInfo: IUserInfo;
   token: string;
+  resources: any[];
+  flatResources: any[];
 }
 
 const initialState: ICounterState = {
@@ -31,7 +33,9 @@ const initialState: ICounterState = {
     phone: '',
     remark: ''
   },
-  token: getStorage('token') || ''
+  token: getStorage('token') || '',
+  resources: [],
+  flatResources: []
 };
 
 const namespaces = 'user';
@@ -48,6 +52,8 @@ const userSlice = createSlice({
     },
     setUserResources(state, { payload }) {
       console.log(payload, 'payload');
+      state.flatResources = payload.flat();
+      state.resources = payload;
     }
   }
 });
@@ -63,13 +69,12 @@ export const fetchLogin = (payload: ILoginForm) => async (dispatch: any) => {
 export const getUserInfo = () => async (dispatch: any) => {
   const data = await userInfo();
   dispatch(setUserInfo(data));
-  await getManagerRresources();
 };
 
 // 获取权限列表
-export const getManagerRresources = async () => {
+export const getPermission = () => async (dispatch: any) => {
   const data = await getManagerResources();
-  console.log(data, 'data');
+  dispatch(setUserResources(data));
 };
 
 export const fetchLoginOut = () => async () => {

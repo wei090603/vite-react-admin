@@ -2,21 +2,22 @@ import { FC } from 'react';
 import { unstable_HistoryRouter as HistoryRouter } from 'react-router-dom';
 import history from './utils/history';
 import AuthRouter from '@/router/config/authRouter';
-import Router from '@/router';
+import { rootRouter, Router } from '@/router';
+import { useAppSelector } from './hooks';
 
 import 'antd/dist/antd.less';
 import './App.less';
+import { RouteObject } from './router/interface';
 
 const App: FC = () => {
-  const { userInfo } = useAppSelector(state => state.user);
-  //获取路由表映射出来的 动态路由
-  const dynamicRoutes = func.getDynamicRouters();
-  // 静态路由，合动态路由合并。
-  const routes = mergeRoutes(dynamicRoutes);
+  const { resources } = useAppSelector(state => state.user);
+
+  const routes: RouteObject[] = rootRouter(resources);
+
   return (
     <HistoryRouter history={history}>
       <AuthRouter>
-        <Router rootRouter="rootRouter" />
+        <Router routes={routes} />
       </AuthRouter>
     </HistoryRouter>
   );
