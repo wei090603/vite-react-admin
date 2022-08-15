@@ -2,7 +2,7 @@ import { userInfo } from '@/api/login';
 import { getManagerResources } from '@/api/permission';
 
 import { useAppDispatch } from '@/hooks';
-import { setUserInfo, setUserResources } from '@/store/modules/user';
+import { setFlatRoutes, setUserInfo, setUserResources } from '@/store/modules/user';
 
 export default function useLogin() {
   const dispatch = useAppDispatch();
@@ -19,6 +19,7 @@ export default function useLogin() {
     const res = await Promise.all([userInfo(), getManagerResources()]);
     dispatch(setUserInfo(res[0]));
     dispatch(setUserResources(res[1]));
+    dispatch(setFlatRoutes(res[1]));
   };
 
   return {

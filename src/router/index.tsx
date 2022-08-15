@@ -13,6 +13,6 @@ Object.keys(metaRouters).forEach(item => {
   });
 });
 
-export const rootRouter = (asyncRoutes: RouteObject[] = []) => [...asyncRoutes, ...routerArray, ...constantRoutes];
+export const rootRouter = (asyncRoutes: RouteObject[] = []) => [...asyncRoutes, ...constantRoutes];
 
 export const Router = ({ routes }: { routes: RouteObject[] }) => useRoutes(routes);
