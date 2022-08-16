@@ -9,15 +9,13 @@ const dashboardRouter: Array<RouteObject> = [
     element: Layout,
     meta: {
       title: 'Dashboard',
-      key: 'Dashboard',
-      sort: 1
+      key: 'Dashboard'
     },
     children: [
       {
         path: '/',
         element: lazyLoad(React.lazy(() => import('@/pages/dashboard'))),
         meta: {
-          requiresAuth: true,
           title: '首页',
           key: 'home'
         }

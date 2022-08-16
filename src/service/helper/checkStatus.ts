@@ -1,3 +1,4 @@
+import { removeStorage } from '@/utils/storage';
 import { message } from 'antd';
 
 /**
@@ -12,6 +13,7 @@ export const checkStatus = (status: number): void => {
       break;
     case 401:
       message.error('登录失效！请您重新登录');
+      removeStorage('token');
       location.href = '/login';
       break;
     case 403:

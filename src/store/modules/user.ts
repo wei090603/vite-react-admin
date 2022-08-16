@@ -2,7 +2,8 @@ import { createSlice } from '@reduxjs/toolkit';
 import { login, loginOut } from '@/api/login';
 import { getStorage, removeStorage, setStorage } from '@/utils/storage';
 import { ILoginForm } from '@/pages/login';
-import { getDynamicRouters, initTree } from '@/utils/reouter';
+import { getDynamicRouters, initTree } from '@/utils/router';
+import constantRoutes from '@/router/constantRoutes/platform';
 
 interface IUserInfo {
   account: string;
@@ -52,11 +53,10 @@ const userSlice = createSlice({
     },
     setUserResources(state, { payload }) {
       const treeMenu = getDynamicRouters(initTree(payload));
-      console.log(treeMenu, 'treeMenu');
       state.resources = treeMenu;
     },
     setFlatRoutes(state, { payload }) {
-      state.flatResources = payload;
+      state.flatResources = payload.concat(constantRoutes[1].children?.flat());
     }
   }
 });

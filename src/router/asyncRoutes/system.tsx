@@ -10,15 +10,13 @@ const systemRouter: Array<RouteObject> = [
     path: '/system',
     meta: {
       title: '系统管理',
-      key: 'system',
-      sort: 8
+      key: 'system'
     },
     children: [
       {
         path: '/system/advertise',
         element: lazyLoad(React.lazy(() => import('@/pages/system/advertise'))),
         meta: {
-          requiresAuth: true,
           title: '广告列表',
           key: 'advertise'
         }
@@ -27,16 +25,14 @@ const systemRouter: Array<RouteObject> = [
         path: '/system/notice',
         element: lazyLoad(React.lazy(() => import('@/pages/system/notice'))),
         meta: {
-          requiresAuth: true,
           title: '通知公告',
           key: 'notice'
         }
       },
       {
         path: '/system/addNotice',
-        element: lazyLoad(React.lazy(() => import('@/pages/system/noticeDetails'))),
+        element: lazyLoad(React.lazy(() => import('@/pages/system/noticeDetail'))),
         meta: {
-          requiresAuth: true,
           title: '新增通知公告',
           hidden: true,
           key: 'notice',
@@ -45,9 +41,8 @@ const systemRouter: Array<RouteObject> = [
       },
       {
         path: '/system/editNotice',
-        element: lazyLoad(React.lazy(() => import('@/pages/system/noticeDetails'))),
+        element: lazyLoad(React.lazy(() => import('@/pages/system/noticeDetail'))),
         meta: {
-          requiresAuth: true,
           title: '编辑通知公告',
           hidden: true,
           key: 'notice',
@@ -56,9 +51,8 @@ const systemRouter: Array<RouteObject> = [
       },
       {
         path: '/system/viewsNotice',
-        element: lazyLoad(React.lazy(() => import('@/pages/system/noticeDetails'))),
+        element: lazyLoad(React.lazy(() => import('@/pages/system/noticeDetail'))),
         meta: {
-          requiresAuth: true,
           title: '查看通知公告',
           hidden: true,
           key: 'notice',
@@ -69,7 +63,6 @@ const systemRouter: Array<RouteObject> = [
         path: '/system/loginLogger',
         element: lazyLoad(React.lazy(() => import('@/pages/system/loginLogger'))),
         meta: {
-          requiresAuth: true,
           title: '登录日志',
           key: 'loginLogger'
         }
