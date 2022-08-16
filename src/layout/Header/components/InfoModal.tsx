@@ -90,7 +90,7 @@ const InfoModal = (props: Props) => {
         <Form.Item label="昵称" name="username" rules={[{ required: true, message: '请输入昵称' }]}>
           <Input placeholder="请输入昵称" />
         </Form.Item>
-        <Form.Item label="性别" name="password" rules={[{ required: true, message: 'Please input your password!' }]}>
+        <Form.Item label="性别" name="password" rules={[{ required: true, message: '请选择性别!' }]}>
           <Select placeholder="请选择性别" allowClear>
             <Option value="male">男</Option>
             <Option value="female">女</Option>
