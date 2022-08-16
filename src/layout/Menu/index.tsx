@@ -5,11 +5,11 @@ import type { MenuProps } from 'antd';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '@/hooks';
 import { searchRoute } from '@/utils/reouter';
-import { rootRouter } from '@/router';
 import { RouteObject } from '@/router/interface';
 import Logo from './components/Logo';
-import { findAllBreadcrumb, getOpenKeys } from '@/utils';
+import { getOpenKeys, findAllBreadcrumb } from '@/utils';
 import { setBreadcrumbList } from '@/store/modules/app';
+
 import './index.less';
 
 const { Sider } = Layout;
@@ -17,6 +17,7 @@ const { Sider } = Layout;
 const LayoutMenu = () => {
   const dispatch = useAppDispatch();
   const { isCollapse } = useAppSelector(state => state.app);
+  const { flatResources, resources } = useAppSelector(state => state.user);
 
   const { pathname } = useLocation();
   const [selectedKeys, setSelectedKeys] = useState<string[]>([pathname]);
@@ -24,7 +25,8 @@ const LayoutMenu = () => {
 
   // 刷新页面菜单保持高亮
   useEffect(() => {
-    const route = searchRoute(pathname);
+    const route = searchRoute(pathname, flatResources);
+    console.log(pathname, 'pathname');
     if (!route.meta?.hidden) setSelectedKeys([pathname]);
     else setSelectedKeys([route.meta?.activeMenu as string]);
     isCollapse ? null : setOpenKeys(getOpenKeys(pathname));
@@ -71,44 +73,27 @@ const LayoutMenu = () => {
         newArr.push(getItem(item.meta?.title, item.path, addIcon('ContainerOutlined'), deepLoopFloat(item.children)));
       }
     });
+    console.log(newArr, 'newArr');
     return newArr;
   };
 
   // 获取菜单列表并处理成 antd menu 需要的格式
   const [menuList, setMenuList] = useState<MenuItem[]>([]);
   const [loading, setLoading] = useState(false);
-  const getMenuData = async () => {
-    setLoading(true);
-
-    try {
-      const routeList = rootRouter.sort((a, b) => (a.meta?.sort as number) - (b.meta?.sort as number));
-      const routeData =
-        routeList
-          .map(item => {
-            if (item.children!.length > 1) return item;
-            return item.children;
-          })
-          .flat() || [];
-      setMenuList(deepLoopFloat(routeData as RouteObject[]));
-      // // 存储处理过后的所有面包屑导航栏到 redux 中
-      dispatch(setBreadcrumbList(findAllBreadcrumb(routeData as Menu.MenuOptions[])));
-      // // 把路由菜单处理成一维数组，存储到 redux 中，做菜单权限判断
-      // const dynamicRouter = handleRouter(data);
-      // props.setAuthRouter(dynamicRouter);
-    } finally {
-      setLoading(false);
-    }
-  };
 
   useEffect(() => {
-    getMenuData();
+    setLoading(true);
+    setMenuList(deepLoopFloat(resources as RouteObject[]));
+    dispatch(setBreadcrumbList(findAllBreadcrumb(resources as Menu.MenuOptions[])));
+    setLoading(false);
   }, []);
 
   // 点击当前菜单跳转页面
   const navigate = useNavigate();
   const clickMenu: MenuProps['onClick'] = ({ key }: { key: string }) => {
-    const route = searchRoute(key, rootRouter);
+    const route = searchRoute(key, flatResources);
     if (route.isLink) window.open(route.isLink, '_blank');
+    console.log(key, 'key');
     navigate(key);
   };
 

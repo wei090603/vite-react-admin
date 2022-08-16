@@ -12,11 +12,12 @@ import { delTabsList, setTabsList } from '@/store/modules/app';
 
 const LayoutTabs = () => {
   const { TabPane } = Tabs;
-  const { pathname } = useLocation();
+  const { flatResources } = useAppSelector(state => state.user);
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const { pathname } = useLocation();
   const [activeValue, setActiveValue] = useState<string>(pathname);
 
-  const dispatch = useAppDispatch();
   const { tabsList } = useAppSelector(state => state.app);
 
   useEffect(() => {
@@ -30,12 +31,10 @@ const LayoutTabs = () => {
 
   // add tabs
   const addTabs = () => {
-    const route = searchRoute(pathname);
-    if (JSON.stringify(route) !== '{}') {
-      const currentRoute = route.meta?.activeMenu ? searchRoute(route.meta.activeMenu) : route;
-      if (tabsList.every((item: any) => item.path !== currentRoute.path)) {
-        dispatch(setTabsList({ title: currentRoute.meta!.title, path: currentRoute.path! }));
-      }
+    const route = searchRoute(pathname, flatResources);
+    const currentRoute = route.meta?.activeMenu ? searchRoute(route.meta.activeMenu, flatResources) : route;
+    if (tabsList.every((item: { path: string }) => item.path !== currentRoute.path)) {
+      dispatch(setTabsList({ title: currentRoute.title, path: currentRoute.path! }));
       setActiveValue(currentRoute.path as string);
     }
   };

@@ -3,6 +3,11 @@ import appReducer from './modules/app';
 import userReducer from './modules/user';
 
 export const store = configureStore({
+  middleware: getDefaultMiddleware =>
+    getDefaultMiddleware({
+      serializableCheck: false
+    }),
+  devTools: true,
   // 合并子reducer
   reducer: {
     app: appReducer,

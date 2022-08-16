@@ -1,7 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { login, loginOut, userInfo } from '@/api/login';
+import { login, loginOut } from '@/api/login';
 import { getStorage, removeStorage, setStorage } from '@/utils/storage';
 import { ILoginForm } from '@/pages/login';
+import { getDynamicRouters, initTree } from '@/utils/reouter';
 
 interface IUserInfo {
   account: string;
@@ -17,6 +18,8 @@ interface IUserInfo {
 export interface ICounterState {
   userInfo: IUserInfo;
   token: string;
+  resources: any[];
+  flatResources: any[];
 }
 
 const initialState: ICounterState = {
@@ -30,7 +33,9 @@ const initialState: ICounterState = {
     phone: '',
     remark: ''
   },
-  token: getStorage('token') || ''
+  token: getStorage('token') || '',
+  resources: [],
+  flatResources: []
 };
 
 const namespaces = 'user';
@@ -44,21 +49,24 @@ const userSlice = createSlice({
     },
     setUserInfo(state, { payload }) {
       state.userInfo = payload;
+    },
+    setUserResources(state, { payload }) {
+      const treeMenu = getDynamicRouters(initTree(payload));
+      console.log(treeMenu, 'treeMenu');
+      state.resources = treeMenu;
+    },
+    setFlatRoutes(state, { payload }) {
+      state.flatResources = payload;
     }
   }
 });
 
-export const { setToken, setUserInfo } = userSlice.actions;
+export const { setToken, setUserInfo, setUserResources, setFlatRoutes } = userSlice.actions;
 
 export const fetchLogin = (payload: ILoginForm) => async (dispatch: any) => {
   const { token } = await login(payload);
   dispatch(setToken(token));
   setStorage('token', token);
-};
-
-export const getUserInfo = () => async (dispatch: any) => {
-  const data = await userInfo();
-  dispatch(setUserInfo(data));
 };
 
 export const fetchLoginOut = () => async () => {
