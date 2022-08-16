@@ -153,6 +153,8 @@ const Manager: FC = () => {
   };
 
   const handleAdd = () => {
+    setId(null);
+    form.resetFields();
     setVisible(true);
   };
 
