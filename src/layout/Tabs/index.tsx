@@ -32,8 +32,7 @@ const LayoutTabs = () => {
   // add tabs
   const addTabs = () => {
     const route = searchRoute(pathname, flatResources);
-    const currentRoute = route.meta?.activeMenu ? searchRoute(route.meta.activeMenu, flatResources) : route;
-
+    const currentRoute = route?.activeMenu ? searchRoute(route?.activeMenu, flatResources) : route;
     if (tabsList.every((item: { path: string }) => item.path !== currentRoute.path)) {
       dispatch(setTabsList({ title: currentRoute.title, path: currentRoute.path! }));
     }

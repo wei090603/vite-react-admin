@@ -26,8 +26,8 @@ const LayoutMenu = () => {
   // 刷新页面菜单保持高亮
   useEffect(() => {
     const route = searchRoute(pathname, flatResources);
-    if (!route.meta?.hidden) setSelectedKeys([pathname]);
-    else setSelectedKeys([route.meta?.activeMenu as string]);
+    if (!route?.activeMenu) setSelectedKeys([pathname]);
+    else setSelectedKeys([route?.activeMenu as string]);
     isCollapse ? null : setOpenKeys(getOpenKeys(pathname));
   }, [pathname, isCollapse]);
 
@@ -80,12 +80,7 @@ const LayoutMenu = () => {
 
   useEffect(() => {
     const initResources = resources.map(item => {
-      if (item.path === '/' && item.children) {
-        return {
-          ...item.children[0],
-          path: `${item.children[0].path}`
-        };
-      }
+      if (item.path === '/' && item.children) return item.children[0];
       return item;
     });
     setMenuList(deepLoopFloat(initResources as RouteObject[]));
