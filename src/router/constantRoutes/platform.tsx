@@ -1,5 +1,5 @@
 import React from 'react';
-// import { Navigate } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 import lazyLoad from '@/router/config/lazyLoad';
 import { RouteObject } from '@/router/interface';
 import { Layout } from '@/router/layout';
@@ -48,11 +48,11 @@ const platformRouter: Array<RouteObject> = [
           title: '500页面',
           key: '500'
         }
+      },
+      {
+        path: '*',
+        element: <Navigate to="/404" />
       }
-      // {
-      //   path: '*',
-      //   element: <Navigate to="/404" />
-      // }
     ]
   }
 ];

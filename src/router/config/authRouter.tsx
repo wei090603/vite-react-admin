@@ -4,7 +4,8 @@ import { useLocation, Navigate } from 'react-router-dom';
 import { AxiosCanceler } from '@/service/helper/axiosCancel';
 import { useAppSelector } from '@/hooks';
 import useLogin from '@/hooks/useLogin';
-import { searchRoute } from '@/utils/reouter';
+import { searchRoute } from '@/utils/router';
+import NProgress from '@/config/nprogress';
 
 const axiosCanceler = new AxiosCanceler();
 
@@ -12,6 +13,7 @@ const axiosCanceler = new AxiosCanceler();
  * @description 路由守卫组件
  * */
 const AuthRouter = (props: { children: JSX.Element }) => {
+  NProgress.start();
   const { flatResources } = useAppSelector(state => state.user);
   const token = getStorage('token');
 
@@ -28,9 +30,13 @@ const AuthRouter = (props: { children: JSX.Element }) => {
   // * 在跳转路由之前，清除所有的请求
   axiosCanceler.removeAllPending();
 
-  if (pathname === '/login') return props.children;
+  if (pathname === '/login') {
+    NProgress.done();
+    return props.children;
+  }
   // * 判断是否有Token
   if (!token) return <Navigate to="/login" replace />;
+  NProgress.done();
 
   window.document.title = route?.meta?.title || '后台管理系统';
 

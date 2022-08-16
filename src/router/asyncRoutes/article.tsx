@@ -10,15 +10,13 @@ const articleRouter: Array<RouteObject> = [
     path: '/article',
     meta: {
       title: '文章管理',
-      key: 'article',
-      sort: 5
+      key: 'article'
     },
     children: [
       {
         path: '/article/tag',
         element: lazyLoad(React.lazy(() => import('@/pages/article/tag'))),
         meta: {
-          requiresAuth: true,
           title: '标签列表',
           key: 'tag'
         }
@@ -27,16 +25,14 @@ const articleRouter: Array<RouteObject> = [
         path: '/article/category',
         element: lazyLoad(React.lazy(() => import('@/pages/article/category'))),
         meta: {
-          requiresAuth: true,
           title: '分类列表',
           key: 'category'
         }
       },
       {
         path: '/article/articleList',
-        element: lazyLoad(React.lazy(() => import('@/pages/article/article'))),
+        element: lazyLoad(React.lazy(() => import('@/pages/article/articleList'))),
         meta: {
-          requiresAuth: true,
           title: '文章列表',
           key: 'articleList'
         }
@@ -46,7 +42,7 @@ const articleRouter: Array<RouteObject> = [
         element: lazyLoad(React.lazy(() => import('@/pages/article/articleDetail'))),
         meta: {
           title: '新增文章',
-          requiresAuth: true,
+
           key: 'articleAdd',
           hidden: true,
           activeMenu: '/article/articleList'
@@ -57,7 +53,7 @@ const articleRouter: Array<RouteObject> = [
         element: lazyLoad(React.lazy(() => import('@/pages/article/articleDetail'))),
         meta: {
           title: '编辑文章',
-          requiresAuth: true,
+
           key: 'articleEdit',
           hidden: true,
           activeMenu: '/article/articleList'

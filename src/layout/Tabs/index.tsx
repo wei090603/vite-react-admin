@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { HOME_URL } from '@/config/config';
 import MoreButton from './components/MoreButton';
-import { searchRoute } from '@/utils/reouter';
+import { searchRoute } from '@/utils/router';
 
 import './index.less';
 import { useAppDispatch, useAppSelector } from '@/hooks';
@@ -33,10 +33,11 @@ const LayoutTabs = () => {
   const addTabs = () => {
     const route = searchRoute(pathname, flatResources);
     const currentRoute = route.meta?.activeMenu ? searchRoute(route.meta.activeMenu, flatResources) : route;
+
     if (tabsList.every((item: { path: string }) => item.path !== currentRoute.path)) {
       dispatch(setTabsList({ title: currentRoute.title, path: currentRoute.path! }));
-      setActiveValue(currentRoute.path as string);
     }
+    setActiveValue(currentRoute.path as string);
   };
 
   // delete tabs

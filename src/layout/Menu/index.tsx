@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import * as Icons from '@ant-design/icons';
-import { Menu, Spin, Layout } from 'antd';
+import { Menu, Layout } from 'antd';
 import type { MenuProps } from 'antd';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '@/hooks';
-import { searchRoute } from '@/utils/reouter';
+import { searchRoute } from '@/utils/router';
 import { RouteObject } from '@/router/interface';
 import Logo from './components/Logo';
 import { getOpenKeys, findAllBreadcrumb } from '@/utils';
@@ -26,7 +26,6 @@ const LayoutMenu = () => {
   // 刷新页面菜单保持高亮
   useEffect(() => {
     const route = searchRoute(pathname, flatResources);
-    console.log(pathname, 'pathname');
     if (!route.meta?.hidden) setSelectedKeys([pathname]);
     else setSelectedKeys([route.meta?.activeMenu as string]);
     isCollapse ? null : setOpenKeys(getOpenKeys(pathname));
@@ -73,19 +72,24 @@ const LayoutMenu = () => {
         newArr.push(getItem(item.meta?.title, item.path, addIcon('ContainerOutlined'), deepLoopFloat(item.children)));
       }
     });
-    console.log(newArr, 'newArr');
     return newArr;
   };
 
   // 获取菜单列表并处理成 antd menu 需要的格式
   const [menuList, setMenuList] = useState<MenuItem[]>([]);
-  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    setLoading(true);
-    setMenuList(deepLoopFloat(resources as RouteObject[]));
+    const initResources = resources.map(item => {
+      if (item.path === '/' && item.children) {
+        return {
+          ...item.children[0],
+          path: `${item.children[0].path}`
+        };
+      }
+      return item;
+    });
+    setMenuList(deepLoopFloat(initResources as RouteObject[]));
     dispatch(setBreadcrumbList(findAllBreadcrumb(resources as Menu.MenuOptions[])));
-    setLoading(false);
   }, []);
 
   // 点击当前菜单跳转页面
@@ -93,26 +97,23 @@ const LayoutMenu = () => {
   const clickMenu: MenuProps['onClick'] = ({ key }: { key: string }) => {
     const route = searchRoute(key, flatResources);
     if (route.isLink) window.open(route.isLink, '_blank');
-    console.log(key, 'key');
     navigate(key);
   };
 
   return (
     <Sider width={240} trigger={null} collapsible collapsed={isCollapse}>
       <div className="menu">
-        <Spin spinning={loading} tip="Loading...">
-          {!isCollapse ? <Logo /> : null}
-          <Menu
-            theme="dark"
-            mode="inline"
-            triggerSubMenuAction="click"
-            openKeys={openKeys}
-            selectedKeys={selectedKeys}
-            items={menuList}
-            onClick={clickMenu}
-            onOpenChange={onOpenChange}
-          ></Menu>
-        </Spin>
+        {!isCollapse ? <Logo /> : null}
+        <Menu
+          theme="dark"
+          mode="inline"
+          triggerSubMenuAction="click"
+          openKeys={openKeys}
+          selectedKeys={selectedKeys}
+          items={menuList}
+          onClick={clickMenu}
+          onOpenChange={onOpenChange}
+        ></Menu>
       </div>
     </Sider>
   );
