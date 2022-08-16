@@ -15,4 +15,5 @@ export interface RouteObject {
   meta?: MetaProps;
   isLink?: string;
   title?: string;
+  activeMenu?: string;
 }

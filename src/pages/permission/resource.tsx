@@ -58,7 +58,7 @@ const Resources: React.FC = () => {
       title: '状态',
       dataIndex: 'status',
       key: 'status',
-      render: status => <span>{status ? '隐藏' : '显示'}</span>
+      render: (status: boolean) => <Switch checkedChildren="显示" unCheckedChildren="隐藏" checked={!status} />
     },
     {
       title: '排序',
@@ -152,8 +152,9 @@ const Resources: React.FC = () => {
           icon: values.icon,
           type: values.type,
           parentId,
-          title: values.parentId
+          title: values.title
         };
+        console.log(params, 'params');
         id ? await putResource(id, params) : await createResource(params);
         message.success(id ? '修改成功' : '新增成功');
         onClose();
@@ -185,7 +186,12 @@ const Resources: React.FC = () => {
           </div>
         }
       >
-        <Form {...formItemLayout} form={form} name="form_in_modal" initialValues={{ sort: 1, switch: false, type: 'menu' }}>
+        <Form
+          {...formItemLayout}
+          form={form}
+          name="form_in_modal"
+          initialValues={{ sort: 1, status: false, icon: '', type: 'menu' }}
+        >
           {parentId ? (
             <Form.Item name="parentTitle" label="父级写菜单" rules={[{ required: true, message: '父级写菜单名称' }]}>
               {parentTitle}
@@ -201,6 +207,9 @@ const Resources: React.FC = () => {
           <Form.Item name="component" label="前端组件" rules={[{ required: true, message: '前填写前端组件' }]}>
             <Input placeholder="前填写前端组件" />
           </Form.Item>
+          <Form.Item name="icon" label="图标">
+            <Input placeholder="前填写图标" />
+          </Form.Item>
           <Form.Item name="sort" label="排序" rules={[{ type: 'number', min: 1, max: 99 }]}>
             <InputNumber />
           </Form.Item>
@@ -210,7 +219,7 @@ const Resources: React.FC = () => {
               <Radio value="button">按钮</Radio>
             </Radio.Group>
           </Form.Item>
-          <Form.Item name="switch" label="是否隐藏" valuePropName="checked">
+          <Form.Item name="status" label="是否隐藏" valuePropName="checked">
             <Switch />
           </Form.Item>
         </Form>

@@ -10,7 +10,9 @@ import { lazy } from 'react';
  * @returns array
  */
 export const searchRoute = (path: string, routes: RouteObject[] = []): RouteObject => {
-  return routes.find(item => item.path === path)!;
+  const route = routes.find(item => item.path === path);
+  if (!route) return routes.find(item => item.path === '/404')!;
+  else return route;
 };
 
 // 转换为树形结构
@@ -28,27 +30,6 @@ export const initTree = (data, parentId = null) => {
   }));
 };
 
-// {
-//   element: Layout,
-//     path: '/article',
-//       meta: {
-//     title: '文章管理',
-//       key: 'article',
-//         sort: 5
-//   },
-//   children: [
-//     {
-//       path: '/article/tag',
-//       element: lazyLoad(React.lazy(() => import('@/pages/article/tag'))),
-//       meta: {
-//         requiresAuth: true,
-//         title: '标签列表',
-//         key: 'tag'
-//       }
-//     },
-//   ]
-// }
-
 // 根据后端传入的路由表，进行递归遍历，映射element本地组件
 export const getDynamicRouters = (routes: RouteObject[]) => {
   // 递归路由表
@@ -56,14 +37,9 @@ export const getDynamicRouters = (routes: RouteObject[]) => {
     return {
       // 是否有组件地址，如果没有，则添加的是菜单目录，element用Outlet
       path: item.path,
-      element:
-        item.component &&
-        lazyLoad(
-          lazy(
-            // modules[`../pages${item.element}.tsx`]
-            () => (item.component === 'layout' ? import('@/layout/index') : import(`../pages/${item.component}`))
-          )
-        ),
+      element: lazyLoad(
+        lazy(() => (item.component === 'layout' ? import('@/layout/index') : import(`../pages/${item.component}`)))
+      ),
       meta: {
         title: item.title,
         key: item.name,

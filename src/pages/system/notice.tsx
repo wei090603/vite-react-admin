@@ -72,7 +72,7 @@ const Notice: React.FC = () => {
     setNoticeList(body.list);
   };
   const handleAdd = () => {
-    navigate('/system/addNotice');
+    navigate('/system/notice/add');
   };
   /**
    * 撤销
