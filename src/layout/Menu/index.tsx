@@ -18,7 +18,8 @@ const LayoutMenu = () => {
   const dispatch = useAppDispatch();
   const { isCollapse } = useAppSelector(state => state.app);
   const { flatResources, resources } = useAppSelector(state => state.user);
-
+  const aaa = useLocation();
+  console.log('dddaaaa', aaa);
   const { pathname } = useLocation();
   const [selectedKeys, setSelectedKeys] = useState<string[]>([pathname]);
   const [openKeys, setOpenKeys] = useState<string[]>([]);
@@ -86,7 +87,7 @@ const LayoutMenu = () => {
     setMenuList(deepLoopFloat(initResources as RouteObject[]));
     dispatch(setBreadcrumbList(findAllBreadcrumb(resources as Menu.MenuOptions[])));
   }, []);
-
+  console.log('resources', resources);
   // 点击当前菜单跳转页面
   const navigate = useNavigate();
   const clickMenu: MenuProps['onClick'] = ({ key }: { key: string }) => {
