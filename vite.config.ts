@@ -1,18 +1,18 @@
-import { defineConfig, loadEnv, ConfigEnv, UserConfig } from "vite";
-import react from "@vitejs/plugin-react";
-import { visualizer } from "rollup-plugin-visualizer";
-import { createHtmlPlugin } from "vite-plugin-html";
-import viteCompression from "vite-plugin-compression";
-import eslintPlugin from "vite-plugin-eslint";
-import * as path from "path";
+import { defineConfig, loadEnv, ConfigEnv, UserConfig } from 'vite';
+import react from '@vitejs/plugin-react';
+import { visualizer } from 'rollup-plugin-visualizer';
+import { createHtmlPlugin } from 'vite-plugin-html';
+import viteCompression from 'vite-plugin-compression';
+import eslintPlugin from 'vite-plugin-eslint';
+import * as path from 'path';
 
 // https://vitejs.dev/config/
 export default defineConfig((mode: ConfigEnv): UserConfig => {
   return {
-    base: "/",
+    base: '/',
     resolve: {
       alias: {
-        "@": path.resolve(__dirname, ".", "src")
+        '@': path.resolve(__dirname, '.', 'src')
       }
     },
     css: {
@@ -34,7 +34,7 @@ export default defineConfig((mode: ConfigEnv): UserConfig => {
       createHtmlPlugin({
         inject: {
           data: {
-            title: "test"
+            title: 'test'
           }
         }
       }),
@@ -47,8 +47,8 @@ export default defineConfig((mode: ConfigEnv): UserConfig => {
         verbose: true,
         disable: false,
         threshold: 10240,
-        algorithm: "gzip",
-        ext: ".gz"
+        algorithm: 'gzip',
+        ext: '.gz'
       })
     ],
     esbuild: {
@@ -57,9 +57,9 @@ export default defineConfig((mode: ConfigEnv): UserConfig => {
     // build configure
     build: {
       sourcemap: false,
-      minify: "terser",
-      outDir: "dist",
-      assetsDir: "assets",
+      minify: 'terser',
+      outDir: 'dist',
+      assetsDir: 'assets',
       cssCodeSplit: true,
       chunkSizeWarningLimit: 1500,
       terserOptions: {
@@ -71,9 +71,9 @@ export default defineConfig((mode: ConfigEnv): UserConfig => {
       rollupOptions: {
         output: {
           // Static resource classification and packaging
-          chunkFileNames: "assets/js/[name]-[hash].js",
-          entryFileNames: "assets/js/[name]-[hash].js",
-          assetFileNames: "assets/[ext]/[name]-[hash].[ext]"
+          chunkFileNames: 'assets/js/[name]-[hash].js',
+          entryFileNames: 'assets/js/[name]-[hash].js',
+          assetFileNames: 'assets/[ext]/[name]-[hash].[ext]'
         }
       }
     },
@@ -86,10 +86,10 @@ export default defineConfig((mode: ConfigEnv): UserConfig => {
         allow: []
       },
       proxy: {
-        "/api": {
-          target: "http://127.0.0.1:3010", //代理接口
+        '/api': {
+          target: 'http://10.222.27.55:3010', //代理接口
           changeOrigin: true,
-          rewrite: path => path.replace(/^\/api/, "")
+          rewrite: path => path.replace(/^\/api/, '')
         }
       }
     }
