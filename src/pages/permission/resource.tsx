@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { IResource } from '@/api/interface';
-import { createResource, getResourceList, putResource } from '@/api/permission';
+import { createResource, delResource, getResourceList, putResource } from '@/api/permission';
 import OperateBtn from '@/components/OperateBtn/index';
-import { Button, Drawer, Form, Input, InputNumber, message, Radio, Space, Switch, Table } from 'antd';
+import { Button, Drawer, Form, Input, InputNumber, message, Popconfirm, Radio, Space, Switch, Table } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import type { TableRowSelection } from 'antd/es/table/interface';
 
@@ -21,7 +21,7 @@ const rowSelection: TableRowSelection<IResource.ResResourceList> = {
 
 const Resources: React.FC = () => {
   const [id, setId] = useState<number | null>(null);
-  const [parentId, setParentId] = useState<number>(0);
+  const [parentId, setParentId] = useState<number | null>(null);
   const [parentTitle, setParentTitle] = useState<string>('');
   const [visible, setVisible] = useState(false);
   const [form] = Form.useForm();
@@ -55,6 +55,11 @@ const Resources: React.FC = () => {
       key: 'path'
     },
     {
+      title: '子级数量',
+      dataIndex: 'level',
+      key: 'level'
+    },
+    {
       title: '状态',
       dataIndex: 'status',
       key: 'status',
@@ -84,9 +89,11 @@ const Resources: React.FC = () => {
           <Button type="link" onClick={() => handleEdit(record)}>
             编辑
           </Button>
-          <Button type="link" danger>
-            删除
-          </Button>
+          <Popconfirm title="确认删除此项？" onConfirm={() => handleDel(record)} okText="确认" cancelText="取消">
+            <Button type="link" danger>
+              删除
+            </Button>
+          </Popconfirm>
         </Space>
       )
     }
@@ -126,17 +133,20 @@ const Resources: React.FC = () => {
   };
 
   const handleAddSOn = (row: IResource.ResResourceList) => {
-    console.log(row, 'row');
     setParentId(row.id);
     setParentTitle(row.title);
     setVisible(true);
   };
 
-  const handleDel = () => {};
+  const handleDel = async (row: IResource.ResResourceList) => {
+    await delResource(row.id);
+    message.success('删除成功');
+    getResource();
+  };
 
   const onClose = () => {
     setId(null);
-    setParentId(0);
+    setParentId(null);
     form.resetFields();
     setVisible(false);
   };
@@ -152,7 +162,8 @@ const Resources: React.FC = () => {
           icon: values.icon,
           type: values.type,
           parentId,
-          title: values.title
+          title: values.title,
+          sort: values.sort
         };
         console.log(params, 'params');
         id ? await putResource(id, params) : await createResource(params);
@@ -165,7 +176,7 @@ const Resources: React.FC = () => {
 
   return (
     <>
-      <OperateBtn handleAdd={() => setVisible(true)} handleDel={handleDel} />
+      <OperateBtn handleAdd={() => setVisible(true)} handleDel={() => handleDel} />
       <Table rowKey="id" columns={columns} rowSelection={{ ...rowSelection, checkStrictly: true }} dataSource={resourcesList} />
 
       <Drawer
@@ -190,11 +201,10 @@ const Resources: React.FC = () => {
           {...formItemLayout}
           form={form}
           name="form_in_modal"
-          initialValues={{ sort: 1, status: false, icon: '', type: 'menu' }}
+          initialValues={{ sort: 1, status: false, icon: '', type: 'menu', parentTitle: parentTitle }}
         >
           {parentId ? (
             <Form.Item name="parentTitle" label="父级写菜单" rules={[{ required: true, message: '父级写菜单名称' }]}>
-              {parentTitle}
               <Input value={parentTitle} disabled />
             </Form.Item>
           ) : null}
@@ -210,7 +220,7 @@ const Resources: React.FC = () => {
           <Form.Item name="icon" label="图标">
             <Input placeholder="前填写图标" />
           </Form.Item>
-          <Form.Item name="sort" label="排序" rules={[{ type: 'number', min: 1, max: 99 }]}>
+          <Form.Item name="sort" label="排序" rules={[{ type: 'number', min: 1, max: 255 }]}>
             <InputNumber />
           </Form.Item>
           <Form.Item name="type" label="类型" rules={[{ required: true, message: '类型' }]}>

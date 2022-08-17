@@ -38,3 +38,5 @@ export const getResourceList = () => http.get<IResource.ResResourceList[]>(`/res
 export const createResource = (params: IResource.Resource) => http.post(`/resources`, params);
 
 export const putResource = (id: number, params: IResource.Resource) => http.put(`/resources/${id}`, params);
+
+export const delResource = (id: number) => http.delete(`/resources/${id}`);

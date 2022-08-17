@@ -197,13 +197,15 @@ export namespace IResource {
     path: string;
     icon: string;
     type: string;
-    parentId: number;
+    parentId: number | null;
     title: string;
+    sort: number;
   };
   export type ResResourceList = Resource & {
     id: number;
     children: ResResourceList[];
     createdAt: string;
+    level: number;
   };
 }
 

@@ -1,6 +1,7 @@
 import { RouteObject } from '@/router/interface';
 import lazyLoad from '@/router/config/lazyLoad';
 import { lazy } from 'react';
+import { Layout } from '@/router/layout';
 // import { Outlet } from 'react-router-dom';
 
 /**
@@ -16,13 +17,13 @@ export const searchRoute = (path: string, routes: RouteObject[] = []): RouteObje
 };
 
 // 转换为树形结构
-export const initTree = (data, parentId = null) => {
+export const initTree = (data: any, parentId = null) => {
   // jsonArray 变量数据
   // 第一次以后：根据id去查询parent_id相同的（相同为子数据）
   // 第一次：查找所有parent_id为null的数据组成第一级
-  const children = data.filter(item => item.parentId == parentId);
+  const children = data.filter((item: { parentId: null | number }) => item.parentId == parentId);
   // 第一次：循环parent_id为null数组
-  return children.map(item => ({
+  return children.map((item: any) => ({
     ...item,
     // 当前存在id（id与parent_id应该是必须有的）调用initTree() 查找所有parent_id为本id的数据
     // childs字段写入
@@ -37,9 +38,7 @@ export const getDynamicRouters = (routes: RouteObject[]) => {
     return {
       // 是否有组件地址，如果没有，则添加的是菜单目录，element用Outlet
       path: item.path,
-      element: lazyLoad(
-        lazy(() => (item.component === 'layout' ? import('@/layout/index') : import(`../pages/${item.component}`)))
-      ),
+      element: item.component === 'layout' ? Layout : lazyLoad(lazy(() => import(`../pages/${item.component}`))),
       meta: {
         title: item.title,
         key: item.name,
