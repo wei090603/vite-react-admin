@@ -15,6 +15,12 @@ const BreadcrumbNav: FC = () => {
   const initResources = (resources: IRoute[]) => {
     console.log('111');
     resources.forEach((item: IRoute) => {
+      arr.push({
+        meta: item.meta,
+        path: item.path
+      });
+    });
+    resources.forEach((item: IRoute) => {
       if (item.children) {
         item.children.forEach((childItem: IRoute) => {
           console.log('333');
