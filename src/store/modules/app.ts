@@ -12,7 +12,7 @@ export interface IAppState {
 
 const initialState: IAppState = {
   isCollapse: false,
-  breadcrumbList: {},
+  breadcrumbList: [],
   tabsList: [{ title: '首页', path: HOME_URL }],
   tabsActive: HOME_URL
 };
@@ -27,8 +27,21 @@ const appSlice = createSlice({
       state.isCollapse = !state.isCollapse;
     },
     setBreadcrumbList(state, data) {
-      console.log(data.payload, 'state reducers');
-      state.breadcrumbList = data.payload;
+      state.breadcrumbList = [];
+      const pathnameArr = data.payload.pathname.split('/');
+      let arr: string[] = [];
+      const flatResources = data.payload.flatResources;
+      pathnameArr.forEach((item: any, index: number) => {
+        arr[0] = '';
+        if (index > 0) {
+          arr[index] = arr[index - 1] + '/' + pathnameArr[index];
+        }
+        flatResources.forEach((filItem: any) => {
+          if (filItem.path === arr[index]) {
+            state.breadcrumbList.push(filItem);
+          }
+        });
+      });
     },
     setTabsList(state, data) {
       state.tabsList.push(data.payload);

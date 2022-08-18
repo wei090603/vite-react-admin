@@ -3,23 +3,21 @@ import * as Icons from '@ant-design/icons';
 import { Menu, Layout } from 'antd';
 import type { MenuProps } from 'antd';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { useAppDispatch, useAppSelector } from '@/hooks';
+import { useAppSelector } from '@/hooks';
 import { searchRoute } from '@/utils/router';
 import { RouteObject } from '@/router/interface';
 import Logo from './components/Logo';
-import { getOpenKeys, findAllBreadcrumb } from '@/utils';
-import { setBreadcrumbList } from '@/store/modules/app';
+import { getOpenKeys } from '@/utils';
+// import { setBreadcrumbList } from '@/store/modules/app';
 
 import './index.less';
 
 const { Sider } = Layout;
 
 const LayoutMenu = () => {
-  const dispatch = useAppDispatch();
+  // const dispatch = useAppDispatch();
   const { isCollapse } = useAppSelector(state => state.app);
   const { flatResources, resources } = useAppSelector(state => state.user);
-  const aaa = useLocation();
-  console.log('dddaaaa', aaa);
   const { pathname } = useLocation();
   const [selectedKeys, setSelectedKeys] = useState<string[]>([pathname]);
   const [openKeys, setOpenKeys] = useState<string[]>([]);
@@ -85,9 +83,8 @@ const LayoutMenu = () => {
       return item;
     });
     setMenuList(deepLoopFloat(initResources as RouteObject[]));
-    dispatch(setBreadcrumbList(findAllBreadcrumb(resources as Menu.MenuOptions[])));
+    // dispatch(setBreadcrumbList(findAllBreadcrumb(resources as Menu.MenuOptions[])));
   }, []);
-  console.log('resources', resources);
   // 点击当前菜单跳转页面
   const navigate = useNavigate();
   const clickMenu: MenuProps['onClick'] = ({ key }: { key: string }) => {

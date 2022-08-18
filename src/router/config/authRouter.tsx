@@ -6,6 +6,8 @@ import { useAppSelector } from '@/hooks';
 import useLogin from '@/hooks/useLogin';
 import { searchRoute } from '@/utils/router';
 import NProgress from '@/config/nprogress';
+import { setBreadcrumbList } from '@/store/modules/app';
+import { useAppDispatch } from '@/hooks';
 
 const axiosCanceler = new AxiosCanceler();
 
@@ -16,7 +18,7 @@ const AuthRouter = (props: { children: JSX.Element }) => {
   NProgress.start();
   const { flatResources } = useAppSelector(state => state.user);
   const token = getStorage('token');
-
+  const dispatch = useAppDispatch();
   const { pathname } = useLocation();
   const { initAfterLogin } = useLogin();
   const route = searchRoute(pathname, flatResources);
@@ -26,7 +28,7 @@ const AuthRouter = (props: { children: JSX.Element }) => {
       initAfterLogin();
     }
   }, [token]);
-
+  dispatch(setBreadcrumbList({ pathname, flatResources }));
   // * 在跳转路由之前，清除所有的请求
   axiosCanceler.removeAllPending();
 
@@ -36,6 +38,7 @@ const AuthRouter = (props: { children: JSX.Element }) => {
   }
   // * 判断是否有Token
   if (!token) return <Navigate to="/login" replace />;
+
   NProgress.done();
 
   window.document.title = route?.meta?.title || '后台管理系统';
