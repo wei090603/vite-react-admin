@@ -16,9 +16,9 @@ const NoticeDetails: FC = () => {
   const { pathname } = useLocation();
   const id = Number(params.get('id'));
 
-  const isAdd = pathname === '/system/addNotice';
+  const isAdd = pathname === '/system/notice/add';
   // const isEdit = pathname === '/system/editNotice';
-  const isView = pathname === '/system/viewsNotice';
+  const isView = pathname === '/system/notice/detail';
   // 提交成功回调
   const onFinish = async (values: any) => {
     try {
@@ -47,6 +47,7 @@ const NoticeDetails: FC = () => {
   };
   useEffect(() => {
     if (!isAdd) {
+      console.log('===');
       reqGetNoticeInfo(id);
     }
   }, []);

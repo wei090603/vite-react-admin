@@ -82,11 +82,10 @@ const Notice: React.FC = () => {
    * 查看
    */
   const handleViews = (record: INotice.INoticeList, isEdit: boolean) => {
-    console.log('record', record);
     if (isEdit) {
-      navigate(`/system/editNotice?id=${record.id}`);
+      navigate(`/system/notice/edit?id=${record.id}`);
     } else {
-      navigate(`/system/viewsNotice?id=${record.id}`);
+      navigate(`/system/notice/detail?id=${record.id}`);
     }
   };
   return (

@@ -1,20 +1,21 @@
-import { FC } from 'react';
+import { FC, useEffect } from 'react';
 import { Breadcrumb } from 'antd';
-import { useLocation } from 'react-router-dom';
 import { HOME_URL } from '@/config/config';
 import { useAppSelector } from '@/hooks';
-
+import { Link } from 'react-router-dom';
 const BreadcrumbNav: FC = () => {
-  const { pathname } = useLocation();
+  useEffect(() => {}, []);
   const { breadcrumbList } = useAppSelector(state => state.app);
-  const currentBreadcrumbList = breadcrumbList[pathname] || [];
-  console.log(currentBreadcrumbList, 'currentBreadcrumbList');
+  const BreadcrumbItem = breadcrumbList.map((item: any) => {
+    return (
+      <Breadcrumb.Item key={item}>
+        <Link to={item.path}>{item.title}</Link>
+      </Breadcrumb.Item>
+    );
+  });
   return (
     <Breadcrumb>
-      <Breadcrumb.Item href={`#${HOME_URL}`}>首页</Breadcrumb.Item>
-      {currentBreadcrumbList.map((item: string) => {
-        return <Breadcrumb.Item key={item}>{item !== '首页' ? item : null}</Breadcrumb.Item>;
-      })}
+      {breadcrumbList.length > 0 ? BreadcrumbItem : <Breadcrumb.Item href={`#${HOME_URL}`}>首页</Breadcrumb.Item>}
     </Breadcrumb>
   );
 };
