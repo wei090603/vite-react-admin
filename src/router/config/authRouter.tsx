@@ -1,13 +1,12 @@
 import { useLayoutEffect } from 'react';
 import { getStorage } from '@/utils/storage';
-import { useLocation, Navigate } from 'react-router-dom';
+import { useLocation, Navigate, useNavigate } from 'react-router-dom';
 import { AxiosCanceler } from '@/service/helper/axiosCancel';
 import { useAppSelector } from '@/hooks';
 import useLogin from '@/hooks/useLogin';
 import { searchRoute } from '@/utils/router';
 import NProgress from '@/config/nprogress';
-import { setBreadcrumbList } from '@/store/modules/app';
-import { useAppDispatch } from '@/hooks';
+import { HOME_URL } from '@/config/config';
 
 const axiosCanceler = new AxiosCanceler();
 
@@ -16,9 +15,10 @@ const axiosCanceler = new AxiosCanceler();
  * */
 const AuthRouter = (props: { children: JSX.Element }) => {
   NProgress.start();
+  const navigate = useNavigate();
   const { flatResources } = useAppSelector(state => state.user);
   const token = getStorage('token');
-  const dispatch = useAppDispatch();
+
   const { pathname } = useLocation();
   const { initAfterLogin } = useLogin();
   const route = searchRoute(pathname, flatResources);
@@ -26,9 +26,11 @@ const AuthRouter = (props: { children: JSX.Element }) => {
   useLayoutEffect(() => {
     if (token) {
       initAfterLogin();
+      // 跳转首页
+      navigate(HOME_URL, { replace: true });
     }
   }, [token]);
-  dispatch(setBreadcrumbList({ pathname, flatResources }));
+
   // * 在跳转路由之前，清除所有的请求
   axiosCanceler.removeAllPending();
 

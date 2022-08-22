@@ -1,10 +1,8 @@
 import React, { FC } from 'react';
 import { Card, Form, Input, Checkbox, Button } from 'antd';
-import { useNavigate } from 'react-router-dom';
 import './index.less';
 import { fetchLogin } from '@/store/modules/user';
 import { useAppDispatch } from '@/hooks';
-import { HOME_URL } from '@/config/config';
 
 export interface ILoginForm {
   account: string;
@@ -12,15 +10,12 @@ export interface ILoginForm {
 }
 // 导入样式文件
 const Login: FC = () => {
-  const navigate = useNavigate();
   // 获取store中的test空间的状态变量变量
   // const { userInfo } = useAppSelector((state) => state.user)
   // 获取dispath用于向store中派发方法
   const dispatch = useAppDispatch();
   async function onFinish(values: ILoginForm) {
     await dispatch(fetchLogin(values));
-    // 跳转首页
-    navigate(HOME_URL, { replace: true });
   }
 
   return (
